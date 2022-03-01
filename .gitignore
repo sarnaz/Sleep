@@ -1,0 +1,3 @@
+# removes the settings and metadata for the eclipse project
+.settings
+.project
