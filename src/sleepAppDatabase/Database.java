@@ -1,4 +1,4 @@
-package com.company;
+package sleepAppDatabase;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

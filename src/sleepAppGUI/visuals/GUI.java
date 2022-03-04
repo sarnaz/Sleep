@@ -1,10 +1,10 @@
-package visuals;
+package sleepAppGUI.visuals;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import interaction.Page;
+import sleepAppGUI.interaction.Page;
 
 import javax.swing.*;
 
