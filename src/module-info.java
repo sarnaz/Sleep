@@ -5,6 +5,6 @@ module sleepAppDesktopBase {
 	
 	exports sleepAppBase;
 	exports sleepAppDatabase;
-	exports sleepAppGUI;
+	exports sleepAppGUI.visuals;
 	
 }

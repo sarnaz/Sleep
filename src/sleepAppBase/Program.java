@@ -1,13 +1,13 @@
 package sleepAppBase;
 
-import sleepAppGUI.*;
+import sleepAppGUI.visuals.*;
 import sleepAppDatabase.*;
 
 public class Program {
 
 	public static void main(String[] args) {
 		
-		System.out.println("Hello, Sleep App!");
+		System.out.println("Hello, Sleep App! 2");
 		
 		UserLogin user = new UserLogin(null, null);
 		
