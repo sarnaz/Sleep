@@ -1,6 +1,6 @@
-package interaction;
+package sleepAppGUI.interaction;
 
-import javax.imageio.ImageIO;
+import javax.imageio.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
