@@ -1,6 +1,6 @@
 package sleepAppGUI.visuals;
 
-import sleepAppGUI.interaction.Page;
+import sleepAppGUI.interaction.*;
 
 import java.awt.*;
 import java.util.ArrayList;

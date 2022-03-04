@@ -1,38 +1,49 @@
 package sleepAppBase;
-import sleepAppGUI.visuals.*;
+
+import sleepAppGUI.*;
 import sleepAppDatabase.*;
 
 public class Program {
 
 	public static void main(String[] args) {
 		
-		System.out.println("Hello, Sleep App! 2");
+		System.out.println("Hello, Sleep App!");
 		
-		startDatabase();
-		
-		UserDetails user;
+		UserLogin user = new UserLogin(null, null);
 		
 		if (isFirstStart())
 		{
-			displayFirstStartWindow();
-			user = createNewUser();
-			saveNewUser(user);
+			int success = -1;
+			while (success != 1)
+			{
+				user = createNewUser();
+				Database.addUser(user.username(), user.password());
+			}
 		}
 		else
 		{
-			UserLogin loginInformation = new UserLogin(null, null);
-			boolean validLogin = false;
-			while (!validLogin)
+			int success = -1;
+			while (success != 1)
 			{
-				displayLoginWindow();
-				loginInformation = getLoginInformation();
-				validLogin = isValidLogin(loginInformation);
+				user = createNewUser();
+				
+				switch (Database.validateUser(user.username(), user.password()))
+				{
+					case -2:
+						System.out.println("went wrong early on");
+						break;
+					case -1:
+						System.out.println("went wrong");
+					case 0:
+						System.out.println("username already exists");
+					case 1:
+						success = 1;
+						break;
+				}
 			}
-			user = getUserDetails(loginInformation);
-			
 		}
 		
-		System.out.println("welcome: " + user.name() + ", you are " + user.age() + " years old!");
+		System.out.println("welcome: " + user.username());
 		System.out.println("*open main dashboard for daily questions, options etc.*");
 		
 	}
@@ -43,50 +54,9 @@ public class Program {
 		return true;
 	}
 	
-	private static UserDetails createNewUser()
-	{
-		return new UserDetails("theUsername", 20);
-	}
-	
-	private static void saveNewUser(UserDetails newUser)
-	{
-		System.out.println("*saves the user login details to the database*");
-		return;
-	}
-	
-	private static void startDatabase()
-	{
-		System.out.println("*starts the database for initialisation if required*");
-		return;
-	}
-	
-	private static UserDetails getUserDetails(UserLogin userLogin)
-	{
-		System.out.println("*fetches the user details from the database given the login information*");
-		return new UserDetails(userLogin.username(), 20);
-	}
-	
-	private static UserLogin getLoginInformation()
+	private static UserLogin createNewUser()
 	{
 		return new UserLogin("theUsername", "thePassword");
-	}
-	
-	private static boolean isValidLogin(UserLogin userLogin)
-	{
-		System.out.println("query database to check if login information is valid");
-		return true;
-	}
-	
-	private static void displayFirstStartWindow()
-	{
-		System.out.println("*open windows here and collect user data and login information*");
-		return;
-	}
-	
-	private static void displayLoginWindow()
-	{
-		System.out.println("*open windows here and collect login information*");
-		return;
 	}
 
 }
