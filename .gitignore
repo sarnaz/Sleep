@@ -1,3 +1,5 @@
 # removes the settings and metadata for the eclipse project
+bin/
 .settings
 .project
+PI.db

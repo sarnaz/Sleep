@@ -1,5 +1,6 @@
 package sleepAppBase;
 
+import sleepAppGUI.interaction.Page;
 import sleepAppGUI.visuals.*;
 import sleepAppDatabase.*;
 
@@ -10,6 +11,7 @@ public class Program {
 		System.out.println("Hello, Sleep App! 2");
 		
 		UserLogin user = new UserLogin(null, null);
+		Database.initialiseDatabase();
 		
 		if (isFirstStart())
 		{
@@ -17,7 +19,7 @@ public class Program {
 			while (success != 1)
 			{
 				user = createNewUser();
-				Database.addUser(user.username(), user.password());
+				success = Database.addUser(user.username(), user.password());
 			}
 		}
 		else
@@ -46,6 +48,9 @@ public class Program {
 		System.out.println("welcome: " + user.username());
 		System.out.println("*open main dashboard for daily questions, options etc.*");
 		
+		Main main = new Main(800, 600);
+
+        Page.setUpPages(main);
 	}
 	
 	private static boolean isFirstStart()
