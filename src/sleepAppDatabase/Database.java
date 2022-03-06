@@ -86,6 +86,8 @@ public class Database {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(statement);
             
+            conn.close();
+            
             // returns true if rows exist in the user table
             return rs.getInt("rowCount") > 0;
 
@@ -101,7 +103,6 @@ public class Database {
 
         try{
             Connection conn = DriverManager.getConnection(databaseURL);
-            Statement stmt = conn.createStatement();
             
             String getSalt = "SELECT salt FROM USER where name=?";
             PreparedStatement preparedGetSaltStatement = conn.prepareStatement(getSalt);
@@ -134,6 +135,7 @@ public class Database {
             preparedGetMatchesStatement.execute();
             rs = preparedGetMatchesStatement.getResultSet();
 
+            conn.close();
             if(rs.next()){
 
                 id = rs.getInt("id");
@@ -149,7 +151,6 @@ public class Database {
         	System.out.println("went wrong validating");
             System.out.println(e.getMessage());
         }
-
         return -1;
     }
     //returns 1 if everything functioned correctly and the user was validated
@@ -212,19 +213,48 @@ public class Database {
             id = nextId;
             //sets the current users id as this new users id. Allows for future database calls to be easier
 
+            conn.close();
             return 1;
         }
         catch(Exception e){
         	System.out.println("something went wrong when adding a new user");
-            System.out.println(e.getMessage());
+        	System.out.println(e.getMessage());
         }
 
         return 0;
         // exception was caught, so return an error
     }
 
-    public static void removeUser(int id){
+    public static int removeUser(int id){
+    	
+    	// removes all user information and data linked to the user
 
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            
+            deleteFromTableById(conn, id, "FLUID");
+            deleteFromTableById(conn, id, "SLEEP");
+            deleteFromTableById(conn, id, "STRESS");
+            deleteFromTableById(conn, id, "USER");
+            
+            conn.close();
+            return 1;
+        }
+        catch(Exception e) {
+        	System.out.println("something went wrong removing user");
+        	System.out.println(e.getMessage());
+        }
+        
+        return 0;
+    	
+    }
+    
+    private static void deleteFromTableById(Connection conn, int id, String tableName) throws Exception
+    {
+    	String removeUser = "DELETE FROM " + tableName + " WHERE id=?";
+        PreparedStatement preparedUserRemoveStatement = conn.prepareStatement(removeUser);
+        preparedUserRemoveStatement.setString(1, Integer.toString(id));
+        preparedUserRemoveStatement.execute();
     }
 
 
