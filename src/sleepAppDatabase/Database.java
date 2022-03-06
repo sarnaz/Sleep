@@ -13,6 +13,10 @@ public class Database {
     //the database url. final as it should never be changed
     private static int id;
 
+    public static int getCurrentUserId()
+    {
+    	return id;
+    }
 
     //function to initially create the database. This should only be called once, as the database file is now set up.
     public static void initialiseDatabase(){
@@ -30,6 +34,7 @@ public class Database {
                 //loops through each table creation statement to set up the database
             }
         } catch (SQLException e) {
+        	System.out.println("hello");
             System.out.println(e.getLocalizedMessage());
         }
 
@@ -77,14 +82,16 @@ public class Database {
 
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
-            String statement = "SELECT * FROM USER";
+            String statement = "SELECT Count(*) as rowCount FROM USER";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(statement);
-
-            return rs.next();
+            
+            // returns true if rows exist in the user table
+            return rs.getInt("rowCount") > 0;
 
         } catch (SQLException e) {
             System.out.println(e.getLocalizedMessage());
+            System.out.println("something went wrong in checkForUsers");
         }
         return false;
     }
@@ -94,24 +101,48 @@ public class Database {
 
         try{
             Connection conn = DriverManager.getConnection(databaseURL);
-            String getSalt = "SELECT salt FROM USER where name="+name;
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(getSalt);
+            
+            String getSalt = "SELECT salt FROM USER where name=?";
+            PreparedStatement preparedGetSaltStatement = conn.prepareStatement(getSalt);
+            preparedGetSaltStatement.setString(1, name);
+
+            System.out.println("statement: " + preparedGetSaltStatement.toString());
+
+            System.out.println("executed up to here 1");
+            preparedGetSaltStatement.execute();
+            System.out.println("executed up to here 2");
+            ResultSet rs = preparedGetSaltStatement.getResultSet();
+            System.out.println("executed up to here 3");
 
             String salt = "";
 
             //checks if a salt exists for that username
+            //System.out.println("is first: " + Boolean.toString(rs.next()));
             if(rs.next()){
+            	System.out.println("getting salt");
                 salt = rs.getString("salt");
+                System.out.println(salt);
             }
             else{
+            	
                 return -1;
             }
 
+            System.out.println("executed up to here 3.5");
+
             password = hashPassword(password+salt);
 
-            String getMatches = "SELECT id FROM USER WHERE name="+name + " and password="+password;
-            rs = stmt.executeQuery(getMatches);
+            //String getMatches = "SELECT id FROM USER WHERE name="+name + " and password="+password;
+            //rs = stmt.executeQuery(getMatches);
+            System.out.println("executed up to here 4");
+            
+            String getMatches = "SELECT id FROM USER WHERE name=? and password=?";
+            PreparedStatement preparedGetMatchesStatement = conn.prepareStatement(getMatches);
+            preparedGetMatchesStatement.setString(1, name);
+            preparedGetMatchesStatement.setString(2, password);
+            preparedGetMatchesStatement.execute();
+            rs = preparedGetMatchesStatement.getResultSet();
 
             if(rs.next()){
 
@@ -119,11 +150,13 @@ public class Database {
                 return 1;
             }
             else{
+            	
                 return -1;
             }
 
         }
         catch(Exception e){
+        	System.out.println("went wrong validating");
             System.out.println(e.getMessage());
         }
 
@@ -139,19 +172,27 @@ public class Database {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             Statement stmt = conn.createStatement();
-            String checkNames = "SELECT * FROM USER WHERE name=" + name;
-            ResultSet rs = stmt.executeQuery(checkNames);
+            
+            String checkNames = "SELECT * FROM USER WHERE name=?";
+            PreparedStatement preparedUserCheckStatement = conn.prepareStatement(checkNames);
+            preparedUserCheckStatement.setString(1, name);
+            preparedUserCheckStatement.execute();
+            ResultSet rs = preparedUserCheckStatement.getResultSet();
 
+            System.out.println("worked to here 0");
+
+            // returns 0 if the username is already taken
             if (rs.next()) {
                 return 0;
             }
-            //returns 0 if the username is already taken
 
             String salt = generateSalt();
             //creates a salt
             password = hashPassword(password+salt);
             //hashes the password with the salt through the SHA-256 hashing algorithm
 
+            System.out.println("password: " + password);
+            
             String getNextId = "SELECT MAX(id) FROM USER";
             nextId = 0;
             //0 automatically as if no value found, the first id is 0
@@ -163,24 +204,35 @@ public class Database {
 
             String addStatement = "INSERT INTO USER (id, name, password, salt, firstLogin) VALUES("+nextId+",?,?,?,0)";
             PreparedStatement preparedAddStatement = conn.prepareStatement(addStatement);
+            
+            // doesn't commit changes to database until signalled
             conn.setAutoCommit(false);
+            
+            // prepare the statement
             preparedAddStatement.setString(1, name);
             preparedAddStatement.setString(2,password);
             preparedAddStatement.setString(3,salt);
-
+            
+            // commit changes to database
             conn.commit();
+            
+            // reset connection
+            conn.setAutoCommit(true);
+            
             //should add a new user with appropriate id, name, password, salt, and set their first login to false.
 
             id = nextId;
             //sets the current users id as this new users id. Allows for future database calls to be easier
 
+            return 1;
         }
         catch(Exception e){
+        	System.out.println("something went wrong when adding a new user");
             System.out.println(e.getMessage());
         }
 
-        return 1;
-        //return of 1 means a success
+        return 0;
+        // exception was caught, so return an error
     }
 
     public static void removeUser(int id){
