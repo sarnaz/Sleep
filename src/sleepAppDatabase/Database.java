@@ -107,20 +107,16 @@ public class Database {
             PreparedStatement preparedGetSaltStatement = conn.prepareStatement(getSalt);
             preparedGetSaltStatement.setString(1, name);
 
-            System.out.println("statement: " + preparedGetSaltStatement.toString());
+            //System.out.println("statement: " + preparedGetSaltStatement.toString());
 
-            System.out.println("executed up to here 1");
             preparedGetSaltStatement.execute();
-            System.out.println("executed up to here 2");
             ResultSet rs = preparedGetSaltStatement.getResultSet();
-            System.out.println("executed up to here 3");
 
             String salt = "";
 
             //checks if a salt exists for that username
             //System.out.println("is first: " + Boolean.toString(rs.next()));
             if(rs.next()){
-            	System.out.println("getting salt");
                 salt = rs.getString("salt");
                 System.out.println(salt);
             }
@@ -129,13 +125,7 @@ public class Database {
                 return -1;
             }
 
-            System.out.println("executed up to here 3.5");
-
             password = hashPassword(password+salt);
-
-            //String getMatches = "SELECT id FROM USER WHERE name="+name + " and password="+password;
-            //rs = stmt.executeQuery(getMatches);
-            System.out.println("executed up to here 4");
             
             String getMatches = "SELECT id FROM USER WHERE name=? and password=?";
             PreparedStatement preparedGetMatchesStatement = conn.prepareStatement(getMatches);
@@ -178,8 +168,6 @@ public class Database {
             preparedUserCheckStatement.setString(1, name);
             preparedUserCheckStatement.execute();
             ResultSet rs = preparedUserCheckStatement.getResultSet();
-
-            System.out.println("worked to here 0");
 
             // returns 0 if the username is already taken
             if (rs.next()) {
