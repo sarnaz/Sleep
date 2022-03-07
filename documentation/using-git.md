@@ -32,7 +32,7 @@ Code that is committed cannot be seen by others yet and would only stay on your 
 GitHub you need to _Push_ it. You should push your code regularly, so you don't forget (we are all working on 
 different branches and conflicts is not something we need to worry about).
 
-To push code go to `Git -> Push..`. A window will pop up.
+To push code go to `Git -> Push..`. A window will pop up.  
 ![](assets/git-push-window.png)  
 Make sure all your commits show up on the left side. And that your changes are shown on the right.
 
@@ -41,7 +41,7 @@ Branching allows us to work on our own functions without the risk of overwriting
 a snapshot copy of the repository at the time, and you will be working on that. **Create a branch for each requirement 
 and name it something like "YourName-Requirement"**.
 
-To create a new branch, click the branch name in the bottom right corner of the window.
+To create a new branch, click the branch name in the bottom right corner of the window.  
 ![](assets/git-branch-navigator.png)  
 > Note that the branch name shown here "git-documentation" will be different for you. This is because I am currently on
 > the branch called "git-documentation". It will show the name of whichever branch you're currently working on
@@ -58,10 +58,10 @@ Once you're done with the requirement and wants to merge your code into the _mas
 you're happy with it), you can create a pull request to merge the changes in your branch into _master_.
 
 To do so, go to `github.bath.ac.uk` and navigate to the project and the repository. In the repository page, click "Pull 
-requests" then "New pull request"
+requests" then "New pull request"  
 ![](assets/github-pull-request.png)  
 Select to base to be your destination branch (_master_) and compare to your branch (in this case _git-documentation_).
-Then click "Create pull request again"  
+Then click "Create pull request again"   
 ![](assets/github-pull-request-2.png)  
 On this page **set the title of the pull request to the name of the requirement** then in the comment section describe 
 briefly (but the more details the better) what functions/files you have made changes to (this will help if there's 
@@ -74,7 +74,8 @@ me (pl673) so I will be notified and can sort it out. Once done click "Create pu
 Fetching tells IntelliJ to contact GitHub and checks for updates on the repository. Fetching does not _update_ the 
 any files. That can be done later after the fetch.
 
-To fetch updates, navigate to the bottom right corner at the branch name. Click the hollow blue down arrow in the top right corner of the popup.
+To fetch updates, navigate to the bottom right corner at the branch name. Click the hollow blue down arrow in the top 
+right corner of the popup.  
 ![](assets/git-branch-page-fetch.png)  
 
 ## Updating
@@ -88,15 +89,14 @@ shouldn't really be any merge conflict on the local side. If you are unsure just
 message, so I can check.
 
 In order to update, click on the branch name on the button in the bottom right corner again. If you haven't done so, 
-fetch.
-
+fetch.  
 ![](assets/git-update-indicator.png)  
 Note the blue arrow next to the branch name indicating that there's an incoming update. Click on the branch name, then 
 click "Update...". If there's no arrow after fetching then there's no changes to update.
 
 ## Cloning
 In order to load the project for the first time, we _clone_ the repository into the local machine. This can be done by
-navigating to `File -> New -> Project from Version Control...`. The following window appears:
+navigating to `File -> New -> Project from Version Control...`. The following window appears:  
 ![](assets/version-control-new-project.png)  
 Select GitHub Enterprise (as our project is on the university's enterprise GitHub), select the project, set the
 destination directory then click "Clone".
