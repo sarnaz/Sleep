@@ -57,6 +57,8 @@ To switch between branches click the branch name in the bottom right. Click the 
 Once you're done with the requirement and wants to merge your code into the _master_ branch (this should be done once 
 you're happy with it), you can create a pull request to merge the changes in your branch into _master_.
 
+> Note: you must have committed and pushed all of your changes before creating a pull request.
+
 To do so, go to `github.bath.ac.uk` and navigate to the project and the repository. In the repository page, click "Pull 
 requests" then "New pull request"  
 ![](assets/github-pull-request.png)  
