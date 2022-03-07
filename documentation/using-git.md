@@ -9,8 +9,8 @@ branch from a branch if you wanted to.
 Once you have finished with the functionality for the requirement. Make sure you push your code and create a pull 
 request on GitHub (see how below). Do not try to pull in IntelliJ as it's hard to keep track what's going on. 
 
-I (Book/pl673) will be responsible for checking through pull requests so please assign the pull request to me, and I 
-will sort it out asap.
+I (Book/pl673) will be responsible for checking through pull requests (just in case there's any issues) so please 
+assign the pull request to me, and I will sort it out asap.
 
 ### Master branch should always be operational
 Pull requests to master should only be accepted if the resulting code if functional.
