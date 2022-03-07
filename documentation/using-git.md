@@ -12,19 +12,8 @@ request on GitHub (see how below). Do not try to pull in IntelliJ as it's hard t
 I (Book/pl673) will be responsible for checking through pull requests so please assign the pull request to me, and I 
 will sort it out asap.
 
-## Cloning
-In order to load the project for the first time, we _clone_ the repository into the local machine. This can be done by 
-navigating to `File -> New -> Project from Version Control...`. The following window appears:
-![](assets/version-control-new-project.png)
-Select GitHub Enterprise (as our project is on the university's enterprise GitHub), select the project, set the 
-destination directory then click "Clone".
-> You may be asked for credentials. If you have, follow these steps:  
-> - Enter `github.bath.ac.uk` to the top field and click "Generate...". This should open the GitHub login page. 
-> - Sign in, scroll down to the bottom of the page and click "Generate"
-> - Copy the token and paste it in IntelliJ then click sign in,
-
-Once cloned, IntelliJ should open the project automatically. If not, go to `File -> Open...` then navigate to the folder
-you set as the destination folder.
+### Master branch should always be operational
+Pull requests to master should only be accepted if the resulting code if functional.
 
 ## Committing Code
 Committing code is done when you have made some change to the code and wants to keep a snapshot of it. You should 
@@ -43,7 +32,9 @@ Code that is committed cannot be seen by others yet and would only stay on your 
 GitHub you need to _Push_ it. You should push your code regularly, so you don't forget (we are all working on 
 different branches and conflicts is not something we need to worry about).
 
-To push code go to `Git -> Push..`
+To push code go to `Git -> Push..`. A window will pop up.
+![](assets/git-push-window.png)  
+Make sure all your commits show up on the left side. And that your changes are shown on the right.
 
 ## Branching
 Branching allows us to work on our own functions without the risk of overwriting others' code. Branching simply create 
@@ -51,7 +42,7 @@ a snapshot copy of the repository at the time, and you will be working on that. 
 and name it something like "YourName-Requirement"**.
 
 To create a new branch, click the branch name in the bottom right corner of the window.
-![](assets/git-branch-navigator.png)
+![](assets/git-branch-navigator.png)  
 > Note that the branch name shown here "git-documentation" will be different for you. This is because I am currently on
 > the branch called "git-documentation". It will show the name of whichever branch you're currently working on
 
@@ -62,14 +53,29 @@ In most cases, you would want to branch from the _master_ branch, so simply clic
 To switch between branches click the branch name in the bottom right. Click the branch you want to switch to then click 
 `Checkout`. Note that you must have committed your changes on the previous branch before switching to another one.
 
-### Pull Requests
+## Pull Requests
+Once you're done with the requirement and wants to merge your code into the _master_ branch (this should be done once 
+you're happy with it), you can create a pull request to merge the changes in your branch into _master_.
+
+To do so, go to `github.bath.ac.uk` and navigate to the project and the repository. In the repository page, click "Pull 
+requests" then "New pull request"
+![](assets/github-pull-request.png)  
+Select to base to be your destination branch (_master_) and compare to your branch (in this case _git-documentation_).
+Then click "Create pull request again"  
+![](assets/github-pull-request-2.png)  
+On this page **set the title of the pull request to the name of the requirement** then in the comment section describe 
+briefly (but the more details the better) what functions/files you have made changes to (this will help if there's 
+issues). 
+
+You can assign the pull request to someone in the "Assignees" section on the right. In this case you can assign it to 
+me (pl673) so I will be notified and can sort it out. Once done click "Create pull request".
 
 ## Fetching
 Fetching tells IntelliJ to contact GitHub and checks for updates on the repository. Fetching does not _update_ the 
 any files. That can be done later after the fetch.
 
 To fetch updates, navigate to the bottom right corner at the branch name. Click the hollow blue down arrow in the top right corner of the popup.
-![](assets/git-branch-page-fetch.png)
+![](assets/git-branch-page-fetch.png)  
 
 ## Updating
 Updating allows you to update files in your local repository to match the remote one (on GitHub). This can be done 
@@ -83,7 +89,21 @@ message, so I can check.
 
 In order to update, click on the branch name on the button in the bottom right corner again. If you haven't done so, 
 fetch.
-![](assets/git-update-indicator.png)
+
+![](assets/git-update-indicator.png)  
 Note the blue arrow next to the branch name indicating that there's an incoming update. Click on the branch name, then 
 click "Update...". If there's no arrow after fetching then there's no changes to update.
 
+## Cloning
+In order to load the project for the first time, we _clone_ the repository into the local machine. This can be done by
+navigating to `File -> New -> Project from Version Control...`. The following window appears:
+![](assets/version-control-new-project.png)  
+Select GitHub Enterprise (as our project is on the university's enterprise GitHub), select the project, set the
+destination directory then click "Clone".
+> You may be asked for credentials. If you have, follow these steps:
+> - Enter `github.bath.ac.uk` to the top field and click "Generate...". This should open the GitHub login page.
+> - Sign in, scroll down to the bottom of the page and click "Generate"
+> - Copy the token and paste it in IntelliJ then click sign in,
+
+Once cloned, IntelliJ should open the project automatically. If not, go to `File -> Open...` then navigate to the folder
+you set as the destination folder.
