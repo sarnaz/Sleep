@@ -15,7 +15,7 @@ public class Program {
 		if (isFirstStart())
 		{
 			
-			System.out.println("is first start");
+			System.out.println("database init and presenting start screen");
 			Database.initialiseDatabase();
 			int success = -1;
 			while (success != 1)
@@ -55,7 +55,11 @@ public class Program {
 				
 				success = Database.validateUser(user.username(), user.password());
 				
-				if (success != 1) System.exit(1);
+				if (success != 1) 
+				{
+					System.out.println("invalid login credentials");
+					System.exit(1);
+				}
 			}
 		}
 		
@@ -68,8 +72,6 @@ public class Program {
 		Main main = new Main(800, 600);
 
         Page.setUpPages(main);
-        
-        System.exit(1);
 	}
 	
 	private static boolean isFirstStart()
