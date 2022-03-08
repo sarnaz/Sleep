@@ -34,7 +34,7 @@ public class Database {
                 //loops through each table creation statement to set up the database
             }
         } catch (SQLException e) {
-        	System.out.println("hello");
+        	System.out.println("exception was caught initialising database");
             System.out.println(e.getLocalizedMessage());
         }
 
@@ -86,12 +86,16 @@ public class Database {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(statement);
             
+            // get value from rs now before it gets collected
+            int rowCount = rs.getInt("rowCount");
+            
             conn.close();
             
             // returns true if rows exist in the user table
-            return rs.getInt("rowCount") > 0;
+            return rowCount > 0;
 
         } catch (SQLException e) {
+        	e.printStackTrace();
             System.out.println(e.getLocalizedMessage());
             System.out.println("something went wrong in checkForUsers");
         }
@@ -119,10 +123,9 @@ public class Database {
             //System.out.println("is first: " + Boolean.toString(rs.next()));
             if(rs.next()){
                 salt = rs.getString("salt");
-                System.out.println(salt);
             }
             else{
-            	
+            	conn.close();
                 return -1;
             }
 
@@ -135,14 +138,14 @@ public class Database {
             preparedGetMatchesStatement.execute();
             rs = preparedGetMatchesStatement.getResultSet();
 
-            conn.close();
             if(rs.next()){
 
                 id = rs.getInt("id");
+                conn.close();
                 return 1;
             }
             else{
-            	
+                conn.close();
                 return -1;
             }
 
@@ -179,8 +182,6 @@ public class Database {
             //creates a salt
             password = hashPassword(password+salt);
             //hashes the password with the salt through the SHA-256 hashing algorithm
-
-            System.out.println("password: " + password);
             
             String getNextId = "SELECT MAX(id) FROM USER";
             nextId = 0;
@@ -201,6 +202,9 @@ public class Database {
             preparedAddStatement.setString(1, name);
             preparedAddStatement.setString(2,password);
             preparedAddStatement.setString(3,salt);
+            
+            // execute the prepared add statement
+            preparedAddStatement.execute();
             
             // commit changes to database
             conn.commit();
@@ -231,7 +235,6 @@ public class Database {
 
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
-            
             deleteFromTableById(conn, id, "FLUID");
             deleteFromTableById(conn, id, "SLEEP");
             deleteFromTableById(conn, id, "STRESS");
@@ -249,8 +252,9 @@ public class Database {
     	
     }
     
-    private static void deleteFromTableById(Connection conn, int id, String tableName) throws Exception
+    private static void deleteFromTableById(Connection conn, int id, String tableName) throws SQLException
     {
+    	// tableName is hard-coded, therefore preparing statement is not necessary for security
     	String removeUser = "DELETE FROM " + tableName + " WHERE id=?";
         PreparedStatement preparedUserRemoveStatement = conn.prepareStatement(removeUser);
         preparedUserRemoveStatement.setString(1, Integer.toString(id));
