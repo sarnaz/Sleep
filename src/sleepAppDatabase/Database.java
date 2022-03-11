@@ -232,13 +232,13 @@ public class Database {
     public static int removeUser(int id){
     	
     	// removes all user information and data linked to the user
+    	// EXCEPT the user class
 
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             deleteFromTableById(conn, id, "FLUID");
             deleteFromTableById(conn, id, "SLEEP");
             deleteFromTableById(conn, id, "STRESS");
-            deleteFromTableById(conn, id, "USER");
             
             conn.close();
             return 1;
