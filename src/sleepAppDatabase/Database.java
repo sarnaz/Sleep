@@ -229,7 +229,7 @@ public class Database {
         // exception was caught, so return an error
     }
 
-    public static int removeUser(int id){
+    public static int removeUserData(int id){
     	
     	// removes all user information and data linked to the user
     	// EXCEPT the user class
