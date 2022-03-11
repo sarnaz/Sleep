@@ -67,7 +67,7 @@ public class Program {
 		System.out.println("*open main dashboard for daily questions, options etc.*");
 		
 		System.out.println("current user id: " + Integer.toString(Database.getCurrentUserId()));
-		Database.removeUser(Database.getCurrentUserId());
+		Database.removeUserData(Database.getCurrentUserId());
 		
 		Main main = new Main(800, 600);
 
