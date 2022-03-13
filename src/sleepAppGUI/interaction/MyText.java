@@ -19,4 +19,6 @@ public class MyText extends VObject
         g.setFont(new Font(font, Font.PLAIN ,corner2[1] - corner1[1]));
         g.drawString(text, corner1[0], corner1[1]);
     }
+
+    public void setText(String string) { text = string; }
 }
