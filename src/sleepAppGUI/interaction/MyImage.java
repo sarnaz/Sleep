@@ -29,4 +29,5 @@ public class MyImage extends VObject
     }
 
     public void setVisible(boolean vvisible) { visible = vvisible; }
+    public boolean getVisible() { return visible; }
 }
