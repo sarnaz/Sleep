@@ -16,16 +16,6 @@ public class GUI
     private int my = 0;
     private JPanel canvas;
 
-    /*
-    MyButton button1 = new MyButton(page, "button1", new int[] {100, 100}, new int[] {500, 250}, "virus button")
-    {
-        public void isClicked()
-        {
-            System.out.println("isClicked override");
-        }
-    };
-    */
-
 
     public GUI(int wwidth, int hheight, Main mmain)
     {
@@ -42,6 +32,7 @@ public class GUI
                 super.paintComponent(g);
                 if(main.getCurrentPage() != null)
                 {
+                    this.setBackground(main.getCurrentPage().getColour());
                     main.getCurrentPage().paintObjects(g);
                 }
                 else
@@ -70,6 +61,8 @@ public class GUI
         window.pack();
         window.setVisible(true);
     }
+
+    public void addTextField(JTextField t) { canvas.add(t); }
 
     public void repaintCanvas() { canvas.repaint(); }
 }

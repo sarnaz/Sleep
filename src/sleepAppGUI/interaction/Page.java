@@ -13,15 +13,36 @@ public class Page
     public Page(int number, Main m)
     {
         pageNumber = number;
+        backgroundColour = new Color(0x555555);
         m.addPage(this);
     }
 
     private final int pageNumber;
+    private final Color backgroundColour;
     private ArrayList<VObject> visualObjects = new ArrayList<>();
     private ArrayList<MyButton> buttons = new ArrayList<>();
+    private ArrayList<MyTextField> textFields = new ArrayList<>();
 
-    /*package private*/ void addButton(MyButton b) { buttons.add(b); }
-    /*package private*/ void addObject(VObject obj) { visualObjects.add(obj); }
+    public void enterPage()
+    {
+        for( MyTextField t : textFields)
+        {
+            t.setVisible(true);
+        }
+    }
+    public void exitPage()
+    {
+        for(MyTextField t : textFields)
+        {
+            t.setVisible(false);
+        }
+    }
+
+    public void addButton(MyButton b) { buttons.add(b); }
+    public void addObject(VObject obj) { visualObjects.add(obj); }
+    public void addTextField(MyTextField t) { textFields.add(t); }
+    public Color getColour() { return backgroundColour; }
+
 
     public void checkButtons(int[] clickCoordinates)
     {
