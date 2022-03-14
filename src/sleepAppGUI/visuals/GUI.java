@@ -52,6 +52,7 @@ public class GUI
                 my = e.getY();
                 System.out.println(mx+", "+my);
                 main.getCurrentPage().checkButtons(new int[] {mx, my});
+                canvas.repaint();
             }
         });
 

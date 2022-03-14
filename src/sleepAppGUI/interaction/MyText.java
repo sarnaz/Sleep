@@ -9,12 +9,12 @@ public class MyText extends VObject
 
     public MyText(Page page, int[] coordinates1, int[] coordinates2, String ttext)
     {
-        super(page, coordinates1, coordinates2);
+        super(page, coordinates1, coordinates2, true);
         text = ttext;
     }
 
     @Override
-    void paint(Graphics g)
+    public void paint(Graphics g)
     {
         g.setFont(new Font(font, Font.PLAIN ,corner2[1] - corner1[1]));
         g.drawString(text, corner1[0], corner1[1]);
