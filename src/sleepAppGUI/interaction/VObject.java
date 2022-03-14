@@ -4,15 +4,24 @@ import java.awt.*;
 
 public abstract class VObject
 {
-    /*package private*/ int[] corner1;
-    /*package private*/ int[] corner2;
+    protected int[] corner1;
+    protected int[] corner2;
 
-    public VObject(Page page, int[] coordinate1, int[] coordinate2)
+    private boolean visible;
+    private final boolean defVis;
+
+    public VObject(Page page, int[] coordinate1, int[] coordinate2, boolean defaultVisible)
     {
         page.addObject(this);
         corner1 = coordinate1;
         corner2 = coordinate2;
+        defVis = defaultVisible;
+        visible = defVis;
     }
 
-    /*package private*/ abstract void paint(Graphics g);
+    public abstract void paint(Graphics g);
+
+    public boolean isVisible() { return visible; }
+    public void setVisible(boolean vis) { visible = vis; }
+    public boolean getDefVis() { return defVis; }
 }

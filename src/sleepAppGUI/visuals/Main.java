@@ -2,6 +2,7 @@ package sleepAppGUI.visuals;
 
 import sleepAppGUI.interaction.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -18,9 +19,17 @@ public class Main
         Page.setUpPages(this);
     }
 
+    public void addTextField(JTextField t) { gui.addTextField(t); }
     public void addPage(Page p) { pages.add(p); }
     public Page getCurrentPage() { return currentPage; }
-    public void setCurrentPage(Page page) { currentPage = page; gui.repaintCanvas(); }
+    public void setCurrentPage(Page page)
+    {
+        if(currentPage != null) { currentPage.exitPage(); }
+        currentPage = page;
+        currentPage.enterPage();
+        //gui.setT1Vis(!gui.getT1Vis());
+        gui.repaintCanvas();
+    }
 
     public static void main(String[] args)
     {
