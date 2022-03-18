@@ -97,6 +97,8 @@ public class Page
         MyText cardDetailsText = new MyText(page1, new int[] {350, 150}, new int[] {450, 175}, "Credit card details:");
         MyTextField cardDetailsInput = new MyTextField(main, page1, new int[] {300, 200}, new int[] { 500, 240});
 
+
+
         MyText virusConsentText = new MyText(page1, new int[] {100, 350}, new int[] {550, 400}, "consent to virus installation ");
 
         MyImage tick = new MyImage(page1, new int[] {610, 335}, new int[] {660, 385}, "Tick", false);
@@ -139,6 +141,34 @@ public class Page
             }
         };
 
-        main.setCurrentPage(page1);
+         // MY CODE HERE
+        // Create the pages here
+        Page username_password_initial = new Page(2, main, new Color(0xC7EFF9));
+        Page more_info_page = new Page(3, main, new Color(0xC7EFF9));
+
+        // ADD THINGS TO FIRST PAGE
+        // Adds the username input box on first page
+        MyText usernameText = new MyText(username_password_initial, new int[] {340, 170}, new int[] {355, 190}, "Username:");
+        MyTextField usernameInput = new MyTextField(main, username_password_initial, new int[] {290, 180}, new int[] {490, 205});
+        // Adds the password boxes
+        MyText password = new MyText(username_password_initial, new int[] {340, 235}, new int[] {355, 255}, "Password:");
+        MyTextField passwordInput1 = new MyTextField(main, username_password_initial, new int[] {290, 245}, new int[] {490, 270});
+        MyText passwordReenter = new MyText(username_password_initial, new int[] {300, 300}, new int[] {315, 320}, "Re-enter Password:");
+        MyTextField passwordInput2 = new MyTextField(main, username_password_initial, new int[] {290, 310}, new int[] {490, 335});
+
+        // Add next button
+        MyButton nextButton = new MyButton(username_password_initial, "next", new int[] {420, 350}, new int[] {510, 385}, "next")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(more_info_page);
+                System.out.println("More Info Page");
+            }
+        };
+
+        // ADD THINGS TO SECOND PAGE
+        MyText youAreHere = new MyText(more_info_page, new int[] {340, 170}, new int[] {355, 190}, "you made it!");
+
+        main.setCurrentPage(username_password_initial);
     }
 }
