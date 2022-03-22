@@ -87,17 +87,14 @@ public class Page
         }
     }
 
-
-
     public static void setUpPages(Main main)
     {
+        /* OLD CODE
         Page page1 = new Page(0, main);
         Page page2 = new Page(1, main, new Color(0xff0000));
 
         MyText cardDetailsText = new MyText(page1, new int[] {350, 150}, new int[] {450, 175}, "Credit card details:");
         MyTextField cardDetailsInput = new MyTextField(main, page1, new int[] {300, 200}, new int[] { 500, 240});
-
-
 
         MyText virusConsentText = new MyText(page1, new int[] {100, 350}, new int[] {550, 400}, "consent to virus installation ");
 
@@ -140,38 +137,20 @@ public class Page
                 System.out.println("virus uninstalled");
             }
         };
+        */
 
-         // MY CODE HERE
         // Create the pages here nice color: 0xC7EFF9
         Page username_password_initial = new Page(2, main, new Color(0xC7EFF9));
         Page more_info_page = new Page(3, main, new Color(0xC7EFF9));
         Page account_created = new Page(4, main, new Color(0xC7EFF9));
 
-        // ADD THINGS TO FIRST PAGE
-        // Adds logo
-        MyImage logo = new MyImage(username_password_initial, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
-        // Adds the box to go behind input fields
-        MyImage input_frame = new MyImage(username_password_initial, new int[] {275, 170}, new int[] {525, 400}, "box_behind", true);
-        // Adds the username input box on first page
-        MyText usernameText = new MyText(username_password_initial, new int[] {350, 200}, new int[] {365, 220}, "Username:");
-        MyTextField usernameInput = new MyTextField(main, username_password_initial, new int[] {300, 210}, new int[] {500, 235});
-        // Adds the password boxes
-        MyText password = new MyText(username_password_initial, new int[] {350, 265}, new int[] {365, 285}, "Password:");
-        MyTextField passwordInput1 = new MyTextField(main, username_password_initial, new int[] {300, 275}, new int[] {500, 300});
-        MyText passwordReenter = new MyText(username_password_initial, new int[] {305, 330}, new int[] {320, 350}, "Re-enter Password:");
-        MyTextField passwordInput2 = new MyTextField(main, username_password_initial, new int[] {300, 340}, new int[] {500, 365});
+        setUpSignInPage(main, username_password_initial, more_info_page);
+        setUpMoreInfoPage(main, more_info_page, account_created);
 
+        main.setCurrentPage(username_password_initial);
+    }
 
-        // Add next button
-        MyButton nextButton = new MyButton(username_password_initial, "next", new int[] {360, 400}, new int[] {440, 435}, "next")
-        {
-            public void isClicked()
-            {
-                main.setCurrentPage(more_info_page);
-                System.out.println("More Info Page");
-            }
-        };
-
+    private static void setUpMoreInfoPage(Main main, Page more_info_page, Page nextPage) {
         // ADD THINGS TO SECOND PAGE
         MyImage inputFrame = new MyImage(more_info_page, new int[] {150, 15}, new int[] {650, 560}, "box_behind", true);
         // height
@@ -243,7 +222,7 @@ public class Page
 
         MyButton submit = new MyButton(more_info_page, "submit", new int[]{650, 510}, new int[]{750, 550}, "submitButton"){
             public void isClicked() {
-                main.setCurrentPage(account_created);
+                main.setCurrentPage(nextPage);
                 System.out.println("Account Created!");
             }
         };
@@ -257,7 +236,32 @@ public class Page
         more_info_page.pushToFront(screenTimeClicked);
         more_info_page.pushToFront(stressClicked);
         more_info_page.pushToFront(alcoholClicked);
+    }
 
-        main.setCurrentPage(username_password_initial);
+    private static void setUpSignInPage(Main main, Page username_password_initial, Page nextPage) {
+        // ADD THINGS TO FIRST PAGE
+        // Adds logo
+        MyImage logo = new MyImage(username_password_initial, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
+        // Adds the box to go behind input fields
+        MyImage input_frame = new MyImage(username_password_initial, new int[] {275, 170}, new int[] {525, 400}, "box_behind", true);
+        // Adds the username input box on first page
+        MyText usernameText = new MyText(username_password_initial, new int[] {350, 200}, new int[] {365, 220}, "Username:");
+        MyTextField usernameInput = new MyTextField(main, username_password_initial, new int[] {300, 210}, new int[] {500, 235});
+        // Adds the password boxes
+        MyText password = new MyText(username_password_initial, new int[] {350, 265}, new int[] {365, 285}, "Password:");
+        MyTextField passwordInput1 = new MyTextField(main, username_password_initial, new int[] {300, 275}, new int[] {500, 300});
+        MyText passwordReenter = new MyText(username_password_initial, new int[] {305, 330}, new int[] {320, 350}, "Re-enter Password:");
+        MyTextField passwordInput2 = new MyTextField(main, username_password_initial, new int[] {300, 340}, new int[] {500, 365});
+
+
+        // Add next button
+        MyButton nextButton = new MyButton(username_password_initial, "next", new int[] {360, 400}, new int[] {440, 435}, "next")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("More Info Page");
+            }
+        };
     }
 }
