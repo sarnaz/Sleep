@@ -22,7 +22,7 @@ public class GUI
         main = mmain;
         width = wwidth;
         height = hheight;
-        JFrame window = new JFrame("main window");
+        JFrame window = new JFrame("SleepWise");
 
         canvas = new JPanel()
         {
