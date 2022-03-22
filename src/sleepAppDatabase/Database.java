@@ -53,27 +53,37 @@ public class Database {
                 ");",
 
                 "CREATE TABLE FLUID (\n" +
-                "  id INTEGER(4) NOT NULL,\n" +
-                "  units INTEGER(3)  DEFAULT NULL,\n" +
-                "  caffeine INTEGER(4) DEFAULT NULL,\n" +
-                "  cupsOfWater INTEGER(3)  DEFAULT NULL,\n" +
-                "  addDate DATE NOT NULL\n" +
-                ");\n",
+                        "  id INTEGER(4) NOT NULL,\n" +
+                        "  units INTEGER(3)  DEFAULT NULL,\n" +
+                        "  caffeine INTEGER(4) DEFAULT NULL,\n" +
+                        "  cupsOfWater INTEGER(3)  DEFAULT NULL,\n" +
+                        "  addDate DATE NOT NULL\n" +
+                        ");\n",
 
                 "CREATE TABLE SLEEP (\n" +
-                "  id int(4) NOT NULL,\n" +
-                "  sleepTime INTEGER(2)  DEFAULT NULL,\n" +
-                "  timeToSleep INTEGER(3)  DEFAULT NULL,\n" +
-                "  sleepQuality INTEGER(2)  DEFAULT NULL,\n" +
-                "  addDate DATE NOT NULL\n" +
-                ");\n",
+                        "  id int(4) NOT NULL,\n" +
+                        "  sleepTime INTEGER(2)  DEFAULT NULL,\n" +
+                        "  timeToSleep INTEGER(3)  DEFAULT NULL,\n" +
+                        "  sleepQuality INTEGER(2)  DEFAULT NULL,\n" +
+                        "  addDate DATE NOT NULL\n" +
+                        ");\n",
 
 
                 "CREATE TABLE STRESS (\n" +
-                "  id INTEGER(4)  NOT NULL,\n" +
-                "  stressLevel int(2) DEFAULT NULL,\n" +
-                "  addDate DATE NOT NULL\n" +
-                ");\n"};
+                        "  id INTEGER(4)  NOT NULL,\n" +
+                        "  stressLevel int(2) DEFAULT NULL,\n" +
+                        "  addDate DATE NOT NULL\n" +
+                        ");"
+                ,
+
+                "CREATE TABLE FACTORS (\n" +
+                        "  id INTEGER(4)  NOT NULL,\n" +
+                        "  caffiene int(1) NOT NULL DEFAULT 0,\n" +
+                        "  alcohol int(1) NOT NULL DEFAULT 0,\n" +
+                        "  fitness int(1) NOT NULL DEFAULT 0,\n" +
+                        "  stress int(1) NOT NULL DEFAULT 0,\n" +
+                        "  water int(1) NOT NULL DEFAULT 0\n" +
+                        ");\n"};
     }
 
     //checks if users already exist. If none exist, returns false, otherwise returns true.
