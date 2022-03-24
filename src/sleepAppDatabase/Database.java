@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class Database {
 
+    private static final int secondsInDay = (int) ((int) 8.64 * Math.pow(10, 7));
     private static boolean firstLogin = true;
     //assumes this is the user's first login unless proven otherwise
     public static final String databaseURL = "jdbc:sqlite:PI.db";
@@ -16,6 +17,33 @@ public class Database {
     public static int getCurrentUserId()
     {
     	return id;
+    }
+
+
+    //returns true if the daily questions haven't yet been asked
+    //does not increment the time. That is done once the questions have been answered
+    //returns false if the daily questions have already been asked that day
+    public static boolean askDailyQuestionsCheck(){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT lastQuestionDay FROM UNIVERSAL";
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next()){
+                    if(rs.getInt("lastQuestionDay")-(System.currentTimeMillis()/1000) > secondsInDay){
+                        return true;
+                    }
+                }
+                else{
+                    System.out.println("no previous time found");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("exception was caught initialising database");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
     }
 
     //function to initially create the database. This should only be called once, as the database file is now set up.
@@ -50,6 +78,7 @@ public class Database {
                 "  salt varchar(8) not null,\n" +
                 "  weight INT(3) not NULL DEFAULT 72,\n" +
                 "  height INT(3) not null DEFAULT 174\n" +
+                "  lastQuestionTime INT(13) not null DEFAULT 1648080000\n" +
                 ");",
 
                 "CREATE TABLE FLUID (\n" +
