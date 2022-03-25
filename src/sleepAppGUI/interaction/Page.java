@@ -332,10 +332,8 @@ public class Page
     }
 
     public static void setUpProfilePage(Main main, Page profile_page, Page previousPage, Page editPage) {
-        MyImage logo = new MyImage(profile_page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
+        profilePageGeneralSetUp(profile_page);
 
-        MyImage inputFrame = new MyImage(profile_page, new int[] {275, 170}, new int[] {525, 470}, "profile_box", true);
-        MyText username = new MyText(profile_page, new int[] {305, 230}, new int[] {340, 250}, "Username");
         MyText height = new MyText(profile_page, new int[] {366, 298}, new int[] {388, 316}, "180 cm");
         MyText weight = new MyText(profile_page, new int[] {366, 366}, new int[] {388, 384}, "75 kg");
 
@@ -357,10 +355,8 @@ public class Page
     }
 
     public static void setUpEditProfilePage(Main main, Page edit_profile_page, Page nextPage) {
-        MyImage logo = new MyImage(edit_profile_page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
+        profilePageGeneralSetUp(edit_profile_page);
 
-        MyImage inputFrame = new MyImage(edit_profile_page, new int[] {275, 170}, new int[] {525, 470}, "profile_box", true);
-        MyText username = new MyText(edit_profile_page, new int[] {305, 230}, new int[] {340, 250}, "Username");
         MyTextField heightInput = new MyTextField(main, edit_profile_page, new int[] {370, 280}, new int[] {398, 305});
         MyText cm = new MyText(edit_profile_page, new int[] {401, 298}, new int[] {406, 316}, "cm");
         MyTextField weightInput = new MyTextField(main, edit_profile_page, new int[] {370, 345}, new int[] {398, 370});
@@ -387,6 +383,14 @@ public class Page
             }
         };
     }
+
+    private static void profilePageGeneralSetUp(Page page) {
+        MyImage logo = new MyImage(page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
+
+        MyImage inputFrame = new MyImage(page, new int[] {275, 170}, new int[] {525, 470}, "profile_box", true);
+        MyText username = new MyText(page, new int[] {305, 230}, new int[] {340, 250}, "Username");
+    }
+
     public static void setUpSleepQuestionsPage(Main main, Page sleep_questions, Page nextPage){
         //logo
         MyImage logo = new MyImage(sleep_questions, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
