@@ -5,7 +5,7 @@ import sleepAppGUI.visuals.Main;
 import javax.swing.*;
 import java.awt.*;
 
-public class MyTextField extends VObject //should really extend JTextField
+public class MyTextField extends VObject implements IMyTextField //should really extend JTextField
 {
     JTextField textField;
 
