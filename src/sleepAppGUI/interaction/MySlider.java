@@ -13,14 +13,11 @@ public class MySlider extends VObject {
 	String backgroundImage;
 	String notchImage;
 	
-	// which notch will the slider output - independant from interpolation
+	// which notch will the slider output - independent from interpolation
 	int currentNotch = 0;
 	
 	// how many intervals exists on the slider
 	int intervalCount = 2;
-	
-	// the value difference intervals represent
-	int intervalDifference;
 	
 	// the width between intervals
 	int intervalWidth;
@@ -43,7 +40,7 @@ public class MySlider extends VObject {
 	
 	boolean selected = false;
 	
-	public MySlider(Page page, String sliderName, int[] coordinate1, int[] coordinate2, String backgroundImageName, String sliderImageName, String notchImageName, int count, int difference)
+	public MySlider(Page page, String sliderName, int[] coordinate1, int[] coordinate2, String backgroundImageName, String sliderImageName, String notchImageName, int count)
     {
         super(page, coordinate1, coordinate2, true);
         page.addSlider(this);
@@ -58,7 +55,6 @@ public class MySlider extends VObject {
         
         currentNotch = 0;
         intervalCount = count;
-        intervalDifference = difference;
         
         intervalWidth = (int)((double)backgroundWidth / (double)(intervalCount - 1));
     }
@@ -119,7 +115,7 @@ public class MySlider extends VObject {
 	
 	public int getValue()
 	{
-		return 0;
+		return currentNotch;
 	}
 	
 	public void paint(Graphics g)
