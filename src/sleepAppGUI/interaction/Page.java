@@ -28,6 +28,7 @@ public class Page
     private final Color backgroundColour;
     private ArrayList<VObject> visualObjects = new ArrayList<>();
     private ArrayList<MyButton> buttons = new ArrayList<>();
+    private ArrayList<MySlider> sliders = new ArrayList<>();
     private ArrayList<MyTextField> textFields = new ArrayList<>();
 
     private void pushToFront(VObject o)
@@ -59,6 +60,7 @@ public class Page
     }
 
     public void addButton(MyButton b) { buttons.add(b); }
+    public void addSlider(MySlider b) { sliders.add(b); }
     public void addObject(VObject obj) { visualObjects.add(obj); }
     public void addTextField(MyTextField t) { textFields.add(t); }
     public Color getColour() { return backgroundColour; }
@@ -66,11 +68,45 @@ public class Page
 
     public void checkButtons(int[] clickCoordinates)
     {
-        for(MyButton button : buttons)
+        for (MyButton button : buttons)
         {
             if(button.onButton(clickCoordinates))
             {
                 button.isClicked();
+                return;
+            }
+        }
+        
+        for (MySlider slider : sliders)
+        {
+        	if (slider.onSlider(clickCoordinates))
+        	{
+            	slider.updatePosition(clickCoordinates);
+        		slider.setSelected(true);
+        	}
+        }
+    }
+    
+    public void checkSliderDrag(int[] dragCoordinates)
+    {
+        for(MySlider slider : sliders)
+        {
+            if(slider.onSlider(dragCoordinates))
+            {
+            	slider.updatePosition(dragCoordinates);
+                return;
+            }
+        }
+    }
+    
+    public void checkSliderRelease(int[] releaseCoordinates)
+    {
+        for(MySlider slider : sliders)
+        {
+            if(slider.onSlider(releaseCoordinates))
+            {
+            	slider.updatePosition(releaseCoordinates);
+            	slider.setSelected(false);
                 return;
             }
         }
@@ -264,6 +300,8 @@ public class Page
         
         username_password_initial.pushToFront(openEye);
         username_password_initial.pushToFront(closedEye);
+        
+        MySlider testSlider = new MySlider(username_password_initial, "firstSlider", new int[] {120, 460}, new int[] {600, 550}, "sliderBackground", "sliderForeground", "sliderNotch", 5, 1);
         
         MyButton toggleShowPasswordButton = new MyButton(username_password_initial, "show password", new int[] {450, 250}, new int[] {470, 270}, null)
         {

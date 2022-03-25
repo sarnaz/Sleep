@@ -27,6 +27,8 @@ public class Main
         if(currentPage != null) { currentPage.exitPage(); }
         currentPage = page;
         currentPage.enterPage();
+        
+        System.out.println("displaying page: " + page.toString());
         //gui.setT1Vis(!gui.getT1Vis());
         gui.repaintCanvas();
     }
