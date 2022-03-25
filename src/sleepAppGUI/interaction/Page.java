@@ -142,23 +142,18 @@ public class Page
         // Create the pages here nice color: 0xC7EFF9
         Page username_password_initial = new Page(2, main, new Color(0xC7EFF9));
         Page more_info_page = new Page(3, main, new Color(0xC7EFF9));
-        //Page account_created = new Page(4, main, new Color(0xC7EFF9));
+        Page account_created = new Page(4, main, new Color(0xC7EFF9));
         Page home_page = new Page(5, main, new Color(0xC7EFF9));
         Page profile_page = new Page(6, main, new Color(0xC7EFF9));
         Page edit_profile_page = new Page(7, main, new Color(0xC7EFF9));
-        Page sleep_questions = new Page(8, main, new Color(0xC7EFF9));
-        Page water_questions = new Page(8, main, new Color(0xC7EFF9));
-        Page stress_questions = new Page(9, main, new Color(0xC7EFF9));
 
         setUpSignInPage(main, username_password_initial, more_info_page);
-        setUpMoreInfoPage(main, more_info_page, home_page);
-        setUpHomePage(main, home_page, profile_page, sleep_questions);
+        setUpMoreInfoPage(main, more_info_page, account_created);
+        setUpHomePage(main, home_page, profile_page);
         setUpProfilePage(main, profile_page, home_page, edit_profile_page);
         setUpEditProfilePage(main, edit_profile_page, profile_page);
-        setUpSleepQuestionsPage(main, sleep_questions, water_questions);
-        setUpWaterQuestionsPage(main, water_questions, stress_questions);
-        setUpStressQuestions(main, stress_questions, home_page);
-        main.setCurrentPage(sleep_questions);
+
+        main.setCurrentPage(username_password_initial);
     }
 
     private static void setUpMoreInfoPage(Main main, Page more_info_page, Page nextPage) {
@@ -260,21 +255,52 @@ public class Page
         MyTextField usernameInput = new MyTextField(main, username_password_initial, new int[] {300, 210}, new int[] {500, 235});
         // Adds the password boxes
         MyText password = new MyText(username_password_initial, new int[] {350, 265}, new int[] {365, 285}, "Password:");
-        MyTextField passwordInput1 = new MyTextField(main, username_password_initial, new int[] {300, 275}, new int[] {500, 300});
+        MyPasswordField passwordInput1 = new MyPasswordField(main, username_password_initial, new int[] {300, 275}, new int[] {500, 300});
         MyText passwordReenter = new MyText(username_password_initial, new int[] {305, 330}, new int[] {320, 350}, "Re-enter Password:");
-        MyTextField passwordInput2 = new MyTextField(main, username_password_initial, new int[] {300, 340}, new int[] {500, 365});
+        MyPasswordField passwordInput2 = new MyPasswordField(main, username_password_initial, new int[] {300, 340}, new int[] {500, 365});
+
+        MyImage openEye = new MyImage(username_password_initial, new int[]{450, 250}, new int[]{470, 270}, "openEye", false);
+        MyImage closedEye = new MyImage(username_password_initial, new int[]{450, 250}, new int[]{470, 270}, "closedEye", true);
+        
+        username_password_initial.pushToFront(openEye);
+        username_password_initial.pushToFront(closedEye);
+        
+        MyButton toggleShowPasswordButton = new MyButton(username_password_initial, "show password", new int[] {450, 250}, new int[] {470, 270}, null)
+        {
+        	public void isClicked()
+        	{
+        		System.out.println("clicked: " + ((passwordInput1.getTextVisibility()) ? "hiding" : "showing"));
+        		passwordInput1.setTextVisibility(!passwordInput1.getTextVisibility());
+        		passwordInput2.setTextVisibility(!passwordInput2.getTextVisibility());
+        		openEye.setVisible(passwordInput1.getTextVisibility());
+        		closedEye.setVisible(!passwordInput1.getTextVisibility());
+        	}
+        };
+
         // Add next button
         MyButton nextButton = new MyButton(username_password_initial, "next", new int[] {360, 400}, new int[] {440, 435}, "next")
         {
             public void isClicked()
             {
-                main.setCurrentPage(nextPage);
-                System.out.println("More Info Page");
+            	// basic input validation
+            	// don't need to check for conflicting username because this is the only user
+            	if (passwordInput1.getText().equals(passwordInput2.getText()) &&
+            		!usernameInput.getText().equals("") &&
+            		!passwordInput1.getText().equals("")
+           			)
+            	{
+	                main.setCurrentPage(nextPage);
+	                System.out.println("More Info Page");
+            	}
+            	else
+            	{
+            		System.out.println("password doesn't match or username not valid");
+            	}
             }
         };
     }
 
-    public static void setUpHomePage(Main main, Page home_page, Page profilePage, Page sleep_questions) {
+    public static void setUpHomePage(Main main, Page home_page, Page profilePage) {
         MyImage inputFrame = new MyImage(home_page, new int[] {150, 130}, new int[] {650, 530}, "home_page_layout", true);
 
         MyImage logo = new MyImage(home_page, new int[] {260, 30}, new int[] {560, 108}, "logo", true);
@@ -282,13 +308,7 @@ public class Page
         MyText username = new MyText(home_page, new int[] {270, 178}, new int[] {320, 198}, "Username");
 
         // buttons
-        MyButton dailyQuestions = new MyButton(home_page, "dailyQuestions", new int[]{165, 255}, new int[]{410, 520}, "questions"){
-            public void isClicked()
-            {
-                main.setCurrentPage(sleep_questions);
-                System.out.println("Sleep questions");
-            }
-        };
+        MyButton dailyQuestions = new MyButton(home_page, "dailyQuestions", new int[]{165, 255}, new int[]{410, 520}, "questions");
         MyButton activity = new MyButton(home_page, "activity", new int[]{420, 260}, new int[]{634, 405}, "activity");
         MyButton profile = new MyButton(home_page, "profile", new int[]{420, 418}, new int[]{634, 514}, "profile") {
             public void isClicked()
@@ -348,77 +368,5 @@ public class Page
                 System.out.println("Profile Page");
             }
         };
-        MyButton deleteData = new MyButton (edit_profile_page, "delete data", new int[]{600, 475}, new int[]{750, 550}, "deleteData"){
-            public void isClicked()
-            {
-                System.out.println("delete data");
-            }
-        };
     }
-    public static void setUpSleepQuestionsPage(Main main, Page sleep_questions, Page nextPage){
-        //logo
-        MyImage logo = new MyImage(sleep_questions, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
-        // behind frame
-        MyImage inputFrame = new MyImage(sleep_questions, new int[] {120, 170}, new int[] {680, 380}, "box_behind", true);
-        // number hours sleep
-        MyText sleepHours = new MyText(sleep_questions, new int[] {170, 220}, new int[] {195, 240}, "How many hours of sleep did you get last night? ");
-        MyText nearestHour = new MyText(sleep_questions, new int[] {290, 250}, new int[] {305, 270}, "(to the nearest hour)");
-        MyTextField numberHours = new MyTextField(main, sleep_questions, new int[] {380, 255}, new int[] {420, 280});
-        // quality of sleep - can we implement a slider?
-        MyText qualitySleep = new MyText(sleep_questions, new int[] {220, 310}, new int[] {245, 330}, "Rate the quality of your sleep (1-10) ");
-        MyTextField rateQuality = new MyTextField(main, sleep_questions, new int[] {380, 325}, new int[] {420, 350});
-
-        // Add next button
-        MyButton nextButton = new MyButton(sleep_questions, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
-        {
-            public void isClicked()
-            {
-                main.setCurrentPage(nextPage);
-                System.out.println("Water questions");
-            }
-        };
-    }
-
-    public static void setUpWaterQuestionsPage(Main main, Page water_questions, Page nextPage){
-        //logo
-        MyImage logo = new MyImage(water_questions, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
-        // behind frame
-        MyImage inputFrame = new MyImage(water_questions, new int[] {120, 170}, new int[] {680, 380}, "box_behind", true);
-        // number cups water
-        MyText numberCups = new MyText(water_questions, new int[] {195, 220}, new int[] {220, 240}, "How many cups of water have you had?");
-        MyTextField numberHours = new MyTextField(main, water_questions, new int[] {380, 240}, new int[] {420, 265});
-        // number of cups immediately before bed
-        MyText qualitySleep = new MyText(water_questions, new int[] {180, 310}, new int[] {205, 330}, "How many cups in the two hours before sleep?");
-        MyTextField rateQuality = new MyTextField(main, water_questions, new int[] {380, 325}, new int[] {420, 350});
-
-        // Add next button
-        MyButton nextButton = new MyButton(water_questions, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
-        {
-            public void isClicked()
-            {
-                main.setCurrentPage(nextPage);
-                System.out.println("Stress questions");
-            }
-        };
-    }
-
-    public static void setUpStressQuestions(Main main, Page stress_questions, Page nextPage){
-        //logo
-        MyImage logo = new MyImage(stress_questions, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
-        // behind frame
-        MyImage inputFrame = new MyImage(stress_questions, new int[] {120, 170}, new int[] {680, 380}, "box_behind", true);
-        // daily stress
-        MyText dailyStress = new MyText(stress_questions, new int[] {195, 260}, new int[] {220, 280}, "Rate your average stress level today (1-5):");
-        MyTextField averageStress = new MyTextField(main, stress_questions, new int[] {380, 280}, new int[] {420, 305});
-        // Add next button
-        MyButton nextButton = new MyButton(stress_questions, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
-        {
-            public void isClicked()
-            {
-                main.setCurrentPage(nextPage);
-                System.out.println("Back to home");
-            }
-        };
-    }
-
 }
