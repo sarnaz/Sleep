@@ -90,10 +90,10 @@ public class Page
     public static void setUpPages(Main main)
     {
         /* OLD CODE
-        Page page1 = new Page(0, main);
-        Page page2 = new Page(1, main, new Color(0xff0000));
+        Page page1 = new Page(0, main, new Color(0x9AE4FC));
+        Page page2 = new Page(1, main, new Color(0x9AE4FC));
 
-        MyText cardDetailsText = new MyText(page1, new int[] {350, 150}, new int[] {450, 175}, "Credit card details:");
+        MyText cardDetailsText = new MyText(page1, new int[] {300, 180}, new int[] {400, 205}, "USER");
         MyTextField cardDetailsInput = new MyTextField(main, page1, new int[] {300, 200}, new int[] { 500, 240});
 
         MyText virusConsentText = new MyText(page1, new int[] {100, 350}, new int[] {550, 400}, "consent to virus installation ");
@@ -143,11 +143,13 @@ public class Page
         Page username_password_initial = new Page(2, main, new Color(0xC7EFF9));
         Page more_info_page = new Page(3, main, new Color(0xC7EFF9));
         Page account_created = new Page(4, main, new Color(0xC7EFF9));
+        Page graph_visual = new Page(5, main, new Color(0xC7EFF9));
+
 
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, account_created);
-
-        main.setCurrentPage(username_password_initial);
+        setUpGraphPage(main,graph_visual);
+        main.setCurrentPage(graph_visual);
     }
 
     private static void setUpMoreInfoPage(Main main, Page more_info_page, Page nextPage) {
@@ -264,4 +266,19 @@ public class Page
             }
         };
     }
+    private static void setUpGraphPage(Main main, Page graph_visual){
+        MyImage water_frame = new MyImage(graph_visual, new int[] {10, 10}, new int[] {260, 265}, "box_behind", true);
+        MyImage water = new MyImage(graph_visual, new int[] {110, 220}, new int[] {160, 260}, "waternotext", true);
+        MyImage exercise_frame = new MyImage(graph_visual, new int[] {270, 10}, new int[] {520, 265}, "box_behind", true);
+        MyImage exercise = new MyImage(graph_visual, new int[] {370, 220}, new int[] {420, 260}, "exercisenotext", true);
+        MyImage screentime_frame = new MyImage(graph_visual, new int[] {530, 10}, new int[] {780, 265}, "box_behind", true);
+        MyImage screentime = new MyImage(graph_visual, new int[] {630, 220}, new int[] {680, 260}, "screentimenotext", true);
+        MyImage alcohol_frame = new MyImage(graph_visual, new int[] {10, 270}, new int[] {260, 530}, "box_behind", true);
+        MyImage alcohol = new MyImage(graph_visual, new int[] {110, 495}, new int[] {160, 525}, "alcoholnotext", true);
+        MyImage caffeine_frame = new MyImage(graph_visual, new int[] {270, 270}, new int[] {520, 530}, "box_behind", true);
+        MyImage caffeine = new MyImage(graph_visual, new int[] {370, 495}, new int[] {420, 525}, "caffeinenotext", true);
+        MyImage stress_frame = new MyImage(graph_visual, new int[] {530, 270}, new int[] {780, 530}, "box_behind", true);
+        MyImage stress = new MyImage(graph_visual, new int[] {630, 495}, new int[] {680, 525}, "stressnotext", true);
+    }
+
 }
