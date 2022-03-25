@@ -155,13 +155,13 @@ public class Page
 
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, home_page);
-        setUpHomePage(main, home_page, profile_page, sleep_questions);
+        setUpHomePage(main, home_page, profile_page, sleep_questions, graph_visual);
         setUpProfilePage(main, profile_page, home_page, edit_profile_page);
         setUpEditProfilePage(main, edit_profile_page, profile_page);
         setUpSleepQuestionsPage(main, sleep_questions, water_questions);
         setUpWaterQuestionsPage(main, water_questions, stress_questions);
         setUpStressQuestions(main, stress_questions, home_page);
-        setUpGraphPage(main,graph_visual);
+        setUpGraphPage(main,graph_visual, home_page);
 
         main.setCurrentPage(username_password_initial);
     }
@@ -310,7 +310,7 @@ public class Page
         };
     }
 
-    public static void setUpHomePage(Main main, Page home_page, Page profilePage, Page sleep_questions) {
+    public static void setUpHomePage(Main main, Page home_page, Page profilePage, Page sleep_questions, Page graph_visual) {
         MyImage inputFrame = new MyImage(home_page, new int[] {150, 130}, new int[] {650, 530}, "home_page_layout", true);
 
         MyImage logo = new MyImage(home_page, new int[] {260, 30}, new int[] {560, 108}, "logo", true);
@@ -325,7 +325,13 @@ public class Page
                 System.out.println("Sleep questions");
             }
         };
-        MyButton activity = new MyButton(home_page, "activity", new int[]{420, 260}, new int[]{634, 405}, "activity");
+        MyButton activity = new MyButton(home_page, "activity", new int[]{420, 260}, new int[]{634, 405}, "activity"){
+            public void isClicked()
+            {
+                main.setCurrentPage(graph_visual);
+                System.out.println("Graph Page");
+            };
+        };
         MyButton profile = new MyButton(home_page, "profile", new int[]{420, 418}, new int[]{634, 514}, "profile") {
             public void isClicked()
             {
@@ -461,7 +467,7 @@ public class Page
         };
     }
 
-    private static void setUpGraphPage(Main main, Page graph_visual){
+    private static void setUpGraphPage(Main main, Page graph_visual, Page home_page){
         MyImage water_frame = new MyImage(graph_visual, new int[] {10, 10}, new int[] {260, 265}, "box_behind", true);
         MyImage water = new MyImage(graph_visual, new int[] {110, 220}, new int[] {160, 260}, "waternotext", true);
         MyImage exercise_frame = new MyImage(graph_visual, new int[] {270, 10}, new int[] {520, 265}, "box_behind", true);
