@@ -255,18 +255,47 @@ public class Page
         MyTextField usernameInput = new MyTextField(main, username_password_initial, new int[] {300, 210}, new int[] {500, 235});
         // Adds the password boxes
         MyText password = new MyText(username_password_initial, new int[] {350, 265}, new int[] {365, 285}, "Password:");
-        MyTextField passwordInput1 = new MyTextField(main, username_password_initial, new int[] {300, 275}, new int[] {500, 300});
+        MyPasswordField passwordInput1 = new MyPasswordField(main, username_password_initial, new int[] {300, 275}, new int[] {500, 300});
         MyText passwordReenter = new MyText(username_password_initial, new int[] {305, 330}, new int[] {320, 350}, "Re-enter Password:");
-        MyTextField passwordInput2 = new MyTextField(main, username_password_initial, new int[] {300, 340}, new int[] {500, 365});
+        MyPasswordField passwordInput2 = new MyPasswordField(main, username_password_initial, new int[] {300, 340}, new int[] {500, 365});
 
+        MyImage openEye = new MyImage(username_password_initial, new int[]{450, 250}, new int[]{470, 270}, "openEye", false);
+        MyImage closedEye = new MyImage(username_password_initial, new int[]{450, 250}, new int[]{470, 270}, "closedEye", true);
+        
+        username_password_initial.pushToFront(openEye);
+        username_password_initial.pushToFront(closedEye);
+        
+        MyButton toggleShowPasswordButton = new MyButton(username_password_initial, "show password", new int[] {450, 250}, new int[] {470, 270}, null)
+        {
+        	public void isClicked()
+        	{
+        		System.out.println("clicked: " + ((passwordInput1.getTextVisibility()) ? "hiding" : "showing"));
+        		passwordInput1.setTextVisibility(!passwordInput1.getTextVisibility());
+        		passwordInput2.setTextVisibility(!passwordInput2.getTextVisibility());
+        		openEye.setVisible(passwordInput1.getTextVisibility());
+        		closedEye.setVisible(!passwordInput1.getTextVisibility());
+        	}
+        };
 
         // Add next button
         MyButton nextButton = new MyButton(username_password_initial, "next", new int[] {360, 400}, new int[] {440, 435}, "next")
         {
             public void isClicked()
             {
-                main.setCurrentPage(nextPage);
-                System.out.println("More Info Page");
+            	// basic input validation
+            	// don't need to check for conflicting username because this is the only user
+            	if (passwordInput1.getText().equals(passwordInput2.getText()) &&
+            		!usernameInput.getText().equals("") &&
+            		!passwordInput1.getText().equals("")
+           			)
+            	{
+	                main.setCurrentPage(nextPage);
+	                System.out.println("More Info Page");
+            	}
+            	else
+            	{
+            		System.out.println("password doesn't match or username not valid");
+            	}
             }
         };
     }
