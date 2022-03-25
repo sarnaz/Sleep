@@ -36,7 +36,6 @@ public class Main
     public static void main(String[] args)
     {
         Main main = new Main(800, 600);
-
         Page.setUpPages(main);
 
     }
