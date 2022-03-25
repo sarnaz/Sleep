@@ -162,10 +162,10 @@ public class Page
         setUpWaterQuestionsPage(main, water_questions, stress_questions);
         setUpStressQuestions(main, stress_questions, home_page);
 
-        main.setCurrentPage(username_password_initial);
         setUpMoreInfoPage(main, more_info_page, account_created);
         setUpGraphPage(main,graph_visual);
-        main.setCurrentPage(graph_visual);
+
+        main.setCurrentPage(username_password_initial);
     }
 
     private static void setUpMoreInfoPage(Main main, Page more_info_page, Page nextPage) {
