@@ -1,5 +1,6 @@
 package sleepAppGUI.interaction;
 
+import sleepAppGUI.interaction.graphs.MyScatter;
 import sleepAppGUI.visuals.*;
 
 import java.awt.*;
@@ -138,6 +139,11 @@ public class Page
                 System.out.println("virus uninstalled");
             }
         };
+
+        MyScatter graph1 = new MyScatter(page2, new int[] {200, 200}, new int[] {600, 500});
+        graph1.addPoint(new Double(130), new Double(6.5));
+        graph1.addPoint(new Double(210), new Double(2.3));
+        graph1.addPoint(new Double(174), new Double(9.0));
 
         main.setCurrentPage(page1);
     }

@@ -11,7 +11,7 @@ public class GUI
     private final Main main;
     private int width;
     private int height;
-    //might be redundant
+    //might be redundant, probably is
     private int mx = 0;
     private int my = 0;
     private JPanel canvas;
