@@ -161,8 +161,6 @@ public class Page
         setUpSleepQuestionsPage(main, sleep_questions, water_questions);
         setUpWaterQuestionsPage(main, water_questions, stress_questions);
         setUpStressQuestions(main, stress_questions, home_page);
-
-        setUpMoreInfoPage(main, more_info_page, account_created);
         setUpGraphPage(main,graph_visual);
 
         main.setCurrentPage(username_password_initial);
