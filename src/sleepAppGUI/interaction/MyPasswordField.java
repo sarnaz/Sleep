@@ -3,9 +3,8 @@ package sleepAppGUI.interaction;
 import sleepAppGUI.visuals.Main;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class MyPasswordField extends MyTextField implements IMyTextField //should really extend JTextField
+public class MyPasswordField extends MyTextField //should really extend JTextField
 {
     private boolean textIsVisible;
 
@@ -24,7 +23,8 @@ public class MyPasswordField extends MyTextField implements IMyTextField //shoul
     {
     	textIsVisible = show;
     	
-    	// this is so hacky, but it functions exactly the same
+    	// this is hacky, but it's the most efficient solution.
+    	// dynamic type is JTextField, static type is JPasswordField
     	((JPasswordField)textField).setEchoChar((show) ? '\0' : '•');
     }
     
