@@ -26,10 +26,10 @@ public class Page
 
     private final int pageNumber;
     private final Color backgroundColour;
-    private ArrayList<VObject> visualObjects = new ArrayList<>();
-    private ArrayList<MyButton> buttons = new ArrayList<>();
-    private ArrayList<MySlider> sliders = new ArrayList<>();
-    private ArrayList<MyTextField> textFields = new ArrayList<>();
+    private final ArrayList<VObject> visualObjects = new ArrayList<>();
+    private final ArrayList<MyButton> buttons = new ArrayList<>();
+    private final ArrayList<MySlider> sliders = new ArrayList<>();
+    private final ArrayList<MyTextField> textFields = new ArrayList<>();
 
     private void pushToFront(VObject o)
     {
@@ -366,7 +366,7 @@ public class Page
             {
                 main.setCurrentPage(graph_visual);
                 System.out.println("Graph Page");
-            };
+            }
         };
         MyButton profile = new MyButton(home_page, "profile", new int[]{420, 418}, new int[]{634, 514}, "profile") {
             public void isClicked()
