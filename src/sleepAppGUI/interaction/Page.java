@@ -143,9 +143,15 @@ public class Page
         Page username_password_initial = new Page(2, main, new Color(0xC7EFF9));
         Page more_info_page = new Page(3, main, new Color(0xC7EFF9));
         Page account_created = new Page(4, main, new Color(0xC7EFF9));
+        Page home_page = new Page(5, main, new Color(0xC7EFF9));
+        Page profile_page = new Page(6, main, new Color(0xC7EFF9));
+        Page edit_profile_page = new Page(7, main, new Color(0xC7EFF9));
 
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, account_created);
+        setUpHomePage(main, home_page, profile_page);
+        setUpProfilePage(main, profile_page, home_page, edit_profile_page);
+        setUpEditProfilePage(main, edit_profile_page, profile_page);
 
         main.setCurrentPage(username_password_initial);
     }
@@ -261,6 +267,76 @@ public class Page
             {
                 main.setCurrentPage(nextPage);
                 System.out.println("More Info Page");
+            }
+        };
+    }
+
+    public static void setUpHomePage(Main main, Page home_page, Page profilePage) {
+        MyImage inputFrame = new MyImage(home_page, new int[] {150, 130}, new int[] {650, 530}, "home_page_layout", true);
+
+        MyImage logo = new MyImage(home_page, new int[] {260, 30}, new int[] {560, 108}, "logo", true);
+        MyImage maleIcon = new MyImage(home_page, new int[] {550, 157}, new int[] {610, 217}, "male_icon", true);
+        MyText username = new MyText(home_page, new int[] {270, 178}, new int[] {320, 198}, "Username");
+
+        // buttons
+        MyButton dailyQuestions = new MyButton(home_page, "dailyQuestions", new int[]{165, 255}, new int[]{410, 520}, "questions");
+        MyButton activity = new MyButton(home_page, "activity", new int[]{420, 260}, new int[]{634, 405}, "activity");
+        MyButton profile = new MyButton(home_page, "profile", new int[]{420, 418}, new int[]{634, 514}, "profile") {
+            public void isClicked()
+            {
+                main.setCurrentPage(profilePage);
+                System.out.println("Profile Page");
+            }
+        };
+    }
+
+    public static void setUpProfilePage(Main main, Page profile_page, Page previousPage, Page editPage) {
+        MyImage logo = new MyImage(profile_page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
+
+        MyImage inputFrame = new MyImage(profile_page, new int[] {275, 170}, new int[] {525, 470}, "profile_box", true);
+        MyText username = new MyText(profile_page, new int[] {305, 230}, new int[] {340, 250}, "Username");
+        MyText height = new MyText(profile_page, new int[] {366, 298}, new int[] {388, 316}, "180 cm");
+        MyText weight = new MyText(profile_page, new int[] {366, 366}, new int[] {388, 384}, "75 kg");
+
+        // Add edit profile button
+        MyButton editProfileButton = new MyButton(profile_page, "next", new int[] {400, 425}, new int[] {505, 450}, "edit_profile") {
+            public void isClicked()
+            {
+                main.setCurrentPage(editPage);
+                System.out.println("Edit Profile Page");
+            }
+        };
+        MyButton backButton = new MyButton(profile_page, "back", new int[] {275, 480}, new int[] {365, 510}, "back_button") {
+            public void isClicked()
+            {
+                main.setCurrentPage(previousPage);
+                System.out.println("Main Menu Page");
+            }
+        };
+    }
+
+    public static void setUpEditProfilePage(Main main, Page edit_profile_page, Page nextPage) {
+        MyImage logo = new MyImage(edit_profile_page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
+
+        MyImage inputFrame = new MyImage(edit_profile_page, new int[] {275, 170}, new int[] {525, 470}, "profile_box", true);
+        MyText username = new MyText(edit_profile_page, new int[] {305, 230}, new int[] {340, 250}, "Username");
+        MyTextField heightInput = new MyTextField(main, edit_profile_page, new int[] {370, 280}, new int[] {398, 305});
+        MyText cm = new MyText(edit_profile_page, new int[] {401, 298}, new int[] {406, 316}, "cm");
+        MyTextField weightInput = new MyTextField(main, edit_profile_page, new int[] {370, 345}, new int[] {398, 370});
+        MyText kg = new MyText(edit_profile_page, new int[] {401, 363}, new int[] {406, 381}, "kg");
+
+        MyButton cancelButton = new MyButton(edit_profile_page, "cancel", new int[]{295, 425}, new int[]{380, 450}, "cancel_button") {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Profile Page");
+            }
+        };
+        MyButton saveButton = new MyButton(edit_profile_page, "save", new int[]{435, 425}, new int[]{505, 450}, "save_button") {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Profile Page");
             }
         };
     }
