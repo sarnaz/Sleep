@@ -32,6 +32,7 @@ public class MyButton extends VObject
     }
     public void paint(Graphics g)
     {
+    	if (buttonImage == null) return;
         try
         {
             g.drawImage(ImageIO.read(new File("assets/"+buttonImage+".png")), corner1[0], corner1[1], corner2[0] - corner1[0], corner2[1] - corner1[1], null);
