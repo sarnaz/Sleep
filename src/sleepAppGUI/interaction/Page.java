@@ -311,7 +311,7 @@ public class Page
         username_password_initial.pushToFront(openEye);
         username_password_initial.pushToFront(closedEye);
 
-        MySlider testSlider = new MySlider(username_password_initial, "firstSlider", new int[] {120, 460}, new int[] {600, 550}, "sliderBackground", "sliderForeground", "sliderNotch", 5, 1);
+        MySlider testSlider = new MySlider(username_password_initial, "firstSlider", new int[] {120, 460}, new int[] {600, 550}, "sliderBackground", "sliderForeground", "sliderNotch", 5);
 
         MyButton toggleShowPasswordButton = new MyButton(username_password_initial, "show password", new int[] {450, 250}, new int[] {470, 270}, null)
         {
