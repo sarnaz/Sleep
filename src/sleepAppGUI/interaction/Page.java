@@ -142,6 +142,9 @@ public class Page
         // Create the pages here nice color: 0xC7EFF9
         Page username_password_initial = new Page(2, main, new Color(0xC7EFF9));
         Page more_info_page = new Page(3, main, new Color(0xC7EFF9));
+        Page account_created = new Page(4, main, new Color(0xC7EFF9));
+        Page graph_visual = new Page(5, main, new Color(0xC7EFF9));
+
         //Page account_created = new Page(4, main, new Color(0xC7EFF9));
         Page home_page = new Page(5, main, new Color(0xC7EFF9));
         Page profile_page = new Page(6, main, new Color(0xC7EFF9));
@@ -152,12 +155,13 @@ public class Page
 
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, home_page);
-        setUpHomePage(main, home_page, profile_page, sleep_questions);
+        setUpHomePage(main, home_page, profile_page, sleep_questions, graph_visual);
         setUpProfilePage(main, profile_page, home_page, edit_profile_page);
         setUpEditProfilePage(main, edit_profile_page, profile_page);
         setUpSleepQuestionsPage(main, sleep_questions, water_questions);
         setUpWaterQuestionsPage(main, water_questions, stress_questions);
         setUpStressQuestions(main, stress_questions, home_page);
+        setUpGraphPage(main,graph_visual, home_page);
 
         main.setCurrentPage(username_password_initial);
     }
@@ -267,10 +271,10 @@ public class Page
 
         MyImage openEye = new MyImage(username_password_initial, new int[]{450, 250}, new int[]{470, 270}, "openEye", false);
         MyImage closedEye = new MyImage(username_password_initial, new int[]{450, 250}, new int[]{470, 270}, "closedEye", true);
-        
+
         username_password_initial.pushToFront(openEye);
         username_password_initial.pushToFront(closedEye);
-        
+
         MyButton toggleShowPasswordButton = new MyButton(username_password_initial, "show password", new int[] {450, 250}, new int[] {470, 270}, null)
         {
         	public void isClicked()
@@ -306,7 +310,7 @@ public class Page
         };
     }
 
-    public static void setUpHomePage(Main main, Page home_page, Page profilePage, Page sleep_questions) {
+    public static void setUpHomePage(Main main, Page home_page, Page profilePage, Page sleep_questions, Page graph_visual) {
         MyImage inputFrame = new MyImage(home_page, new int[] {150, 130}, new int[] {650, 530}, "home_page_layout", true);
 
         MyImage logo = new MyImage(home_page, new int[] {260, 30}, new int[] {560, 108}, "logo", true);
@@ -321,7 +325,13 @@ public class Page
                 System.out.println("Sleep questions");
             }
         };
-        MyButton activity = new MyButton(home_page, "activity", new int[]{420, 260}, new int[]{634, 405}, "activity");
+        MyButton activity = new MyButton(home_page, "activity", new int[]{420, 260}, new int[]{634, 405}, "activity"){
+            public void isClicked()
+            {
+                main.setCurrentPage(graph_visual);
+                System.out.println("Graph Page");
+            };
+        };
         MyButton profile = new MyButton(home_page, "profile", new int[]{420, 418}, new int[]{634, 514}, "profile") {
             public void isClicked()
             {
@@ -455,6 +465,21 @@ public class Page
                 System.out.println("Back to home");
             }
         };
+    }
+
+    private static void setUpGraphPage(Main main, Page graph_visual, Page home_page){
+        MyImage water_frame = new MyImage(graph_visual, new int[] {10, 10}, new int[] {260, 265}, "box_behind", true);
+        MyImage water = new MyImage(graph_visual, new int[] {110, 220}, new int[] {160, 260}, "waternotext", true);
+        MyImage exercise_frame = new MyImage(graph_visual, new int[] {270, 10}, new int[] {520, 265}, "box_behind", true);
+        MyImage exercise = new MyImage(graph_visual, new int[] {370, 220}, new int[] {420, 260}, "exercisenotext", true);
+        MyImage screentime_frame = new MyImage(graph_visual, new int[] {530, 10}, new int[] {780, 265}, "box_behind", true);
+        MyImage screentime = new MyImage(graph_visual, new int[] {630, 220}, new int[] {680, 260}, "screentimenotext", true);
+        MyImage alcohol_frame = new MyImage(graph_visual, new int[] {10, 270}, new int[] {260, 530}, "box_behind", true);
+        MyImage alcohol = new MyImage(graph_visual, new int[] {110, 495}, new int[] {160, 525}, "alcoholnotext", true);
+        MyImage caffeine_frame = new MyImage(graph_visual, new int[] {270, 270}, new int[] {520, 530}, "box_behind", true);
+        MyImage caffeine = new MyImage(graph_visual, new int[] {370, 495}, new int[] {420, 525}, "caffeinenotext", true);
+        MyImage stress_frame = new MyImage(graph_visual, new int[] {530, 270}, new int[] {780, 530}, "box_behind", true);
+        MyImage stress = new MyImage(graph_visual, new int[] {630, 495}, new int[] {680, 525}, "stressnotext", true);
     }
 
 }
