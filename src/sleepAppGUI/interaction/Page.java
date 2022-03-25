@@ -146,12 +146,12 @@ public class Page
         Page graph_visual = new Page(5, main, new Color(0xC7EFF9));
 
         //Page account_created = new Page(4, main, new Color(0xC7EFF9));
-        Page home_page = new Page(5, main, new Color(0xC7EFF9));
-        Page profile_page = new Page(6, main, new Color(0xC7EFF9));
-        Page edit_profile_page = new Page(7, main, new Color(0xC7EFF9));
-        Page sleep_questions = new Page(8, main, new Color(0xC7EFF9));
-        Page water_questions = new Page(8, main, new Color(0xC7EFF9));
-        Page stress_questions = new Page(9, main, new Color(0xC7EFF9));
+        Page home_page = new Page(6, main, new Color(0xC7EFF9));
+        Page profile_page = new Page(7, main, new Color(0xC7EFF9));
+        Page edit_profile_page = new Page(8, main, new Color(0xC7EFF9));
+        Page sleep_questions = new Page(9, main, new Color(0xC7EFF9));
+        Page water_questions = new Page(10, main, new Color(0xC7EFF9));
+        Page stress_questions = new Page(11, main, new Color(0xC7EFF9));
 
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, home_page);
@@ -286,7 +286,6 @@ public class Page
         		closedEye.setVisible(!passwordInput1.getTextVisibility());
         	}
         };
-
         // Add next button
         MyButton nextButton = new MyButton(username_password_initial, "next", new int[] {360, 400}, new int[] {440, 435}, "next")
         {
@@ -312,11 +311,9 @@ public class Page
 
     public static void setUpHomePage(Main main, Page home_page, Page profilePage, Page sleep_questions, Page graph_visual) {
         MyImage inputFrame = new MyImage(home_page, new int[] {150, 130}, new int[] {650, 530}, "home_page_layout", true);
-
         MyImage logo = new MyImage(home_page, new int[] {260, 30}, new int[] {560, 108}, "logo", true);
         MyImage maleIcon = new MyImage(home_page, new int[] {550, 157}, new int[] {610, 217}, "male_icon", true);
         MyText username = new MyText(home_page, new int[] {270, 178}, new int[] {320, 198}, "Username");
-
         // buttons
         MyButton dailyQuestions = new MyButton(home_page, "dailyQuestions", new int[]{165, 255}, new int[]{410, 520}, "questions"){
             public void isClicked()
@@ -343,10 +340,8 @@ public class Page
 
     public static void setUpProfilePage(Main main, Page profile_page, Page previousPage, Page editPage) {
         profilePageGeneralSetUp(profile_page);
-
         MyText height = new MyText(profile_page, new int[] {366, 298}, new int[] {388, 316}, "180 cm");
         MyText weight = new MyText(profile_page, new int[] {366, 366}, new int[] {388, 384}, "75 kg");
-
         // Add edit profile button
         MyButton editProfileButton = new MyButton(profile_page, "next", new int[] {400, 425}, new int[] {505, 450}, "edit_profile") {
             public void isClicked()
