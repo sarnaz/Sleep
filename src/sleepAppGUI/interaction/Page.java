@@ -187,7 +187,10 @@ public class Page
         Page edit_profile_page = new Page(8, main, new Color(0xC7EFF9));
         Page sleep_questions = new Page(9, main, new Color(0xC7EFF9));
         Page water_questions = new Page(10, main, new Color(0xC7EFF9));
-        Page stress_questions = new Page(11, main, new Color(0xC7EFF9));
+        Page alcohol_questions = new Page(11, main, new Color(0xC7EFF9));
+        Page alcohol_yes = new Page(12, main, new Color(0xC7EFF9));
+        Page alcohol_no = new Page(13, main, new Color(0xC7EFF9));
+        Page stress_questions = new Page(13, main, new Color(0xC7EFF9));
 
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, home_page);
@@ -195,11 +198,14 @@ public class Page
         setUpProfilePage(main, profile_page, home_page, edit_profile_page);
         setUpEditProfilePage(main, edit_profile_page, profile_page);
         setUpSleepQuestionsPage(main, sleep_questions, water_questions);
-        setUpWaterQuestionsPage(main, water_questions, stress_questions);
+        setUpWaterQuestionsPage(main, water_questions, alcohol_questions);
+        setUpAlcoholQuestionsGeneral(main, alcohol_questions, alcohol_yes, alcohol_no);
+        setUpAlcoholYes(main, alcohol_yes, alcohol_no, stress_questions);
+        setUpAlcoholNo(main, alcohol_no, alcohol_yes, stress_questions);
         setUpStressQuestions(main, stress_questions, home_page);
         setUpGraphPage(main,graph_visual, home_page);
 
-        main.setCurrentPage(username_password_initial);
+        main.setCurrentPage(alcohol_questions);
     }
 
     private static void setUpMoreInfoPage(Main main, Page more_info_page, Page nextPage) {
@@ -475,6 +481,71 @@ public class Page
             {
                 main.setCurrentPage(nextPage);
                 System.out.println("Stress questions");
+            }
+        };
+    }
+    public static void setUpAlcoholQuestionsGeneral(Main main, Page page, Page alcohol_yes, Page alcohol_no){
+        //logo
+        MyImage logo = new MyImage(page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
+        // behind frame
+        MyImage inputFrame = new MyImage(page, new int[] {120, 170}, new int[] {680, 380}, "box_behind", true);
+        MyImage yesClicked = new MyImage(page, new int []{325, 230}, new int[] {375, 265}, "yesButton", false);
+        MyImage noClicked = new MyImage(page, new int[] {425, 230}, new int[] {475, 265}, "noButton", false);
+
+        // did you drink alcohol?
+        MyText numberCups = new MyText(page, new int[] {245, 220}, new int[] {270, 240}, "Have you consumed alcohol?");
+        MyButton yes = new MyButton(page, "yes", new int[] {325, 230}, new int[] {375, 265}, "yesUnclicked")
+        {
+            public void isClicked()
+            {
+                yesClicked.setVisible(true);
+                noClicked.setVisible(false);
+                main.setCurrentPage(alcohol_yes);
+                System.out.println("yes");
+
+            }
+        };
+        MyButton no = new MyButton(page, "no", new int[] {425, 230}, new int[] {475, 265}, "noUnclicked")
+        {
+            public void isClicked()
+            {
+                yesClicked.setVisible(false);
+                noClicked.setVisible(true);
+                main.setCurrentPage(alcohol_no);
+                System.out.println("no");
+            }
+        };
+
+        page.pushToFront(yesClicked);
+        page.pushToFront(noClicked);
+    }
+
+    public static void setUpAlcoholYes(Main main, Page alcohol_yes, Page alcohol_no, Page nextPage){
+        setUpAlcoholQuestionsGeneral(main, alcohol_yes, alcohol_yes, alcohol_no);
+        MyImage yesClicked = new MyImage(alcohol_yes, new int []{325, 230}, new int[] {375, 265}, "yesButton", true);
+        alcohol_yes.pushToFront(yesClicked);
+        MyText numUnits = new MyText(alcohol_yes, new int[] {245, 290}, new int[] {270, 310}, "How many units have you had?");
+        MyTextField howMany = new MyTextField(main, alcohol_yes, new int[] {380, 305}, new int[] {420, 330});
+        MyButton nextButton = new MyButton(alcohol_yes, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Stress");
+            }
+        };
+    }
+
+    public static void setUpAlcoholNo(Main main, Page alcohol_no, Page alcohol_yes, Page nextPage){
+        setUpAlcoholQuestionsGeneral(main, alcohol_no, alcohol_yes, alcohol_no);
+        MyImage noClicked = new MyImage(alcohol_no, new int[] {425, 230}, new int[] {475, 265}, "noButton", true);
+        alcohol_no.pushToFront(noClicked);
+        MyButton nextButton = new MyButton(alcohol_no, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Stress");
             }
         };
     }
