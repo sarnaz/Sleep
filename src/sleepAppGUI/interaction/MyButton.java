@@ -7,14 +7,14 @@ import java.io.IOException;
 
 public class MyButton extends VObject
 {
-    private String buttonName; //redundant????
-    private String buttonImage;
+    private final String buttonName; //redundant????
+    private final String buttonImage;
 
-    public MyButton(Page page, String bbuttonName, int[] coordinate1, int[] coordinate2, String imageName)
+    public MyButton(Page page, String buttonName, int[] coordinate1, int[] coordinate2, String imageName)
     {
         super(page, coordinate1, coordinate2, true);
         page.addButton(this);
-        buttonName = bbuttonName;
+        this.buttonName = buttonName;
         buttonImage = imageName;
     }
 
