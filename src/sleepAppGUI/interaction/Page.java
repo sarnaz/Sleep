@@ -217,7 +217,7 @@ public class Page
         setUpGraphPage(main,graph_visual, home_page);
 
 
-        main.setCurrentPage(screen_questions);
+        main.setCurrentPage(username_password_initial);
     }
 
     private static void setUpMoreInfoPage(Main main, Page more_info_page, Page nextPage) {
