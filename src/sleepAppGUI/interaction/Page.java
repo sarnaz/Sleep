@@ -178,16 +178,23 @@ public class Page
         // Create the pages here nice color: 0xC7EFF9
         Page username_password_initial = new Page(2, main, new Color(0xC7EFF9));
         Page more_info_page = new Page(3, main, new Color(0xC7EFF9));
-        // Page account_created = new Page(4, main, new Color(0xC7EFF9));
         Page graph_visual = new Page(5, main, new Color(0xC7EFF9));
-
-        //Page account_created = new Page(4, main, new Color(0xC7EFF9));
-        Page home_page = new Page(5, main, new Color(0xC7EFF9));
-        Page profile_page = new Page(6, main, new Color(0xC7EFF9));
-        Page edit_profile_page = new Page(7, main, new Color(0xC7EFF9));
-        Page sleep_questions = new Page(8, main, new Color(0xC7EFF9));
-        Page water_questions = new Page(8, main, new Color(0xC7EFF9));
-        Page stress_questions = new Page(9, main, new Color(0xC7EFF9));
+        Page home_page = new Page(6, main, new Color(0xC7EFF9));
+        Page profile_page = new Page(7, main, new Color(0xC7EFF9));
+        Page edit_profile_page = new Page(8, main, new Color(0xC7EFF9));
+        Page sleep_questions = new Page(9, main, new Color(0xC7EFF9));
+        Page water_questions = new Page(10, main, new Color(0xC7EFF9));
+        Page alcohol_questions = new Page(11, main, new Color(0xC7EFF9));
+        Page alcohol_yes = new Page(12, main, new Color(0xC7EFF9));
+        Page alcohol_no = new Page(13, main, new Color(0xC7EFF9));
+        Page stress_questions = new Page(14, main, new Color(0xC7EFF9));
+        Page caffeine_questions = new Page(15, main, new Color(0xC7EFF9));
+        Page caffeine_yes = new Page(16, main, new Color(0xC7EFF9));
+        Page caffeine_no = new Page(17, main, new Color(0xC7EFF9));
+        Page screen_questions = new Page(18, main, new Color(0xC7EFF9));
+        Page exercise_questions = new Page(19, main, new Color(0xC7EFF9));
+        Page exercise_yes = new Page(20, main, new Color(0xC7EFF9));
+        Page exercise_no = new Page(21, main, new Color(0xC7EFF9));
 
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, home_page);
@@ -195,9 +202,20 @@ public class Page
         setUpProfilePage(main, profile_page, home_page, edit_profile_page);
         setUpEditProfilePage(main, edit_profile_page, profile_page);
         setUpSleepQuestionsPage(main, sleep_questions, water_questions);
-        setUpWaterQuestionsPage(main, water_questions, stress_questions);
-        setUpStressQuestions(main, stress_questions, home_page);
+        setUpWaterQuestionsPage(main, water_questions, alcohol_questions);
+        setUpAlcoholQuestionsGeneral(main, alcohol_questions, alcohol_yes, alcohol_no);
+        setUpAlcoholYes(main, alcohol_yes, alcohol_no, caffeine_questions);
+        setUpAlcoholNo(main, alcohol_no, alcohol_yes, caffeine_questions);
+        setUpCaffeineQuestionsGeneral(main, caffeine_questions, caffeine_yes, caffeine_no);
+        setUpCaffeineYes(main, caffeine_yes, caffeine_no, stress_questions);
+        setUpCaffeineNo(main, caffeine_no, caffeine_yes, stress_questions);
+        setUpStressQuestions(main, stress_questions, screen_questions);
+        setUpScreenTimeQuestions(main, screen_questions, exercise_questions);
+        setExerciseGeneral(main, exercise_questions, exercise_yes, exercise_no);
+        setUpExerciseYes(main, exercise_yes, exercise_no, home_page);
+        setUpExerciseNo(main, exercise_no, exercise_yes, home_page);
         setUpGraphPage(main,graph_visual, home_page);
+
 
         main.setCurrentPage(username_password_initial);
     }
@@ -271,14 +289,12 @@ public class Page
                 caffeineClicked.setVisible(!caffeineClicked.isVisible());
             }
         };
-
         MyButton submit = new MyButton(more_info_page, "submit", new int[]{650, 510}, new int[]{750, 550}, "submitButton"){
             public void isClicked() {
                 main.setCurrentPage(nextPage);
                 System.out.println("Account Created!");
             }
         };
-
         // push buttons to front
         more_info_page.pushToFront(maleClicked);
         more_info_page.pushToFront(femaleClicked);
@@ -322,7 +338,6 @@ public class Page
         		closedEye.setVisible(!passwordInput1.getTextVisibility());
         	}
         };
-
         // Add next button
         MyButton nextButton = new MyButton(username_password_initial, "next", new int[] {360, 400}, new int[] {440, 435}, "next")
         {
@@ -348,11 +363,9 @@ public class Page
 
     public static void setUpHomePage(Main main, Page home_page, Page profilePage, Page sleep_questions, Page graph_visual) {
         MyImage inputFrame = new MyImage(home_page, new int[] {150, 130}, new int[] {650, 530}, "home_page_layout", true);
-
         MyImage logo = new MyImage(home_page, new int[] {260, 30}, new int[] {560, 108}, "logo", true);
         MyImage maleIcon = new MyImage(home_page, new int[] {550, 157}, new int[] {610, 217}, "male_icon", true);
         MyText username = new MyText(home_page, new int[] {270, 178}, new int[] {320, 198}, "Username");
-
         // buttons
         MyButton dailyQuestions = new MyButton(home_page, "dailyQuestions", new int[]{165, 255}, new int[]{410, 520}, "questions"){
             public void isClicked()
@@ -379,10 +392,8 @@ public class Page
 
     public static void setUpProfilePage(Main main, Page profile_page, Page previousPage, Page editPage) {
         profilePageGeneralSetUp(profile_page);
-
         MyText height = new MyText(profile_page, new int[] {366, 298}, new int[] {388, 316}, "180 cm");
         MyText weight = new MyText(profile_page, new int[] {366, 366}, new int[] {388, 384}, "75 kg");
-
         // Add edit profile button
         MyButton editProfileButton = new MyButton(profile_page, "next", new int[] {400, 425}, new int[] {505, 450}, "edit_profile") {
             public void isClicked()
@@ -437,12 +448,18 @@ public class Page
         MyText username = new MyText(page, new int[] {305, 230}, new int[] {340, 250}, "Username");
     }
 
-    public static void setUpSleepQuestionsPage(Main main, Page sleep_questions, Page nextPage){
+    private static void questionsGeneralSetUp(Page page){
         //logo
-        MyImage logo = new MyImage(sleep_questions, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
+        MyImage logo = new MyImage(page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
         // behind frame
-        MyImage inputFrame = new MyImage(sleep_questions, new int[] {120, 170}, new int[] {680, 380}, "box_behind", true);
-        // number hours sleep
+        MyImage inputFrame = new MyImage(page, new int[] {120, 170}, new int[] {680, 380}, "box_behind", true);
+        // hide bed
+        MyImage hideBed = new MyImage(page, new int[] {185, 15}, new int[] {330, 160}, "hideSquare", true);
+    }
+
+    public static void setUpSleepQuestionsPage(Main main, Page sleep_questions, Page nextPage){
+        questionsGeneralSetUp(sleep_questions);
+        MyImage bed = new MyImage(sleep_questions, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
         MyText sleepHours = new MyText(sleep_questions, new int[] {170, 220}, new int[] {195, 240}, "How many hours of sleep did you get last night? ");
         MyText nearestHour = new MyText(sleep_questions, new int[] {290, 250}, new int[] {305, 270}, "(to the nearest hour)");
         MyTextField numberHours = new MyTextField(main, sleep_questions, new int[] {380, 255}, new int[] {420, 280});
@@ -462,16 +479,14 @@ public class Page
     }
 
     public static void setUpWaterQuestionsPage(Main main, Page water_questions, Page nextPage){
-        //logo
-        MyImage logo = new MyImage(water_questions, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
-        // behind frame
-        MyImage inputFrame = new MyImage(water_questions, new int[] {120, 170}, new int[] {680, 380}, "box_behind", true);
+        questionsGeneralSetUp(water_questions);
+        MyImage waterLogo = new MyImage(water_questions, new int[] {185, 15}, new int[] {330, 160}, "waterLogo", true);
         // number cups water
         MyText numberCups = new MyText(water_questions, new int[] {195, 220}, new int[] {220, 240}, "How many cups of water have you had?");
-        MyTextField numberHours = new MyTextField(main, water_questions, new int[] {380, 240}, new int[] {420, 265});
+        MyTextField numberCupsInp = new MyTextField(main, water_questions, new int[] {380, 240}, new int[] {420, 265});
         // number of cups immediately before bed
-        MyText qualitySleep = new MyText(water_questions, new int[] {180, 310}, new int[] {205, 330}, "How many cups in the two hours before sleep?");
-        MyTextField rateQuality = new MyTextField(main, water_questions, new int[] {380, 325}, new int[] {420, 350});
+        MyText cupsTwoHours = new MyText(water_questions, new int[] {180, 310}, new int[] {205, 330}, "How many cups in the two hours before sleep?");
+        MyTextField numTwoHours = new MyTextField(main, water_questions, new int[] {380, 325}, new int[] {420, 350});
 
         // Add next button
         MyButton nextButton = new MyButton(water_questions, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
@@ -483,12 +498,65 @@ public class Page
             }
         };
     }
+    public static void setUpAlcoholQuestionsGeneral(Main main, Page page, Page alcohol_yes, Page alcohol_no){
+        questionsGeneralSetUp(page);
+        MyImage alcoholLogo = new MyImage(page, new int[] {185, 15}, new int[] {330, 160}, "alcoholLogo", true);
+        //MyImage yesClicked = new MyImage(page, new int []{325, 230}, new int[] {375, 265}, "yesButton", false);
+        //MyImage noClicked = new MyImage(page, new int[] {425, 230}, new int[] {475, 265}, "noButton", false);
+        // did you drink alcohol?
+        MyText alcohol = new MyText(page, new int[] {245, 220}, new int[] {270, 240}, "Have you consumed alcohol?");
+        MyButton yes = new MyButton(page, "yes", new int[] {325, 230}, new int[] {375, 265}, "yesUnclicked")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(alcohol_yes);
+                System.out.println("yes");
+
+            }
+        };
+        MyButton no = new MyButton(page, "no", new int[] {425, 230}, new int[] {475, 265}, "noUnclicked")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(alcohol_no);
+                System.out.println("no");
+            }
+        };
+    }
+
+    public static void setUpAlcoholYes(Main main, Page alcohol_yes, Page alcohol_no, Page nextPage){
+        setUpAlcoholQuestionsGeneral(main, alcohol_yes, alcohol_yes, alcohol_no);
+        MyImage yesClicked = new MyImage(alcohol_yes, new int []{325, 230}, new int[] {375, 265}, "yesButton", true);
+        alcohol_yes.pushToFront(yesClicked);
+        MyText numUnits = new MyText(alcohol_yes, new int[] {245, 290}, new int[] {270, 310}, "How many units have you had?");
+        MyTextField howMany = new MyTextField(main, alcohol_yes, new int[] {380, 305}, new int[] {420, 330});
+        MyButton nextButton = new MyButton(alcohol_yes, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Stress");
+            }
+        };
+    }
+
+    public static void setUpAlcoholNo(Main main, Page alcohol_no, Page alcohol_yes, Page nextPage){
+        setUpAlcoholQuestionsGeneral(main, alcohol_no, alcohol_yes, alcohol_no);
+        MyImage noClicked = new MyImage(alcohol_no, new int[] {425, 230}, new int[] {475, 265}, "noButton", true);
+        alcohol_no.pushToFront(noClicked);
+        MyButton nextButton = new MyButton(alcohol_no, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Stress");
+            }
+        };
+    }
 
     public static void setUpStressQuestions(Main main, Page stress_questions, Page nextPage){
-        //logo
-        MyImage logo = new MyImage(stress_questions, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
-        // behind frame
-        MyImage inputFrame = new MyImage(stress_questions, new int[] {120, 170}, new int[] {680, 380}, "box_behind", true);
+        questionsGeneralSetUp(stress_questions);
+        MyImage stressLogo = new MyImage(stress_questions, new int[] {185, 15}, new int[] {330, 160}, "stressLogo", true);
         // daily stress
         MyText dailyStress = new MyText(stress_questions, new int[] {195, 260}, new int[] {220, 280}, "Rate your average stress level today (1-5):");
         MyTextField averageStress = new MyTextField(main, stress_questions, new int[] {380, 280}, new int[] {420, 305});
@@ -499,6 +567,143 @@ public class Page
             {
                 main.setCurrentPage(nextPage);
                 System.out.println("Back to home");
+            }
+        };
+    }
+
+    public static void setUpCaffeineQuestionsGeneral(Main main, Page page, Page caffeine_yes, Page caffeine_no){
+        questionsGeneralSetUp(page);
+        MyImage caffeineLogo = new MyImage(page, new int[] {185, 15}, new int[] {330, 160}, "coffeeLogo", true);
+        // did you drink caffeine?
+        MyText caffeine = new MyText(page, new int[] {245, 220}, new int[] {270, 240}, "Have you consumed caffeine?");
+        MyButton yes = new MyButton(page, "yes", new int[] {325, 230}, new int[] {375, 265}, "yesUnclicked")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(caffeine_yes);
+                System.out.println("yes");
+
+            }
+        };
+        MyButton no = new MyButton(page, "no", new int[] {425, 230}, new int[] {475, 265}, "noUnclicked")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(caffeine_no);
+                System.out.println("no");
+            }
+        };
+    }
+
+    public static void setUpCaffeineYes(Main main, Page caffeine_yes, Page caffeine_no, Page nextPage){
+        setUpCaffeineQuestionsGeneral(main, caffeine_yes, caffeine_yes, caffeine_no);
+        MyImage yesClicked = new MyImage(caffeine_yes, new int []{325, 230}, new int[] {375, 265}, "yesButton", true);
+        caffeine_yes.pushToFront(yesClicked);
+        //MyText metres = new MyText(more_info_page, new int[] {320, 77}, new int[]{335, 92}, "m")
+        MyText numEach = new MyText(caffeine_yes, new int[] {180, 290}, new int[] {205, 310}, "Please enter how many of each you have had:");
+        // coffee questions
+        MyText coffeeNum = new MyText(caffeine_yes, new int[] {200, 323}, new int[] {215, 343}, "Coffee:");
+        MyTextField coffeeInput = new MyTextField(main, caffeine_yes, new int[] {282, 305}, new int[]{318, 330});
+        // tea questions
+        MyText teaNum = new MyText(caffeine_yes, new int[] {340, 323}, new int[] {355, 343}, "Tea:");
+        MyTextField teaInput = new MyTextField(main, caffeine_yes, new int[] {392, 305}, new int[]{428, 330});
+        // energy drinks
+        MyText energyNum = new MyText(caffeine_yes, new int[] {448, 323}, new int[] {473, 343}, "Energy drinks:");
+        MyTextField energyInput = new MyTextField(main, caffeine_yes, new int[] {590, 305}, new int[]{626, 330});
+        // next button
+        MyButton nextButton = new MyButton(caffeine_yes, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Stress");
+            }
+        };
+    }
+
+    public static void setUpCaffeineNo(Main main, Page caffeine_no, Page caffeine_yes, Page nextPage){
+        setUpCaffeineQuestionsGeneral(main, caffeine_no, caffeine_yes, caffeine_no);
+        MyImage noClicked = new MyImage(caffeine_no, new int[] {425, 230}, new int[] {475, 265}, "noButton", true);
+        caffeine_no.pushToFront(noClicked);
+        MyButton nextButton = new MyButton(caffeine_no, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Home");
+            }
+        };
+    }
+
+    private static void setUpScreenTimeQuestions(Main main, Page screen_questions, Page nextPage){
+        questionsGeneralSetUp(screen_questions);
+        MyImage screenLogo = new MyImage(screen_questions, new int[] {230, 15}, new int[] {330, 160}, "phoneLogo", true);
+        // amount of screen time
+        MyText screenTime = new MyText(screen_questions, new int[] {190, 260}, new int[] {215, 280}, "How much time have you spent on a screen?");
+        MyText nearestHour = new MyText(screen_questions, new int[] {290, 290}, new int[] {305, 310}, "(to the nearest hour)");
+        MyTextField screenHours = new MyTextField(main, screen_questions, new int[] {380, 300}, new int[] {420, 325});
+        MyButton nextButton = new MyButton(screen_questions, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Home");
+            }
+        };
+    }
+
+    public static void setExerciseGeneral(Main main, Page page, Page exercise_yes, Page exercise_no){
+        questionsGeneralSetUp(page);
+        MyImage exLogo = new MyImage(page, new int[] {185, 15}, new int[] {330, 160}, "exerciseLogo", true);
+        // Have you exercised?
+        MyText caffeine = new MyText(page, new int[] {300, 220}, new int[] {325, 240}, "Have you exercised?");
+        MyButton yes = new MyButton(page, "yes", new int[] {325, 230}, new int[] {375, 265}, "yesUnclicked")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(exercise_yes);
+                System.out.println("yes");
+
+            }
+        };
+        MyButton no = new MyButton(page, "no", new int[] {425, 230}, new int[] {475, 265}, "noUnclicked")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(exercise_no);
+                System.out.println("no");
+            }
+        };
+    }
+
+    public static void setUpExerciseYes(Main main, Page exercise_yes, Page exercise_no, Page nextPage){
+        setExerciseGeneral(main, exercise_yes, exercise_yes, exercise_no);
+        MyImage yesClicked = new MyImage(exercise_yes, new int []{325, 230}, new int[] {375, 265}, "yesButton", true);
+        exercise_yes.pushToFront(yesClicked);
+        MyText amountEx = new MyText(exercise_yes, new int[] {200, 290}, new int[] {225, 310}, "Please enter how much you have done:");
+        MyText nearestHour = new MyText(exercise_yes, new int[]{290, 320}, new int[]{305, 340}, "(to the nearest hour)");
+        MyTextField exerciseHours = new MyTextField(main, exercise_yes, new int[]{380, 330}, new int[]{420, 355});
+        // next button
+        MyButton nextButton = new MyButton(exercise_yes, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Home");
+            }
+        };
+    }
+
+    public static void setUpExerciseNo(Main main, Page exercise_no, Page exercise_yes, Page nextPage){
+        setExerciseGeneral(main, exercise_no, exercise_yes, exercise_no);
+        MyImage noClicked = new MyImage(exercise_no, new int[] {425, 230}, new int[] {475, 265}, "noButton", true);
+        exercise_no.pushToFront(noClicked);
+        MyButton nextButton = new MyButton(exercise_no, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Home");
             }
         };
     }
