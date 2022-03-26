@@ -28,6 +28,7 @@ public class Page
     private final Color backgroundColour;
     private ArrayList<VObject> visualObjects = new ArrayList<>();
     private ArrayList<MyButton> buttons = new ArrayList<>();
+    private ArrayList<MySlider> sliders = new ArrayList<>();
     private ArrayList<MyTextField> textFields = new ArrayList<>();
 
     private void pushToFront(VObject o)
@@ -59,6 +60,7 @@ public class Page
     }
 
     public void addButton(MyButton b) { buttons.add(b); }
+    public void addSlider(MySlider b) { sliders.add(b); }
     public void addObject(VObject obj) { visualObjects.add(obj); }
     public void addTextField(MyTextField t) { textFields.add(t); }
     public Color getColour() { return backgroundColour; }
@@ -66,11 +68,45 @@ public class Page
 
     public void checkButtons(int[] clickCoordinates)
     {
-        for(MyButton button : buttons)
+        for (MyButton button : buttons)
         {
             if(button.onButton(clickCoordinates))
             {
                 button.isClicked();
+                return;
+            }
+        }
+
+        for (MySlider slider : sliders)
+        {
+        	if (slider.onSlider(clickCoordinates))
+        	{
+            	slider.updatePosition(clickCoordinates);
+        		slider.setSelected(true);
+        	}
+        }
+    }
+
+    public void checkSliderDrag(int[] dragCoordinates)
+    {
+        for(MySlider slider : sliders)
+        {
+            if(slider.onSlider(dragCoordinates))
+            {
+            	slider.updatePosition(dragCoordinates);
+                return;
+            }
+        }
+    }
+
+    public void checkSliderRelease(int[] releaseCoordinates)
+    {
+        for(MySlider slider : sliders)
+        {
+            if(slider.onSlider(releaseCoordinates))
+            {
+            	slider.updatePosition(releaseCoordinates);
+            	slider.setSelected(false);
                 return;
             }
         }
@@ -142,7 +178,7 @@ public class Page
         // Create the pages here nice color: 0xC7EFF9
         Page username_password_initial = new Page(2, main, new Color(0xC7EFF9));
         Page more_info_page = new Page(3, main, new Color(0xC7EFF9));
-        Page account_created = new Page(4, main, new Color(0xC7EFF9));
+        // Page account_created = new Page(4, main, new Color(0xC7EFF9));
         Page graph_visual = new Page(5, main, new Color(0xC7EFF9));
 
         //Page account_created = new Page(4, main, new Color(0xC7EFF9));
@@ -271,7 +307,7 @@ public class Page
 
         MyImage openEye = new MyImage(username_password_initial, new int[]{450, 250}, new int[]{470, 270}, "openEye", false);
         MyImage closedEye = new MyImage(username_password_initial, new int[]{450, 250}, new int[]{470, 270}, "closedEye", true);
-
+        
         username_password_initial.pushToFront(openEye);
         username_password_initial.pushToFront(closedEye);
 
@@ -384,7 +420,7 @@ public class Page
         MyButton deleteData = new MyButton (edit_profile_page, "delete data", new int[]{600, 475}, new int[]{750, 550}, "deleteData"){
             public void isClicked()
             {
-                System.out.println("delete data");
+                System.out.println("delete data (NOT IMPLEMENTED)");
             }
         };
     }
