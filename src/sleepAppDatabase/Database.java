@@ -7,12 +7,13 @@ import java.util.Random;
 
 public class Database {
 
-    private static final int secondsInDay = (int) ((int) 8.64 * Math.pow(10, 7));
+    private static final int secondsInDay = (int) ((int) 8.64 * Math.pow(10, 4));
     private static boolean firstLogin = true;
     //assumes this is the user's first login unless proven otherwise
     public static final String databaseURL = "jdbc:sqlite:PI.db";
     //the database url. final as it should never be changed
     private static int id;
+    private static Object[][] factors = {{"caffeine", "alcohol", "fitness", "stress", "water"},{false, false, false, false, false}};
 
     public static int getCurrentUserId()
     {
@@ -44,6 +45,65 @@ public class Database {
             System.out.println(e.getLocalizedMessage());
         }
         return false;
+    }
+
+    //gets a list of the factors in use, with boolean variables attached to each indicating whether they are being used
+    public static Object[][] getFactors(){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT * FROM FACTORS where id="+id;
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if(rs.next()){
+                    for(int i = 0; i<factors[0].length;i++){
+                        if(rs.getInt(String.valueOf(factors[0][i]))==1){
+                            factors[1][i]=true;
+                            //sets the factors currently in use to true
+                        }
+                    }
+                    return factors;
+                }
+                else{
+                    System.out.println("no factors chosen");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("exception was caught initialising database");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return null;
+    }
+
+    public static void setQuestionsAnswered(){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT * FROM USER";
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if (rs.getInt("lastQuestionDay") - (System.currentTimeMillis() / 1000) > secondsInDay) {
+
+                    int newTime = rs.getInt("lastQuestionDay");
+
+                    while (newTime < (System.currentTimeMillis() / 1000)) {
+                        newTime += secondsInDay;
+                        //adds millis in the day until newTime is accurate to the current day
+                    }
+
+                    String updateDate = "UPDATE USER SET lastQuestionDay=" + newTime + " , askDailyQuestions";
+                    stmt.executeUpdate(updateDate);
+                    //should update the date in the database so
+
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught in setQuestionsAnswered");
+            System.out.println(e.getLocalizedMessage());
+        }
     }
 
     //function to initially create the database. This should only be called once, as the database file is now set up.
