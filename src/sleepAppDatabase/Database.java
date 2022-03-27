@@ -36,7 +36,7 @@ public class Database {
                         return true;
                     }
                 }
-                else{
+                else {
                     System.out.println("no previous time found");
                 }
             }
@@ -71,7 +71,7 @@ public class Database {
             }
 
         } catch (SQLException e) {
-            System.out.println("exception was caught initialising database");
+            System.out.println("exception was caught getting factors");
             System.out.println(e.getLocalizedMessage());
         }
         return null;
@@ -105,6 +105,112 @@ public class Database {
             System.out.println(e.getLocalizedMessage());
         }
     }
+    
+    private static void setUserIntVariable(String column, int value) {
+    	try {
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	String setValueString = "UPDATE USER SET " + column + "=?";
+	            PreparedStatement preparedSetValueStatement = conn.prepareStatement(setValueString);
+	            preparedSetValueStatement.setInt(1, value);
+	            preparedSetValueStatement.execute();
+	            conn.close();
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when setting " + column);
+            System.out.println(e.getLocalizedMessage());
+    	}
+    }
+    
+    private static int getUserIntVariable(String column) {
+    	try {
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	
+	        	int value = Integer.MIN_VALUE;
+	        	String getValueString = "SELECT " + column + " FROM USER";
+	            PreparedStatement preparedGetValueStatement = conn.prepareStatement(getValueString);
+	            if (preparedGetValueStatement.execute()) {
+	            	ResultSet result = preparedGetValueStatement.getResultSet();
+	            	value = result.getInt(1);
+	            }
+	            conn.close();
+	            
+	            return value;
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when getting height");
+    		System.out.println(e.getLocalizedMessage());
+    	}
+    	
+    	return Integer.MIN_VALUE;
+    }
+    
+    public static void setUserHeight(int newAge) {
+		setUserIntVariable("height", newAge);
+    }
+    
+    public static int getUserHeight() {
+		return getUserIntVariable("height");
+    }
+    
+    public static void setUserWeight(int newWeight) {
+		setUserIntVariable("weight", newWeight);
+    }
+    
+    public static int getUserWeight() {
+		return getUserIntVariable("weight");
+    }
+    
+    
+    public static void setUserDateOfBirth(int year, int month, int day) {
+    	
+    	try {
+    		
+    		// parse the string into java.sql date
+    		Date newDate = Date.valueOf(Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day));
+    		
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	
+	        	int value = Integer.MIN_VALUE;
+	        	String setDOBString = "UPDATE USER SET dateOfBirth=?";
+	            PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
+	            preparedSetDOBStatement.setDate(1, newDate);
+	            preparedSetDOBStatement.execute();
+	            conn.close();
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when setting date of birth");
+    	}
+    }
+    
+    // returns a date as a string in escaped "year-month-day" format
+    public static String getUserDateOfBirth() {
+
+    	try {
+    		
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	
+	        	String value = null;
+	        	String setDOBString = "SELECT dateOfBirth FROM USER";
+	            PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
+	            if (preparedSetDOBStatement.execute()) {
+	            	ResultSet result = preparedSetDOBStatement.getResultSet();
+	            	value = result.getDate(1).toString();
+	            }
+	            
+	            conn.close();
+	            
+	            return value;
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when getting date of birth");
+    	}
+    	
+    	return null;
+    }
 
     //function to initially create the database. This should only be called once, as the database file is now set up.
     public static void initialiseDatabase(){
@@ -137,7 +243,8 @@ public class Database {
                 "  password varchar(32) not null,\n" +
                 "  salt varchar(8) not null,\n" +
                 "  weight INT(3) not NULL DEFAULT 72,\n" +
-                "  height INT(3) not null DEFAULT 174\n" +
+                "  height INT(3) not null DEFAULT 174,\n" +
+                "  dateOfBirth DATE not null DEFAULT \"2002-1-1\",\n" +
                 "  lastQuestionTime INT(13) not null DEFAULT 1648080000\n" +
                 ");",
 
@@ -274,6 +381,7 @@ public class Database {
 
             // returns 0 if the username is already taken
             if (rs.next()) {
+            	System.out.println("username already taken");
                 return 0;
             }
 
