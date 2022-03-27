@@ -1,7 +1,7 @@
 package sleepAppGUI.interaction.graphs;
 
 import sleepAppGUI.interaction.Page;
-import sleepAppGUI.interaction.graphs.MyGraph;
+import sleepAppGUI.interaction.graphs.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class MyScatter extends MyGraph
 {
 
-    private ArrayList<Double[]> data = new ArrayList<>();
+    private final ArrayList<Double[]> data = new ArrayList<>();
 
     public MyScatter(Page page, int[] coordinates1, int[] coordinates2)
     {
@@ -20,6 +20,7 @@ public class MyScatter extends MyGraph
     {
         super.paint(g);
 
+        //updates graph scale
         if(!upToDate)
         {
             for(int axis = 0; axis < 2; axis++)
@@ -39,14 +40,15 @@ public class MyScatter extends MyGraph
         //x axis lines
         int off = (int)(offEdge * (graphCorner2[1] - graphCorner1[1]));
         int increment = (graphCorner2[0] - graphCorner1[0]) / noOfSteps[0];
+        g.setFont(new Font("Century Gothic", Font.PLAIN, off -1));
         for(int i = 0; i < noOfSteps[0] + 1; i++)
         {
             g.drawLine(graphCorner1[0] + (i * increment), graphCorner2[1], graphCorner1[0] + (i * increment), graphCorner2[1] + off);
-            g.setFont(new Font("Century Gothic", Font.PLAIN, off -1));
             g.drawString( start[0] + (i * step[0]) + "", graphCorner1[0] + (i * increment), graphCorner2[1] + (2 * off));
         }
 
-        off = (int)(offEdge * (graphCorner2[0] - graphCorner1[1]));
+        //y axis lines?
+        off = (int)(offEdge * (graphCorner2[0] - graphCorner1[0]));
         increment = (graphCorner2[1] - graphCorner1[1]) / noOfSteps[1];
         for(int i = 0; i < noOfSteps[1] + 1; i++)
         {
@@ -54,7 +56,7 @@ public class MyScatter extends MyGraph
             g.drawString( start[1] + (i * step[1]) + "", graphCorner1[0] - (2 * off), graphCorner2[1] - (i * increment));
         }
 
-
+        //drawing actual points
         g.setColor(points);
         for(Double[] point : data)
         {
@@ -73,15 +75,20 @@ public class MyScatter extends MyGraph
     //MUST TAKE 2 DOUBLES
     public boolean addPoint(Object xValue, Object yValue)
     {
-        if(xValue instanceof Double && yValue instanceof Double)
+        //if(xValue instanceof Double && yValue instanceof Double)
+        try
         {
             //ONLY WORKS FOR 2D GRAPHS
-            data.add(new Double[]{(Double) (xValue), (Double) (yValue)});
+            data.add(new Double[]{(double) (xValue), (double) (yValue)});
             upToDate = false; //CAN BE OPTIMISED
+            //return true;
             return true;
         }
-        System.out.println("bad input to addPoint");
-        return false;
+        catch(ClassCastException e)
+        {
+            System.out.println("bad input to addPoint");
+            return false;
+        }
     }
 
 
