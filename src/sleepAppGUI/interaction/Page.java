@@ -141,19 +141,7 @@ public class Page
             }
         };
 
-        /*
-        MyScatter graph1 = new MyScatter(page2, new int[] {200, 200}, new int[] {600, 500});
-        graph1.addPoint(130.0, 6.5);
-        graph1.addPoint(210.0, 2.3);
-        graph1.addPoint(174.0, 9.0);
-        //*/
-        //*
-        MyBar graph2 = new MyBar(page2, new int[] {200, 200}, new int[] {600, 500});
-        graph2.addPoint("monday", 2.1);
-        graph2.addPoint("tuesday", 3.5);
-        graph2.addPoint("wednesday", 6.4);
-        graph2.addPoint("thursday", 4.3);
-        //*/
+
 
         main.setCurrentPage(page1);
     }
