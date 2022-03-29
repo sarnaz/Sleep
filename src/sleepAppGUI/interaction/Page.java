@@ -196,6 +196,13 @@ public class Page
         Page exercise_yes = new Page(20, main, new Color(0xC7EFF9));
         Page exercise_no = new Page(21, main, new Color(0xC7EFF9));
 
+        Page water_graph = new Page(10, main, new Color(0xC7EFF9));
+        Page exercise_graph = new Page(11, main, new Color(0xC7EFF9));
+        Page caffeine_graph = new Page(12, main, new Color(0xC7EFF9));
+        Page alcohol_graph = new Page(13, main, new Color(0xC7EFF9));
+        Page screen_graph = new Page(14, main, new Color(0xC7EFF9));
+        Page stress_graph = new Page(15, main, new Color(0xC7EFF9));
+
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, home_page);
         setUpHomePage(main, home_page, profile_page, sleep_questions, graph_visual);
@@ -214,8 +221,14 @@ public class Page
         setExerciseGeneral(main, exercise_questions, exercise_yes, exercise_no);
         setUpExerciseYes(main, exercise_yes, exercise_no, home_page);
         setUpExerciseNo(main, exercise_no, exercise_yes, home_page);
-        setUpGraphPage(main,graph_visual, home_page);
+        setUpGraphPage(main,graph_visual, home_page, more_info_page, water_graph, exercise_graph, caffeine_graph, alcohol_graph, screen_graph, stress_graph);
 
+        setUpWaterGraph(main,water_graph,graph_visual,home_page);
+        setUpExerciseGraph(main,exercise_graph,graph_visual,home_page);
+        setUpCaffeineGraph(main,caffeine_graph,graph_visual,home_page);
+        setUpAlcoholGraph(main,alcohol_graph,graph_visual,home_page);
+        setUpScreenGraph(main,screen_graph,graph_visual,home_page);
+        setUpStressGraph(main,stress_graph,graph_visual,home_page);
 
         main.setCurrentPage(username_password_initial);
     }
@@ -289,12 +302,14 @@ public class Page
                 caffeineClicked.setVisible(!caffeineClicked.isVisible());
             }
         };
+
         MyButton submit = new MyButton(more_info_page, "submit", new int[]{650, 510}, new int[]{750, 550}, "submitButton"){
             public void isClicked() {
                 main.setCurrentPage(nextPage);
                 System.out.println("Account Created!");
             }
         };
+
         // push buttons to front
         more_info_page.pushToFront(maleClicked);
         more_info_page.pushToFront(femaleClicked);
@@ -323,7 +338,7 @@ public class Page
 
         MyImage openEye = new MyImage(username_password_initial, new int[]{450, 250}, new int[]{470, 270}, "openEye", false);
         MyImage closedEye = new MyImage(username_password_initial, new int[]{450, 250}, new int[]{470, 270}, "closedEye", true);
-        
+
         username_password_initial.pushToFront(openEye);
         username_password_initial.pushToFront(closedEye);
 
@@ -338,6 +353,7 @@ public class Page
         		closedEye.setVisible(!passwordInput1.getTextVisibility());
         	}
         };
+
         // Add next button
         MyButton nextButton = new MyButton(username_password_initial, "next", new int[] {360, 400}, new int[] {440, 435}, "next")
         {
@@ -363,9 +379,11 @@ public class Page
 
     public static void setUpHomePage(Main main, Page home_page, Page profilePage, Page sleep_questions, Page graph_visual) {
         MyImage inputFrame = new MyImage(home_page, new int[] {150, 130}, new int[] {650, 530}, "home_page_layout", true);
+
         MyImage logo = new MyImage(home_page, new int[] {260, 30}, new int[] {560, 108}, "logo", true);
         MyImage maleIcon = new MyImage(home_page, new int[] {550, 157}, new int[] {610, 217}, "male_icon", true);
         MyText username = new MyText(home_page, new int[] {270, 178}, new int[] {320, 198}, "Username");
+
         // buttons
         MyButton dailyQuestions = new MyButton(home_page, "dailyQuestions", new int[]{165, 255}, new int[]{410, 520}, "questions"){
             public void isClicked()
@@ -392,8 +410,10 @@ public class Page
 
     public static void setUpProfilePage(Main main, Page profile_page, Page previousPage, Page editPage) {
         profilePageGeneralSetUp(profile_page);
+
         MyText height = new MyText(profile_page, new int[] {366, 298}, new int[] {388, 316}, "180 cm");
         MyText weight = new MyText(profile_page, new int[] {366, 366}, new int[] {388, 384}, "75 kg");
+
         // Add edit profile button
         MyButton editProfileButton = new MyButton(profile_page, "next", new int[] {400, 425}, new int[] {505, 450}, "edit_profile") {
             public void isClicked()
@@ -708,19 +728,208 @@ public class Page
         };
     }
 
-    private static void setUpGraphPage(Main main, Page graph_visual, Page home_page){
+    private static void setUpGraphPage(Main main, Page graph_visual, Page home_page, Page more_info_page, Page water_graph, Page exercise_graph, Page caffeine_graph, Page alcohol_graph, Page screen_graph, Page stress_graph) {
         MyImage water_frame = new MyImage(graph_visual, new int[] {10, 10}, new int[] {260, 265}, "box_behind", true);
-        MyImage water = new MyImage(graph_visual, new int[] {110, 220}, new int[] {160, 260}, "waternotext", true);
+        MyImage water = new MyImage(graph_visual, new int[] {60, 220}, new int[] {100, 260}, "waternotext", true);
+        MyButton waterbutton = new MyButton(graph_visual, "water", new int[] {110, 220}, new int[] {220, 255}, "moreinfo")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(water_graph);
+                System.out.println("water graph");
+            }
+        };
         MyImage exercise_frame = new MyImage(graph_visual, new int[] {270, 10}, new int[] {520, 265}, "box_behind", true);
-        MyImage exercise = new MyImage(graph_visual, new int[] {370, 220}, new int[] {420, 260}, "exercisenotext", true);
+        MyImage exercise = new MyImage(graph_visual, new int[] {320, 220}, new int[] {360, 260}, "exercisenotext", true);
+        MyButton exercisebutton = new MyButton(graph_visual, "exercise", new int[] {370, 220}, new int[] {480, 255}, "moreinfo")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(exercise_graph);
+                System.out.println("exercise graph");
+            }
+        };
         MyImage screentime_frame = new MyImage(graph_visual, new int[] {530, 10}, new int[] {780, 265}, "box_behind", true);
-        MyImage screentime = new MyImage(graph_visual, new int[] {630, 220}, new int[] {680, 260}, "screentimenotext", true);
+        MyImage screentime = new MyImage(graph_visual, new int[] {580, 220}, new int[] {620, 260}, "screentimenotext", true);
+        MyButton screenbutton = new MyButton(graph_visual, "screen", new int[] {630, 220}, new int[] {740, 255}, "moreinfo")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(screen_graph);
+                System.out.println("screen graph");
+            }
+        };
         MyImage alcohol_frame = new MyImage(graph_visual, new int[] {10, 270}, new int[] {260, 530}, "box_behind", true);
-        MyImage alcohol = new MyImage(graph_visual, new int[] {110, 495}, new int[] {160, 525}, "alcoholnotext", true);
+        MyImage alcohol = new MyImage(graph_visual, new int[] {60, 485}, new int[] {100, 525}, "alcoholnotext", true);
+        MyButton alcoholbutton = new MyButton(graph_visual, "alcohol", new int[] {110, 485}, new int[] {220, 520}, "moreinfo")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(alcohol_graph);
+                System.out.println("alcohol graph");
+            }
+        };
         MyImage caffeine_frame = new MyImage(graph_visual, new int[] {270, 270}, new int[] {520, 530}, "box_behind", true);
-        MyImage caffeine = new MyImage(graph_visual, new int[] {370, 495}, new int[] {420, 525}, "caffeinenotext", true);
+        MyImage caffeine = new MyImage(graph_visual, new int[] {320, 485}, new int[] {360, 525}, "caffeinenotext", true);
+        MyButton caffeinebutton = new MyButton(graph_visual, "caffeine", new int[] {370, 485}, new int[] {480, 520}, "moreinfo")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(caffeine_graph);
+                System.out.println("caffeine graph");
+            }
+        };
         MyImage stress_frame = new MyImage(graph_visual, new int[] {530, 270}, new int[] {780, 530}, "box_behind", true);
-        MyImage stress = new MyImage(graph_visual, new int[] {630, 495}, new int[] {680, 525}, "stressnotext", true);
+        MyImage stress = new MyImage(graph_visual, new int[] {580, 485}, new int[] {620, 525}, "stressnotext", true);
+        MyButton stessbutton = new MyButton(graph_visual, "stress", new int[] {630, 485}, new int[] {740, 520}, "moreinfo")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(stress_graph);
+                System.out.println("stress graph");
+            }
+        };
+        MyButton homebutton = new MyButton(graph_visual, "home", new int[] {245, 240}, new int[] {290, 280}, "home")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(home_page);
+                System.out.println("home");
+            }
+        };
+        MyButton settingsbutton = new MyButton(graph_visual, "setting", new int[] {505, 240}, new int[] {550, 285}, "setting")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(more_info_page);
+                System.out.println("moreinfo");
+            }
+        };
     }
 
+    private static void setUpWaterGraph(Main main,Page water_graph, Page graph_visual, Page home_page){
+        MyImage water_frame = new MyImage(water_graph, new int[] {20, 100}, new int[] {760, 500}, "box_behind", true);
+        MyImage water = new MyImage(water_graph, new int[] {300, 10}, new int[] {500, 100}, "water", true);
+        MyButton homebutton = new MyButton(water_graph, "home", new int[] {565, 30}, new int[] {635, 100}, "home")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(home_page);
+                System.out.println("home");
+            }
+        };
+        MyButton backbutton = new MyButton(water_graph, "back", new int[] {150, 30}, new int[] {220, 100}, "back")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(graph_visual);
+                System.out.println("graph");
+            }
+        };
+    }
+
+    private static void setUpExerciseGraph(Main main,Page exercise_graph, Page graph_visual, Page home_page){
+        MyImage water_frame = new MyImage(exercise_graph, new int[] {20, 100}, new int[] {760, 500}, "box_behind", true);
+        MyImage water = new MyImage(exercise_graph, new int[] {300, 10}, new int[] {500, 100}, "exercise", true);
+        MyButton homebutton = new MyButton(exercise_graph, "home", new int[] {565, 30}, new int[] {635, 100}, "home")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(home_page);
+                System.out.println("home");
+            }
+        };
+        MyButton backbutton = new MyButton(exercise_graph, "back", new int[] {150, 30}, new int[] {220, 100}, "back")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(graph_visual);
+                System.out.println("graph");
+            }
+        };
+    }
+
+    private static void setUpCaffeineGraph(Main main,Page caffeine_graph, Page graph_visual, Page home_page){
+        MyImage water_frame = new MyImage(caffeine_graph, new int[] {20, 100}, new int[] {760, 500}, "box_behind", true);
+        MyImage water = new MyImage(caffeine_graph, new int[] {300, 10}, new int[] {500, 100}, "caffeine", true);
+        MyButton homebutton = new MyButton(caffeine_graph, "home", new int[] {565, 30}, new int[] {635, 100}, "home")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(home_page);
+                System.out.println("home");
+            }
+        };
+        MyButton backbutton = new MyButton(caffeine_graph, "back", new int[] {150, 30}, new int[] {220, 100}, "back")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(graph_visual);
+                System.out.println("graph");
+            }
+        };
+    }
+
+    private static void setUpAlcoholGraph(Main main,Page alcohol_graph, Page graph_visual, Page home_page){
+        MyImage water_frame = new MyImage(alcohol_graph, new int[] {20, 100}, new int[] {760, 500}, "box_behind", true);
+        MyImage water = new MyImage(alcohol_graph, new int[] {300, 10}, new int[] {500, 100}, "alcohol", true);
+        MyButton homebutton = new MyButton(alcohol_graph, "home", new int[] {565, 30}, new int[] {635, 100}, "home")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(home_page);
+                System.out.println("home");
+            }
+        };
+        MyButton backbutton = new MyButton(alcohol_graph, "back", new int[] {150, 30}, new int[] {220, 100}, "back")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(graph_visual);
+                System.out.println("graph");
+            }
+        };
+    }
+
+    private static void setUpScreenGraph(Main main,Page screen_graph, Page graph_visual, Page home_page){
+        MyImage water_frame = new MyImage(screen_graph, new int[] {20, 100}, new int[] {760, 500}, "box_behind", true);
+        MyImage water = new MyImage(screen_graph, new int[] {300, 10}, new int[] {500, 100}, "screentime", true);
+        MyButton homebutton = new MyButton(screen_graph, "home", new int[] {565, 30}, new int[] {635, 100}, "home")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(home_page);
+                System.out.println("home");
+            }
+        };
+        MyButton backbutton = new MyButton(screen_graph, "back", new int[] {150, 30}, new int[] {220, 100}, "back")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(graph_visual);
+                System.out.println("graph");
+            }
+        };
+    }
+
+    private static void setUpStressGraph(Main main,Page stress_graph, Page graph_visual, Page home_page){
+        MyImage water_frame = new MyImage(stress_graph, new int[] {20, 100}, new int[] {760, 500}, "box_behind", true);
+        MyImage water = new MyImage(stress_graph, new int[] {300, 10}, new int[] {500, 100}, "stress", true);
+        MyButton homebutton = new MyButton(stress_graph, "home", new int[] {565, 30}, new int[] {635, 100}, "home")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(home_page);
+                System.out.println("home");
+            }
+        };
+        MyButton backbutton = new MyButton(stress_graph, "back", new int[] {150, 30}, new int[] {220, 100}, "back")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(graph_visual);
+                System.out.println("graph");
+            }
+        };
+    }
 }
