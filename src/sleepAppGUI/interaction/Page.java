@@ -197,6 +197,7 @@ public class Page
         Page exercise_no = new Page(21, main, new Color(0xC7EFF9));
         Page goal_page = new Page(22, main, new Color(0xC7EFF9));
         Page water_goal = new Page(23, main, new Color(0xC7EFF9));
+        Page suggestions = new Page(24, main, new Color(0xC7EFF9));
 
         Page water_graph = new Page(10, main, new Color(0xC7EFF9));
         Page exercise_graph = new Page(11, main, new Color(0xC7EFF9));
@@ -226,6 +227,7 @@ public class Page
         setUpGraphPage(main,graph_visual, home_page, more_info_page, water_graph, exercise_graph, caffeine_graph, alcohol_graph, screen_graph, stress_graph);
         setUpGoalPage(main, goal_page, water_goal);
         setUpEditWaterGoal(main, water_goal, goal_page);
+        setupSuggestions(main, suggestions,  home_page);
 
         setUpWaterGraph(main,water_graph,graph_visual,home_page);
         setUpExerciseGraph(main,exercise_graph,graph_visual,home_page);
@@ -236,6 +238,9 @@ public class Page
 
         main.setCurrentPage(home_page);
     }
+
+
+
 
     private static void setUpMoreInfoPage(Main main, Page more_info_page, Page nextPage) {
         // ADD THINGS TO SECOND PAGE
@@ -1017,6 +1022,20 @@ public class Page
             {
                 main.setCurrentPage(nextPage);
                 System.out.println("Saved");
+            }
+        };
+    }
+
+
+    private static void setupSuggestions(Main main, Page suggestions, Page home_page) {
+        MyText title = new MyText(suggestions, new int[] {270, 110}, new int[] {180, 160}, "Suggestions");
+        //MyText WaterSuggestion = new MyText(suggestions, new int[] {350, 200}, new int[] {365, 220}, "You should drink 6 cups of water per day on average.");
+        //I need a suggestion for each person from the factor they researched on and I need data from the back end to suggest how to improve(eg. if 4 cups of water then drink 1 more
+        MyButton backButton = new MyButton(suggestions, "back", new int[] {360, 400}, new int[] {440, 435}, "back_button")
+        {
+            public void isClicked()
+            {
+                main.setCurrentPage(home_page);
             }
         };
     }
