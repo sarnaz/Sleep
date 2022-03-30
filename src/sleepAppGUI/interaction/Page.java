@@ -1,5 +1,7 @@
 package sleepAppGUI.interaction;
 
+import sleepAppGUI.interaction.graphs.MyBar;
+import sleepAppGUI.interaction.graphs.MyScatter;
 import sleepAppGUI.visuals.*;
 import sleepAppDatabase.*;
 
@@ -1048,18 +1050,16 @@ public class Page
     public static void setUpEditWaterGoal(Main main, Page water_goal, Page nextPage) {
         MyImage logo = new MyImage(water_goal, new int[]{70, 20}, new int[]{227, 70}, "logo", true);
         MyImage layout = new MyImage(water_goal, new int[]{0, 76}, new int[]{800, 534}, "edit_water_goal", true);
-        MyTextField input = new MyTextField(main, water_goal, new int[] {375, 280}, new int[] {425, 330});
+        MyTextField input = new MyTextField(main, water_goal, new int[]{375, 280}, new int[]{425, 330});
 
-        MyButton backButton = new MyButton(water_goal, "back", new int[] {295, 515}, new int[] {380, 540}, "back_button") {
-            public void isClicked()
-            {
+        MyButton backButton = new MyButton(water_goal, "back", new int[]{295, 515}, new int[]{380, 540}, "back_button") {
+            public void isClicked() {
                 main.setCurrentPage(nextPage);
                 System.out.println("Main Menu Page");
             }
         };
         MyButton saveButton = new MyButton(water_goal, "save", new int[]{435, 515}, new int[]{505, 540}, "save_button") {
-            public void isClicked()
-            {
+            public void isClicked() {
                 main.setCurrentPage(nextPage);
                 System.out.println("Saved");
             }

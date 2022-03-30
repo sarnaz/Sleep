@@ -7,15 +7,209 @@ import java.util.Random;
 
 public class Database {
 
+    private static final int secondsInDay = (int) ((int) 8.64 * Math.pow(10, 4));
     private static boolean firstLogin = true;
     //assumes this is the user's first login unless proven otherwise
     public static final String databaseURL = "jdbc:sqlite:PI.db";
     //the database url. final as it should never be changed
     private static int id;
+    private static Object[][] factors = {{"caffeine", "alcohol", "fitness", "stress", "water"},{false, false, false, false, false}};
 
     public static int getCurrentUserId()
     {
     	return id;
+    }
+
+
+    //returns true if the daily questions haven't yet been asked
+    //does not increment the time. That is done once the questions have been answered
+    //returns false if the daily questions have already been asked that day
+    public static boolean askDailyQuestionsCheck(){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT lastQuestionDay FROM UNIVERSAL";
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next()){
+                    if(rs.getInt("lastQuestionDay")-(System.currentTimeMillis()/1000) > secondsInDay){
+                        return true;
+                    }
+                }
+                else {
+                    System.out.println("no previous time found");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("exception was caught initialising database");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    //gets a list of the factors in use, with boolean variables attached to each indicating whether they are being used
+    public static Object[][] getFactors(){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT * FROM FACTORS where id="+id;
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if(rs.next()){
+                    for(int i = 0; i<factors[0].length;i++){
+                        if(rs.getInt(String.valueOf(factors[0][i]))==1){
+                            factors[1][i]=true;
+                            //sets the factors currently in use to true
+                        }
+                    }
+                    return factors;
+                }
+                else{
+                    System.out.println("no factors chosen");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("exception was caught getting factors");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return null;
+    }
+
+    public static void setQuestionsAnswered(){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT * FROM USER";
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if (rs.getInt("lastQuestionDay") - (System.currentTimeMillis() / 1000) > secondsInDay) {
+
+                    int newTime = rs.getInt("lastQuestionDay");
+
+                    while (newTime < (System.currentTimeMillis() / 1000)) {
+                        newTime += secondsInDay;
+                        //adds millis in the day until newTime is accurate to the current day
+                    }
+
+                    String updateDate = "UPDATE USER SET lastQuestionDay=" + newTime + " , askDailyQuestions";
+                    stmt.executeUpdate(updateDate);
+                    //should update the date in the database so
+
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught in setQuestionsAnswered");
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
+    
+    private static void setUserIntVariable(String column, int value) {
+    	try {
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	String setValueString = "UPDATE USER SET " + column + "=?";
+	            PreparedStatement preparedSetValueStatement = conn.prepareStatement(setValueString);
+	            preparedSetValueStatement.setInt(1, value);
+	            preparedSetValueStatement.execute();
+	            conn.close();
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when setting " + column);
+            System.out.println(e.getLocalizedMessage());
+    	}
+    }
+    
+    private static int getUserIntVariable(String column) {
+    	try {
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	
+	        	int value = Integer.MIN_VALUE;
+	        	String getValueString = "SELECT " + column + " FROM USER";
+	            PreparedStatement preparedGetValueStatement = conn.prepareStatement(getValueString);
+	            if (preparedGetValueStatement.execute()) {
+	            	ResultSet result = preparedGetValueStatement.getResultSet();
+	            	value = result.getInt(1);
+	            }
+	            conn.close();
+	            
+	            return value;
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when getting height");
+    		System.out.println(e.getLocalizedMessage());
+    	}
+    	
+    	return Integer.MIN_VALUE;
+    }
+    
+    public static void setUserHeight(int newAge) {
+		setUserIntVariable("height", newAge);
+    }
+    
+    public static int getUserHeight() {
+		return getUserIntVariable("height");
+    }
+    
+    public static void setUserWeight(int newWeight) {
+		setUserIntVariable("weight", newWeight);
+    }
+    
+    public static int getUserWeight() {
+		return getUserIntVariable("weight");
+    }
+    
+    
+    public static void setUserDateOfBirth(int year, int month, int day) {
+    	
+    	try {
+    		
+    		// parse the string into java.sql date
+    		Date newDate = Date.valueOf(Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day));
+    		
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	
+	        	int value = Integer.MIN_VALUE;
+	        	String setDOBString = "UPDATE USER SET dateOfBirth=?";
+	            PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
+	            preparedSetDOBStatement.setDate(1, newDate);
+	            preparedSetDOBStatement.execute();
+	            conn.close();
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when setting date of birth");
+    	}
+    }
+    
+    // returns a date as a string in escaped "year-month-day" format
+    public static String getUserDateOfBirth() {
+
+    	try {
+    		
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	
+	        	String value = null;
+	        	String setDOBString = "SELECT dateOfBirth FROM USER";
+	            PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
+	            if (preparedSetDOBStatement.execute()) {
+	            	ResultSet result = preparedSetDOBStatement.getResultSet();
+	            	value = result.getDate(1).toString();
+	            }
+	            
+	            conn.close();
+	            
+	            return value;
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when getting date of birth");
+    	}
+    	
+    	return null;
     }
 
     //function to initially create the database. This should only be called once, as the database file is now set up.
@@ -49,31 +243,43 @@ public class Database {
                 "  password varchar(32) not null,\n" +
                 "  salt varchar(8) not null,\n" +
                 "  weight INT(3) not NULL DEFAULT 72,\n" +
-                "  height INT(3) not null DEFAULT 174\n" +
+                "  height INT(3) not null DEFAULT 174,\n" +
+                "  dateOfBirth DATE not null DEFAULT \"2002-1-1\",\n" +
+                "  lastQuestionTime INT(13) not null DEFAULT 1648080000\n" +
                 ");",
 
                 "CREATE TABLE FLUID (\n" +
-                "  id INTEGER(4) NOT NULL,\n" +
-                "  units INTEGER(3)  DEFAULT NULL,\n" +
-                "  caffeine INTEGER(4) DEFAULT NULL,\n" +
-                "  cupsOfWater INTEGER(3)  DEFAULT NULL,\n" +
-                "  addDate DATE NOT NULL\n" +
-                ");\n",
+                        "  id INTEGER(4) NOT NULL,\n" +
+                        "  units INTEGER(3)  DEFAULT NULL,\n" +
+                        "  caffeine INTEGER(4) DEFAULT NULL,\n" +
+                        "  cupsOfWater INTEGER(3)  DEFAULT NULL,\n" +
+                        "  addDate DATE NOT NULL\n" +
+                        ");\n",
 
                 "CREATE TABLE SLEEP (\n" +
-                "  id int(4) NOT NULL,\n" +
-                "  sleepTime INTEGER(2)  DEFAULT NULL,\n" +
-                "  timeToSleep INTEGER(3)  DEFAULT NULL,\n" +
-                "  sleepQuality INTEGER(2)  DEFAULT NULL,\n" +
-                "  addDate DATE NOT NULL\n" +
-                ");\n",
+                        "  id int(4) NOT NULL,\n" +
+                        "  sleepTime INTEGER(2)  DEFAULT NULL,\n" +
+                        "  timeToSleep INTEGER(3)  DEFAULT NULL,\n" +
+                        "  sleepQuality INTEGER(2)  DEFAULT NULL,\n" +
+                        "  addDate DATE NOT NULL\n" +
+                        ");\n",
 
 
                 "CREATE TABLE STRESS (\n" +
-                "  id INTEGER(4)  NOT NULL,\n" +
-                "  stressLevel int(2) DEFAULT NULL,\n" +
-                "  addDate DATE NOT NULL\n" +
-                ");\n"};
+                        "  id INTEGER(4)  NOT NULL,\n" +
+                        "  stressLevel int(2) DEFAULT NULL,\n" +
+                        "  addDate DATE NOT NULL\n" +
+                        ");"
+                ,
+
+                "CREATE TABLE FACTORS (\n" +
+                        "  id INTEGER(4)  NOT NULL,\n" +
+                        "  caffiene int(1) NOT NULL DEFAULT 0,\n" +
+                        "  alcohol int(1) NOT NULL DEFAULT 0,\n" +
+                        "  fitness int(1) NOT NULL DEFAULT 0,\n" +
+                        "  stress int(1) NOT NULL DEFAULT 0,\n" +
+                        "  water int(1) NOT NULL DEFAULT 0\n" +
+                        ");\n"};
     }
 
     //checks if users already exist. If none exist, returns false, otherwise returns true.
@@ -175,6 +381,7 @@ public class Database {
 
             // returns 0 if the username is already taken
             if (rs.next()) {
+            	System.out.println("username already taken");
                 return 0;
             }
 

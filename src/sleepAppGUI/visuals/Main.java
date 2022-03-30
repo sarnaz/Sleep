@@ -10,6 +10,7 @@ import java.util.Locale;
 public class Main
 {
     private final GUI gui;
+    //might not be needed at all, all pages defined in static class
     private ArrayList<Page> pages = new ArrayList<>();
     private Page currentPage;
 
