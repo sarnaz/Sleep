@@ -17,10 +17,7 @@ public class Database {
 
     public static int getCurrentUserId()
     {
-        return id;
-    }
-    public static Object[][] getFactorArray(){
-        return factors;
+    	return id;
     }
 
 
@@ -35,7 +32,7 @@ public class Database {
                 String sql = "SELECT lastQuestionDay FROM UNIVERSAL";
                 ResultSet rs = stmt.executeQuery(sql);
                 if(rs.next()){
-                    if((System.currentTimeMillis()/1000) - rs.getInt("lastQuestionDay") > secondsInDay){
+                    if(rs.getInt("lastQuestionDay")-(System.currentTimeMillis()/1000) > secondsInDay){
                         return true;
                     }
                 }
@@ -80,31 +77,6 @@ public class Database {
         return null;
     }
 
-    //updates the factors using the factors and corresponding boolean values in the 2d array above
-    public static boolean setFactors(Object[][] factors){
-        try {
-            Connection conn = DriverManager.getConnection(databaseURL);
-            if (conn != null) {
-                Statement stmt = conn.createStatement();
-                String sql = "UPDATE FACTORS SET ";
-                for(int i = 0; i<factors[0].length;i++){
-                    sql = sql + factors[0][i]+"="+factors[1][i];
-                    if(i!=factors[0].length-1){
-                        sql = sql+", ";
-                    }
-                }
-                sql = sql + " where id="+id;
-                stmt.executeUpdate(sql);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("exception was caught getting factors");
-            System.out.println(e.getLocalizedMessage());
-        }
-        return true;
-    }
-
-
     public static void setQuestionsAnswered(){
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
@@ -122,7 +94,7 @@ public class Database {
                         //adds millis in the day until newTime is accurate to the current day
                     }
 
-                    String updateDate = "UPDATE USER SET lastQuestionDay=" + newTime + "where id="+id;
+                    String updateDate = "UPDATE USER SET lastQuestionDay=" + newTime + " , askDailyQuestions";
                     stmt.executeUpdate(updateDate);
                     //should update the date in the database so
 
@@ -133,111 +105,111 @@ public class Database {
             System.out.println(e.getLocalizedMessage());
         }
     }
-
+    
     private static void setUserIntVariable(String column, int value) {
-        try {
-            Connection conn = DriverManager.getConnection(databaseURL);
-            if (conn != null) {
-                String setValueString = "UPDATE USER SET " + column + "=?";
-                PreparedStatement preparedSetValueStatement = conn.prepareStatement(setValueString);
-                preparedSetValueStatement.setInt(1, value);
-                preparedSetValueStatement.execute();
-                conn.close();
-            }
-        } catch (SQLException e) {
-            System.out.println("exception caught when setting " + column);
+    	try {
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	String setValueString = "UPDATE USER SET " + column + "=?";
+	            PreparedStatement preparedSetValueStatement = conn.prepareStatement(setValueString);
+	            preparedSetValueStatement.setInt(1, value);
+	            preparedSetValueStatement.execute();
+	            conn.close();
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when setting " + column);
             System.out.println(e.getLocalizedMessage());
-        }
+    	}
     }
-
+    
     private static int getUserIntVariable(String column) {
-        try {
-            Connection conn = DriverManager.getConnection(databaseURL);
-            if (conn != null) {
-
-                int value = Integer.MIN_VALUE;
-                String getValueString = "SELECT " + column + " FROM USER";
-                PreparedStatement preparedGetValueStatement = conn.prepareStatement(getValueString);
-                if (preparedGetValueStatement.execute()) {
-                    ResultSet result = preparedGetValueStatement.getResultSet();
-                    value = result.getInt(1);
-                }
-                conn.close();
-
-                return value;
-            }
-        } catch (SQLException e) {
-            System.out.println("exception caught when getting height");
-            System.out.println(e.getLocalizedMessage());
-        }
-
-        return Integer.MIN_VALUE;
+    	try {
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	
+	        	int value = Integer.MIN_VALUE;
+	        	String getValueString = "SELECT " + column + " FROM USER";
+	            PreparedStatement preparedGetValueStatement = conn.prepareStatement(getValueString);
+	            if (preparedGetValueStatement.execute()) {
+	            	ResultSet result = preparedGetValueStatement.getResultSet();
+	            	value = result.getInt(1);
+	            }
+	            conn.close();
+	            
+	            return value;
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when getting height");
+    		System.out.println(e.getLocalizedMessage());
+    	}
+    	
+    	return Integer.MIN_VALUE;
     }
-
+    
     public static void setUserHeight(int newAge) {
-        setUserIntVariable("height", newAge);
+		setUserIntVariable("height", newAge);
     }
-
+    
     public static int getUserHeight() {
-        return getUserIntVariable("height");
+		return getUserIntVariable("height");
     }
-
+    
     public static void setUserWeight(int newWeight) {
-        setUserIntVariable("weight", newWeight);
+		setUserIntVariable("weight", newWeight);
     }
-
+    
     public static int getUserWeight() {
-        return getUserIntVariable("weight");
+		return getUserIntVariable("weight");
     }
-
-
+    
+    
     public static void setUserDateOfBirth(int year, int month, int day) {
-
-        try {
-
-            // parse the string into java.sql date
-            Date newDate = Date.valueOf(Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day));
-
-            Connection conn = DriverManager.getConnection(databaseURL);
-            if (conn != null) {
-
-                int value = Integer.MIN_VALUE;
-                String setDOBString = "UPDATE USER SET dateOfBirth=?";
-                PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
-                preparedSetDOBStatement.setDate(1, newDate);
-                preparedSetDOBStatement.execute();
-                conn.close();
-            }
-        } catch (SQLException e) {
-            System.out.println("exception caught when setting date of birth");
-        }
+    	
+    	try {
+    		
+    		// parse the string into java.sql date
+    		Date newDate = Date.valueOf(Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day));
+    		
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	
+	        	int value = Integer.MIN_VALUE;
+	        	String setDOBString = "UPDATE USER SET dateOfBirth=?";
+	            PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
+	            preparedSetDOBStatement.setDate(1, newDate);
+	            preparedSetDOBStatement.execute();
+	            conn.close();
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when setting date of birth");
+    	}
     }
-
+    
     // returns a date as a string in escaped "year-month-day" format
     public static String getUserDateOfBirth() {
 
-        try {
-
-            Connection conn = DriverManager.getConnection(databaseURL);
-            if (conn != null) {
-
-                String value = null;
-                String setDOBString = "SELECT dateOfBirth FROM USER";
-                PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
-                if (preparedSetDOBStatement.execute()) {
-                    ResultSet result = preparedSetDOBStatement.getResultSet();
-                    value = result.getDate(1).toString();
-                }
-
-                conn.close();
-
-                return value;
-            }
-        } catch (SQLException e) {
-            System.out.println("exception caught when getting date of birth");
-        }
-
-        return null;
+    	try {
+    		
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	
+	        	String value = null;
+	        	String setDOBString = "SELECT dateOfBirth FROM USER";
+	            PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
+	            if (preparedSetDOBStatement.execute()) {
+	            	ResultSet result = preparedSetDOBStatement.getResultSet();
+	            	value = result.getDate(1).toString();
+	            }
+	            
+	            conn.close();
+	            
+	            return value;
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when getting date of birth");
+    	}
+    	
+    	return null;
     }
 
     //function to initially create the database. This should only be called once, as the database file is now set up.
@@ -256,7 +228,7 @@ public class Database {
                 //loops through each table creation statement to set up the database
             }
         } catch (SQLException e) {
-            System.out.println("exception was caught initialising database");
+        	System.out.println("exception was caught initialising database");
             System.out.println(e.getLocalizedMessage());
         }
 
@@ -302,7 +274,7 @@ public class Database {
 
                 "CREATE TABLE FACTORS (\n" +
                         "  id INTEGER(4)  NOT NULL,\n" +
-                        "  caffeine int(1) NOT NULL DEFAULT 0,\n" +
+                        "  caffiene int(1) NOT NULL DEFAULT 0,\n" +
                         "  alcohol int(1) NOT NULL DEFAULT 0,\n" +
                         "  fitness int(1) NOT NULL DEFAULT 0,\n" +
                         "  stress int(1) NOT NULL DEFAULT 0,\n" +
@@ -319,17 +291,17 @@ public class Database {
             String statement = "SELECT Count(*) as rowCount FROM USER";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(statement);
-
+            
             // get value from rs now before it gets collected
             int rowCount = rs.getInt("rowCount");
-
+            
             conn.close();
-
+            
             // returns true if rows exist in the user table
             return rowCount > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+        	e.printStackTrace();
             System.out.println(e.getLocalizedMessage());
             System.out.println("something went wrong in checkForUsers");
         }
@@ -341,7 +313,7 @@ public class Database {
 
         try{
             Connection conn = DriverManager.getConnection(databaseURL);
-
+            
             String getSalt = "SELECT salt FROM USER where name=?";
             PreparedStatement preparedGetSaltStatement = conn.prepareStatement(getSalt);
             preparedGetSaltStatement.setString(1, name);
@@ -359,12 +331,12 @@ public class Database {
                 salt = rs.getString("salt");
             }
             else{
-                conn.close();
+            	conn.close();
                 return -1;
             }
 
             password = hashPassword(password+salt);
-
+            
             String getMatches = "SELECT id FROM USER WHERE name=? and password=?";
             PreparedStatement preparedGetMatchesStatement = conn.prepareStatement(getMatches);
             preparedGetMatchesStatement.setString(1, name);
@@ -385,7 +357,7 @@ public class Database {
 
         }
         catch(Exception e){
-            System.out.println("went wrong validating");
+        	System.out.println("went wrong validating");
             System.out.println(e.getMessage());
         }
         return -1;
@@ -400,7 +372,7 @@ public class Database {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             Statement stmt = conn.createStatement();
-
+            
             String checkNames = "SELECT * FROM USER WHERE name=?";
             PreparedStatement preparedUserCheckStatement = conn.prepareStatement(checkNames);
             preparedUserCheckStatement.setString(1, name);
@@ -409,7 +381,7 @@ public class Database {
 
             // returns 0 if the username is already taken
             if (rs.next()) {
-                System.out.println("username already taken");
+            	System.out.println("username already taken");
                 return 0;
             }
 
@@ -417,7 +389,7 @@ public class Database {
             //creates a salt
             password = hashPassword(password+salt);
             //hashes the password with the salt through the SHA-256 hashing algorithm
-
+            
             String getNextId = "SELECT MAX(id) FROM USER";
             nextId = 0;
             //0 automatically as if no value found, the first id is 0
@@ -429,38 +401,35 @@ public class Database {
 
             String addStatement = "INSERT INTO USER (id, name, password, salt, firstLogin) VALUES("+nextId+",?,?,?,0)";
             PreparedStatement preparedAddStatement = conn.prepareStatement(addStatement);
-
+            
             // doesn't commit changes to database until signalled
             conn.setAutoCommit(false);
-
+            
             // prepare the statement
             preparedAddStatement.setString(1, name);
             preparedAddStatement.setString(2,password);
             preparedAddStatement.setString(3,salt);
-
+            
             // execute the prepared add statement
             preparedAddStatement.execute();
-
+            
             // commit changes to database
             conn.commit();
-
+            
             // reset connection
             conn.setAutoCommit(true);
-
+            
             //should add a new user with appropriate id, name, password, salt, and set their first login to false.
 
             id = nextId;
             //sets the current users id as this new users id. Allows for future database calls to be easier
 
-            stmt.executeUpdate("INSERT INTO FACTORS (id) VALUES("+id+")");
-            //adds the id into factors for use later
-
             conn.close();
             return 1;
         }
         catch(Exception e){
-            System.out.println("something went wrong when adding a new user");
-            System.out.println(e.getMessage());
+        	System.out.println("something went wrong when adding a new user");
+        	System.out.println(e.getMessage());
         }
 
         return 0;
@@ -468,32 +437,32 @@ public class Database {
     }
 
     public static int removeUserData(int id){
-
-        // removes all user information and data linked to the user
-        // EXCEPT the user class
+    	
+    	// removes all user information and data linked to the user
+    	// EXCEPT the user class
 
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             deleteFromTableById(conn, id, "FLUID");
             deleteFromTableById(conn, id, "SLEEP");
             deleteFromTableById(conn, id, "STRESS");
-
+            
             conn.close();
             return 1;
         }
         catch(Exception e) {
-            System.out.println("something went wrong removing user");
-            System.out.println(e.getMessage());
+        	System.out.println("something went wrong removing user");
+        	System.out.println(e.getMessage());
         }
-
+        
         return 0;
-
+    	
     }
-
+    
     private static void deleteFromTableById(Connection conn, int id, String tableName) throws SQLException
     {
-        // tableName is hard-coded, therefore preparing statement is not necessary for security
-        String removeUser = "DELETE FROM " + tableName + " WHERE id=?";
+    	// tableName is hard-coded, therefore preparing statement is not necessary for security
+    	String removeUser = "DELETE FROM " + tableName + " WHERE id=?";
         PreparedStatement preparedUserRemoveStatement = conn.prepareStatement(removeUser);
         preparedUserRemoveStatement.setString(1, Integer.toString(id));
         preparedUserRemoveStatement.execute();
