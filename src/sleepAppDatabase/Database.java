@@ -146,8 +146,8 @@ public class Database {
     	return Integer.MIN_VALUE;
     }
     
-    public static void setUserHeight(int newAge) {
-		setUserIntVariable("height", newAge);
+    public static void setUserHeight(int newHeight) {
+		setUserIntVariable("height", newHeight);
     }
     
     public static int getUserHeight() {
