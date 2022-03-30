@@ -4,8 +4,8 @@ import java.awt.*;
 
 public abstract class VObject
 {
-    protected int[] corner1;
-    protected int[] corner2;
+    protected final int[] corner1;
+    protected final int[] corner2;
 
     private boolean visible;
     private final boolean defVis;
