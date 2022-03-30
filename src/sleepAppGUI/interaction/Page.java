@@ -7,6 +7,8 @@ import sleepAppGUI.visuals.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+import sleepAppDatabase.Database;
+
 //whole class might be redundant
 //might be better to make class "Page" instead, page contains list of buttons and graphical
 //information, page id. buttons can lead to pages
@@ -212,7 +214,7 @@ public class Page
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, home_page);
         setUpHomePage(main, home_page, profile_page, sleep_questions, graph_visual);
-        setUpProfilePage(main, profile_page, home_page, edit_profile_page, username_password_initial);
+        setUpProfilePage(main, profile_page, home_page, edit_profile_page, sign_in_page);
         setUpEditProfilePage(main, edit_profile_page, profile_page);
         setUpSleepQuestionsPage(main, sleep_questions, water_questions);
         setUpWaterQuestionsPage(main, water_questions, alcohol_questions);
@@ -238,7 +240,15 @@ public class Page
         setUpScreenGraph(main,screen_graph,graph_visual,home_page);
         setUpStressGraph(main,stress_graph,graph_visual,home_page);
 
-        main.setCurrentPage(home_page);
+        if (!Database.databaseExists()) {
+        	Database.initialiseDatabase();
+        }
+        
+        if (Database.checkForUsers()) {
+            main.setCurrentPage(sign_in_page);
+        } else {
+            main.setCurrentPage(username_password_initial);
+        }
     }
     private static void setUpDailySignIn(Main main, Page sign_in_page, Page nextPage){
         // Adds logo
