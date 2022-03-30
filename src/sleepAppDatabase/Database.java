@@ -242,6 +242,198 @@ public class Database {
         return null;
     }
 
+
+    //returns true if the daily questions haven't yet been asked
+    //does not increment the time. That is done once the questions have been answered
+    //returns false if the daily questions have already been asked that day
+    public static boolean askDailyQuestionsCheck(){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT lastQuestionDay FROM UNIVERSAL";
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next()){
+                    if(rs.getInt("lastQuestionDay")-(System.currentTimeMillis()/1000) > secondsInDay){
+                        return true;
+                    }
+                }
+                else {
+                    System.out.println("no previous time found");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("exception was caught initialising database");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    //gets a list of the factors in use, with boolean variables attached to each indicating whether they are being used
+    public static Object[][] getFactors(){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT * FROM FACTORS where id="+id;
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if(rs.next()){
+                    for(int i = 0; i<factors[0].length;i++){
+                        if(rs.getInt(String.valueOf(factors[0][i]))==1){
+                            factors[1][i]=true;
+                            //sets the factors currently in use to true
+                        }
+                    }
+                    return factors;
+                }
+                else{
+                    System.out.println("no factors chosen");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("exception was caught getting factors");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return null;
+    }
+
+    public static void setQuestionsAnswered(){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT * FROM USER";
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if (rs.getInt("lastQuestionDay") - (System.currentTimeMillis() / 1000) > secondsInDay) {
+
+                    int newTime = rs.getInt("lastQuestionDay");
+
+                    while (newTime < (System.currentTimeMillis() / 1000)) {
+                        newTime += secondsInDay;
+                        //adds millis in the day until newTime is accurate to the current day
+                    }
+
+                    String updateDate = "UPDATE USER SET lastQuestionDay=" + newTime + " , askDailyQuestions";
+                    stmt.executeUpdate(updateDate);
+                    //should update the date in the database so
+
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught in setQuestionsAnswered");
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
+    
+    private static void setUserIntVariable(String column, int value) {
+    	try {
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	String setValueString = "UPDATE USER SET " + column + "=?";
+	            PreparedStatement preparedSetValueStatement = conn.prepareStatement(setValueString);
+	            preparedSetValueStatement.setInt(1, value);
+	            preparedSetValueStatement.execute();
+	            conn.close();
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when setting " + column);
+            System.out.println(e.getLocalizedMessage());
+    	}
+    }
+    
+    private static int getUserIntVariable(String column) {
+    	try {
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	
+	        	int value = Integer.MIN_VALUE;
+	        	String getValueString = "SELECT " + column + " FROM USER";
+	            PreparedStatement preparedGetValueStatement = conn.prepareStatement(getValueString);
+	            if (preparedGetValueStatement.execute()) {
+	            	ResultSet result = preparedGetValueStatement.getResultSet();
+	            	value = result.getInt(1);
+	            }
+	            conn.close();
+	            
+	            return value;
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when getting height");
+    		System.out.println(e.getLocalizedMessage());
+    	}
+    	
+    	return Integer.MIN_VALUE;
+    }
+    
+    public static void setUserHeight(int newAge) {
+		setUserIntVariable("height", newAge);
+    }
+    
+    public static int getUserHeight() {
+		return getUserIntVariable("height");
+    }
+    
+    public static void setUserWeight(int newWeight) {
+		setUserIntVariable("weight", newWeight);
+    }
+    
+    public static int getUserWeight() {
+		return getUserIntVariable("weight");
+    }
+    
+    
+    public static void setUserDateOfBirth(int year, int month, int day) {
+    	
+    	try {
+    		
+    		// parse the string into java.sql date
+    		Date newDate = Date.valueOf(Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day));
+    		
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	
+	        	int value = Integer.MIN_VALUE;
+	        	String setDOBString = "UPDATE USER SET dateOfBirth=?";
+	            PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
+	            preparedSetDOBStatement.setDate(1, newDate);
+	            preparedSetDOBStatement.execute();
+	            conn.close();
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when setting date of birth");
+    	}
+    }
+    
+    // returns a date as a string in escaped "year-month-day" format
+    public static String getUserDateOfBirth() {
+
+    	try {
+    		
+	    	Connection conn = DriverManager.getConnection(databaseURL);
+	        if (conn != null) {
+	        	
+	        	String value = null;
+	        	String setDOBString = "SELECT dateOfBirth FROM USER";
+	            PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
+	            if (preparedSetDOBStatement.execute()) {
+	            	ResultSet result = preparedSetDOBStatement.getResultSet();
+	            	value = result.getDate(1).toString();
+	            }
+	            
+	            conn.close();
+	            
+	            return value;
+	        }
+    	} catch (SQLException e) {
+    		System.out.println("exception caught when getting date of birth");
+    	}
+    	
+    	return null;
+    }
+
     //function to initially create the database. This should only be called once, as the database file is now set up.
     public static void initialiseDatabase(){
 
