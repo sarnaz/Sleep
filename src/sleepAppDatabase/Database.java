@@ -80,6 +80,7 @@ public class Database {
         return null;
     }
 
+
     //updates the factors using the factors and corresponding boolean values in the 2d array above
     public static boolean setFactors(Object[][] factors){
         try {
