@@ -177,6 +177,7 @@ public class Page
 
         // Create the pages here nice color: 0xC7EFF9
         Page username_password_initial = new Page(2, main, new Color(0xC7EFF9));
+        Page sign_in_page = new Page(1, main, new Color(0xC7EFF9));
         Page more_info_page = new Page(3, main, new Color(0xC7EFF9));
         Page graph_visual = new Page(5, main, new Color(0xC7EFF9));
         Page home_page = new Page(6, main, new Color(0xC7EFF9));
@@ -205,6 +206,7 @@ public class Page
         Page screen_graph = new Page(14, main, new Color(0xC7EFF9));
         Page stress_graph = new Page(15, main, new Color(0xC7EFF9));
 
+        setUpDailySignIn(main, sign_in_page, home_page);
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, home_page);
         setUpHomePage(main, home_page, profile_page, sleep_questions, graph_visual);
@@ -235,6 +237,43 @@ public class Page
         setUpStressGraph(main,stress_graph,graph_visual,home_page);
 
         main.setCurrentPage(home_page);
+    }
+    private static void setUpDailySignIn(Main main, Page sign_in_page, Page nextPage){
+        // Adds logo
+        MyImage logo = new MyImage(sign_in_page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
+        // Adds the box to go behind input fields
+        MyImage input_frame = new MyImage(sign_in_page, new int[] {275, 170}, new int[] {525, 350}, "box_behind", true);
+        // Adds the username input box on first page
+        MyText usernameText = new MyText(sign_in_page, new int[] {350, 200}, new int[] {365, 220}, "Username:");
+        MyTextField usernameInput = new MyTextField(main, sign_in_page, new int[] {300, 210}, new int[] {500, 235});
+        // Adds the password boxes
+        MyText password = new MyText(sign_in_page, new int[] {350, 265}, new int[] {365, 285}, "Password:");
+        MyPasswordField passwordInput1 = new MyPasswordField(main, sign_in_page, new int[] {300, 275}, new int[] {500, 300});
+        MyImage openEye = new MyImage(sign_in_page, new int[]{450, 250}, new int[]{470, 270}, "openEye", false);
+        MyImage closedEye = new MyImage(sign_in_page, new int[]{450, 250}, new int[]{470, 270}, "closedEye", true);
+
+        sign_in_page.pushToFront(openEye);
+        sign_in_page.pushToFront(closedEye);
+
+        MyButton toggleShowPasswordButton = new MyButton(sign_in_page, "show password", new int[] {450, 250}, new int[] {470, 270}, null)
+        {
+            public void isClicked()
+            {
+                System.out.println("clicked: " + ((passwordInput1.getTextVisibility()) ? "hiding" : "showing"));
+                passwordInput1.setTextVisibility(!passwordInput1.getTextVisibility());
+                openEye.setVisible(passwordInput1.getTextVisibility());
+                closedEye.setVisible(!passwordInput1.getTextVisibility());
+            }
+        };
+        // Add next button
+        MyButton nextButton = new MyButton(sign_in_page, "next", new int[] {360, 400}, new int[] {440, 435}, "next") {
+            public void isClicked() {
+                // basic input validation
+                main.setCurrentPage(nextPage);
+                System.out.println("More Info Page");
+
+            }
+        };
     }
 
     private static void setUpMoreInfoPage(Main main, Page more_info_page, Page nextPage) {
