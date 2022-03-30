@@ -3,11 +3,11 @@ package sleepAppGUI.interaction;
 import sleepAppGUI.interaction.graphs.MyBar;
 import sleepAppGUI.interaction.graphs.MyScatter;
 import sleepAppGUI.visuals.*;
-import sleepAppDatabase.*;
 
 import java.awt.*;
 import java.util.ArrayList;
 
+import sleepAppDatabase.Database;
 
 //whole class might be redundant
 //might be better to make class "Page" instead, page contains list of buttons and graphical
@@ -215,7 +215,7 @@ public class Page
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, home_page);
         setUpHomePage(main, home_page, profile_page, sleep_questions, graph_visual);
-        setUpProfilePage(main, profile_page, home_page, edit_profile_page, username_password_initial);
+        setUpProfilePage(main, profile_page, home_page, edit_profile_page, sign_in_page);
         setUpEditProfilePage(main, edit_profile_page, profile_page);
         setUpSleepQuestionsPage(main, sleep_questions, water_questions);
         setUpWaterQuestionsPage(main, water_questions, alcohol_questions);
@@ -242,8 +242,15 @@ public class Page
         setUpScreenGraph(main,screen_graph,graph_visual,home_page);
         setUpStressGraph(main,stress_graph,graph_visual,home_page);
 
-
-        main.setCurrentPage(sign_in_page);
+        if (!Database.databaseExists()) {
+        	Database.initialiseDatabase();
+        }
+        
+        if (Database.checkForUsers()) {
+            main.setCurrentPage(sign_in_page);
+        } else {
+            main.setCurrentPage(username_password_initial);
+        }
     }
     private static void setUpDailySignIn(Main main, Page sign_in_page, Page nextPage){
         // Adds logo
@@ -258,8 +265,10 @@ public class Page
         MyPasswordField passwordInput1 = new MyPasswordField(main, sign_in_page, new int[] {300, 275}, new int[] {500, 300});
         MyImage openEye = new MyImage(sign_in_page, new int[]{450, 250}, new int[]{470, 270}, "openEye", false);
         MyImage closedEye = new MyImage(sign_in_page, new int[]{450, 250}, new int[]{470, 270}, "closedEye", true);
+
         sign_in_page.pushToFront(openEye);
         sign_in_page.pushToFront(closedEye);
+
         MyButton toggleShowPasswordButton = new MyButton(sign_in_page, "show password", new int[] {450, 250}, new int[] {470, 270}, null)
         {
             public void isClicked()
@@ -274,13 +283,9 @@ public class Page
         MyButton nextButton = new MyButton(sign_in_page, "next", new int[] {360, 400}, new int[] {440, 435}, "next") {
             public void isClicked() {
                 // basic input validation
-                if(Database.validateUser(usernameInput.getText(), passwordInput1.getText()) == 1){
-                    main.setCurrentPage(nextPage);
-                    System.out.println("More Info Page");
-                }
-                else{
-                    System.out.println("Not valid username and password");
-                }
+                main.setCurrentPage(nextPage);
+                System.out.println("More Info Page");
+
             }
         };
     }
@@ -421,8 +426,6 @@ public class Page
             		!passwordInput1.getText().equals("")
            			)
             	{
-                    Database.addUser(usernameInput.getText(), passwordInput1.getText());
-                    System.out.println(Database.checkForUsers());
 	                main.setCurrentPage(nextPage);
 	                System.out.println("More Info Page");
             	}
@@ -520,8 +523,7 @@ public class Page
         MyButton deleteData = new MyButton (edit_profile_page, "delete data", new int[]{600, 475}, new int[]{750, 550}, "deleteData"){
             public void isClicked()
             {
-                Database.removeUserData(Database.getCurrentUserId());
-                System.out.println("delete data");
+                System.out.println("delete data (NOT IMPLEMENTED)");
             }
         };
     }

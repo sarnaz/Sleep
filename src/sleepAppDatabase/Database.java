@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.sql.*;
 import java.util.Random;
+import java.io.*;
 
 public class Database {
 
@@ -455,6 +456,10 @@ public class Database {
         }
 
 
+    }
+    
+    public static boolean databaseExists() {
+    	return (new File("PI.db")).exists();
     }
 
     private static String[] getSetupQuery(){
