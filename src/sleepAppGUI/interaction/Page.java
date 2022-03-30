@@ -195,6 +195,8 @@ public class Page
         Page exercise_questions = new Page(19, main, new Color(0xC7EFF9));
         Page exercise_yes = new Page(20, main, new Color(0xC7EFF9));
         Page exercise_no = new Page(21, main, new Color(0xC7EFF9));
+        Page goal_page = new Page(22, main, new Color(0xC7EFF9));
+        Page water_goal = new Page(23, main, new Color(0xC7EFF9));
 
         Page water_graph = new Page(10, main, new Color(0xC7EFF9));
         Page exercise_graph = new Page(11, main, new Color(0xC7EFF9));
@@ -206,7 +208,7 @@ public class Page
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, home_page);
         setUpHomePage(main, home_page, profile_page, sleep_questions, graph_visual);
-        setUpProfilePage(main, profile_page, home_page, edit_profile_page);
+        setUpProfilePage(main, profile_page, home_page, edit_profile_page, username_password_initial);
         setUpEditProfilePage(main, edit_profile_page, profile_page);
         setUpSleepQuestionsPage(main, sleep_questions, water_questions);
         setUpWaterQuestionsPage(main, water_questions, alcohol_questions);
@@ -222,6 +224,8 @@ public class Page
         setUpExerciseYes(main, exercise_yes, exercise_no, home_page);
         setUpExerciseNo(main, exercise_no, exercise_yes, home_page);
         setUpGraphPage(main,graph_visual, home_page, more_info_page, water_graph, exercise_graph, caffeine_graph, alcohol_graph, screen_graph, stress_graph);
+        setUpGoalPage(main, goal_page, water_goal);
+        setUpEditWaterGoal(main, water_goal, goal_page);
 
         setUpWaterGraph(main,water_graph,graph_visual,home_page);
         setUpExerciseGraph(main,exercise_graph,graph_visual,home_page);
@@ -230,7 +234,7 @@ public class Page
         setUpScreenGraph(main,screen_graph,graph_visual,home_page);
         setUpStressGraph(main,stress_graph,graph_visual,home_page);
 
-        main.setCurrentPage(username_password_initial);
+        main.setCurrentPage(home_page);
     }
 
     private static void setUpMoreInfoPage(Main main, Page more_info_page, Page nextPage) {
@@ -408,7 +412,7 @@ public class Page
         };
     }
 
-    public static void setUpProfilePage(Main main, Page profile_page, Page previousPage, Page editPage) {
+    public static void setUpProfilePage(Main main, Page profile_page, Page previousPage, Page editPage, Page signinPage) {
         profilePageGeneralSetUp(profile_page);
 
         MyText height = new MyText(profile_page, new int[] {366, 298}, new int[] {388, 316}, "180 cm");
@@ -427,6 +431,13 @@ public class Page
             {
                 main.setCurrentPage(previousPage);
                 System.out.println("Main Menu Page");
+            }
+        };
+        MyButton logoutButton = new MyButton(profile_page, "logout", new int[] {405, 480}, new int[] {525, 510}, "logout_button") {
+            public void isClicked()
+            {
+                main.setCurrentPage(signinPage);
+                System.out.println("Sign In Page");
             }
         };
     }
@@ -929,6 +940,83 @@ public class Page
             {
                 main.setCurrentPage(graph_visual);
                 System.out.println("graph");
+            }
+        };
+    }
+
+    public static void setUpGoalPage(Main main, Page goal_page, Page nextPage) {
+        MyImage logo = new MyImage(goal_page, new int[] {70, 20}, new int[] {227, 70}, "logo", true);
+        MyImage layout = new MyImage(goal_page, new int[] {0, 76}, new int[] {800, 570}, "goal_layout", true);
+
+        // buttons
+        MyButton EditWaterGoal = new MyButton(goal_page, "editWater", new int[]{70, 304}, new int[]{222, 327}, "edit_goal_1"){
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Clicked");
+            }
+        };
+        MyButton EditSleepGoal = new MyButton(goal_page, "editSleep", new int[]{247, 304}, new int[]{399, 327}, "edit_goal_1"){
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Clicked");
+            }
+        };
+        MyButton EditExerciseGoal = new MyButton(goal_page, "editExercise", new int[]{70, 483}, new int[]{222, 506}, "edit_goal_1"){
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Clicked");
+            }
+        };
+        MyButton EditAlcoholGoal = new MyButton(goal_page, "editAlcohol", new int[]{247, 483}, new int[]{399, 506}, "edit_goal_1"){
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Clicked");
+            }
+        };
+        MyButton EditScreenTimeGoal = new MyButton(goal_page, "editScreenTime", new int[]{709, 169}, new int[]{731, 252}, "edit_goal_2"){
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Clicked");
+            }
+        };
+        MyButton EditStressGoal = new MyButton(goal_page, "editStress", new int[]{709, 276}, new int[]{731, 377}, "edit_goal_2"){
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Clicked");
+            }
+        };
+        MyButton EditCaffeineGoal = new MyButton(goal_page, "editCaffeine", new int[]{709, 401}, new int[]{731, 506}, "edit_goal_2"){
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Clicked");
+            }
+        };
+    }
+
+    public static void setUpEditWaterGoal(Main main, Page water_goal, Page nextPage) {
+        MyImage logo = new MyImage(water_goal, new int[]{70, 20}, new int[]{227, 70}, "logo", true);
+        MyImage layout = new MyImage(water_goal, new int[]{0, 76}, new int[]{800, 534}, "edit_water_goal", true);
+        MyTextField input = new MyTextField(main, water_goal, new int[] {375, 280}, new int[] {425, 330});
+
+        MyButton backButton = new MyButton(water_goal, "back", new int[] {295, 515}, new int[] {380, 540}, "back_button") {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Main Menu Page");
+            }
+        };
+        MyButton saveButton = new MyButton(water_goal, "save", new int[]{435, 515}, new int[]{505, 540}, "save_button") {
+            public void isClicked()
+            {
+                main.setCurrentPage(nextPage);
+                System.out.println("Saved");
             }
         };
     }
