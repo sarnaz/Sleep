@@ -241,7 +241,7 @@ public class Page
         setUpStressGraph(main,stress_graph,graph_visual,home_page);
 
 
-        main.setCurrentPage(username_password_initial);
+        main.setCurrentPage(sign_in_page);
     }
     private static void setUpDailySignIn(Main main, Page sign_in_page, Page nextPage){
         // Adds logo
@@ -417,6 +417,7 @@ public class Page
            			)
             	{
                     Database.addUser(usernameInput.getText(), passwordInput1.getText());
+                    System.out.println(Database.checkForUsers());
 	                main.setCurrentPage(nextPage);
 	                System.out.println("More Info Page");
             	}
@@ -514,7 +515,8 @@ public class Page
         MyButton deleteData = new MyButton (edit_profile_page, "delete data", new int[]{600, 475}, new int[]{750, 550}, "deleteData"){
             public void isClicked()
             {
-                System.out.println("delete data (NOT IMPLEMENTED)");
+                Database.removeUserData(Database.getCurrentUserId());
+                System.out.println("delete data");
             }
         };
     }
