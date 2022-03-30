@@ -22,7 +22,7 @@ public class GUI
         main = mmain;
         width = wwidth;
         height = hheight;
-        JFrame window = new JFrame("main window");
+        JFrame window = new JFrame("SleepWise");
 
         canvas = new JPanel()
         {
@@ -41,6 +41,20 @@ public class GUI
                 }
             }
         };
+        
+        canvas.addMouseMotionListener(new MouseAdapter()
+		{
+        	@Override
+            public void mouseDragged(MouseEvent e)
+            {
+            	super.mouseDragged(e);
+            	mx = e.getX();
+                my = e.getY();
+                System.out.println(mx+", "+my);
+            	main.getCurrentPage().checkSliderDrag(new int[] {mx, my});
+            	canvas.repaint();
+            }
+		});
 
         canvas.addMouseListener(new MouseAdapter()
         {
@@ -53,6 +67,17 @@ public class GUI
                 System.out.println(mx+", "+my);
                 main.getCurrentPage().checkButtons(new int[] {mx, my});
                 canvas.repaint();
+            }
+            
+            @Override
+            public void mouseReleased(MouseEvent e)
+            {
+            	super.mouseReleased(e);
+            	mx = e.getX();
+                my = e.getY();
+                System.out.println(mx+", "+my);
+            	main.getCurrentPage().checkSliderRelease(new int[] {mx, my});
+            	canvas.repaint();
             }
         });
 

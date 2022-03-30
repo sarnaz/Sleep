@@ -28,6 +28,8 @@ public class Main
         if(currentPage != null) { currentPage.exitPage(); }
         currentPage = page;
         currentPage.enterPage();
+        
+        System.out.println("displaying page: " + page.toString());
         //gui.setT1Vis(!gui.getT1Vis());
         gui.repaintCanvas();
     }
@@ -35,7 +37,6 @@ public class Main
     public static void main(String[] args)
     {
         Main main = new Main(800, 600);
-
         Page.setUpPages(main);
 
     }
