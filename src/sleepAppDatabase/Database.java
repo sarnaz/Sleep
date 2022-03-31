@@ -8,6 +8,7 @@ import java.io.*;
 
 public class Database {
 
+    //
     private static final int secondsInDay = (int) ((int) 8.64 * Math.pow(10, 4));
     private static boolean firstLogin = true;
     //assumes this is the user's first login unless proven otherwise
@@ -16,10 +17,12 @@ public class Database {
     private static int id;
     private static Object[][] factors = {{"caffeine", "alcohol", "fitness", "stress", "water", "screenTime"},{false, false, false, false, false, false}};
 
+    //returns the currently set user id
     public static int getCurrentUserId()
     {
         return id;
     }
+    //returns the factor array in it's current state
     public static Object[][] getFactorArray(){
         return factors;
     }
@@ -99,6 +102,7 @@ public class Database {
                 sql.append(id);
                 stmt.executeUpdate(sql.toString());
             }
+            Database.factors = factors;
 
         } catch (SQLException e) {
             System.out.println("exception was caught getting factors");
