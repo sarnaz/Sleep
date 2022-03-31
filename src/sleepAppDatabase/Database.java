@@ -91,7 +91,7 @@ public class Database {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
                 Statement stmt = conn.createStatement();
-                StringBuilder sql = new StringBuilder("UPDATE FACTORS WHERE TRUE SET ");
+                StringBuilder sql = new StringBuilder("UPDATE FACTORS SET ");
                 for(int i = 0; i<factors[0].length;i++){
                     sql.append(factors[0][i]).append("=").append(factors[1][i]);
                     if(i!=factors[0].length-1){
@@ -102,7 +102,9 @@ public class Database {
                 sql.append(id);
                 stmt.executeUpdate(sql.toString());
             }
+
             Database.factors = factors;
+
 
         } catch (SQLException e) {
             System.out.println("exception was caught getting factors");
@@ -111,7 +113,7 @@ public class Database {
         return true;
     }
 
-
+    //sets the last day that questions were answered to the end of the current day
     public static void setQuestionsAnswered(){
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
@@ -134,6 +136,8 @@ public class Database {
                     //should update the date in the database so
 
                 }
+
+                conn.close();
             }
         } catch (SQLException e) {
             System.out.println("exception caught in setQuestionsAnswered");
@@ -141,6 +145,8 @@ public class Database {
         }
     }
 
+
+    //sets a given user variable in a given column of the User database
     private static void setUserIntVariable(String column, int value) {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
@@ -157,6 +163,7 @@ public class Database {
         }
     }
 
+    //gets an int from the table user given a column
     private static int getUserIntVariable(String column) {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
@@ -181,14 +188,17 @@ public class Database {
         return Integer.MIN_VALUE;
     }
 
+    //sets the user's height to newAge
     public static void setUserHeight(int newAge) {
         setUserIntVariable("height", newAge);
     }
 
+    //returns the current user's height
     public static int getUserHeight() {
         return getUserIntVariable("height");
     }
 
+    //sets the current user's weight
     public static void setUserWeight(int newWeight) {
         setUserIntVariable("weight", newWeight);
     }
@@ -209,7 +219,7 @@ public class Database {
             if (conn != null) {
 
                 int value = Integer.MIN_VALUE;
-                String setDOBString = "UPDATE USER SET dateOfBirth=? WHERE TRUE";
+                String setDOBString = "UPDATE USER SET dateOfBirth=? ";
                 PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
                 preparedSetDOBStatement.setDate(1, newDate);
                 preparedSetDOBStatement.execute();
@@ -370,6 +380,7 @@ public class Database {
             //System.out.println("is first: " + Boolean.toString(rs.next()));
             if (rs.next()) {
                 salt = rs.getString("salt");
+
             }
             else{
                 conn.close();
@@ -405,6 +416,7 @@ public class Database {
     }
     //returns 1 if everything functioned correctly and the user was validated
 
+    //adds a user taking in a name and password, and internally adding to
     public static int addUser(String name, String password){
 
         int nextId = -2;
