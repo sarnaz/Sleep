@@ -13,10 +13,21 @@ class DatabaseTest {
 	@Test
 	void test() {
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		// https://www.w3schools.com/java/java_files_delete.asp
 		// I could look up how to do this myself
 
 		// delete the database file to get into an expected state - no database
+		
 		File f = new File("PI.db");
 		System.out.println(f.exists());
 		System.out.println(f.delete());
@@ -61,7 +72,7 @@ class DatabaseTest {
 		
 		// return to the expected state
 		f = new File("PI.db");
-		f.delete();
+		System.out.println(f.delete());
 	}
 
 }

@@ -197,7 +197,6 @@ public class Database {
         return getUserIntVariable("weight");
     }
 
-
     public static void setUserDateOfBirth(int year, int month, int day) {
 
         try {
@@ -263,12 +262,11 @@ public class Database {
                 }
                 //loops through each table creation statement to set up the database
             }
+            conn.close();
         } catch (SQLException e) {
             System.out.println("exception was caught initialising database");
             System.out.println(e.getLocalizedMessage());
         }
-
-
     }
     
     public static boolean databaseExists() {
@@ -423,6 +421,7 @@ public class Database {
             // returns 0 if the username is already taken
             if (rs.next()) {
                 System.out.println("username already taken");
+                conn.close();
                 return 0;
             }
 
