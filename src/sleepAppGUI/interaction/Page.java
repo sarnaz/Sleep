@@ -184,7 +184,7 @@ public class Page
         Page username_password_initial = new Page(2, main, new Color(0x6D3FB2));
         Page more_info_page = new Page(3, main, new Color(0xC7EFF9));
         Page graph_visual = new Page(5, main, new Color(0xC7EFF9));
-        Page home_page = new Page(6, main, new Color(0xC7EFF9));
+        Page home_page = new Page(6, main, new Color(0x6D3FB2));
         Page profile_page = new Page(7, main, new Color(0xC7EFF9));
         Page edit_profile_page = new Page(8, main, new Color(0xC7EFF9));
         Page sleep_questions = new Page(9, main, new Color(0xC7EFF9));
@@ -261,7 +261,7 @@ public class Page
         if (Database.checkForUsers()) {
             main.setCurrentPage(sign_in_page);
         } else {
-            main.setCurrentPage(home_page);
+            main.setCurrentPage(username_password_initial);
         }
     }
     private static void setUpDailySignIn(Main main, Page sign_in_page, Page nextPage){
