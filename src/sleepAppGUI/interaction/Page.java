@@ -200,9 +200,15 @@ public class Page
         Page exercise_questions = new Page(19, main, new Color(0xC7EFF9));
         Page exercise_yes = new Page(20, main, new Color(0xC7EFF9));
         Page exercise_no = new Page(21, main, new Color(0xC7EFF9));
-        Page goal_page = new Page(22, main, new Color(0xC7EFF9));
-        Page water_goal = new Page(23, main, new Color(0xC7EFF9));
-        Page suggestions = new Page(24, main, new Color(0xC7EFF9));
+        Page suggestions = new Page(22, main, new Color(0xC7EFF9));
+        Page goal_page = new Page(23, main, new Color(0xC7EFF9));
+        Page water_goal = new Page(24, main, new Color(0xC7EFF9));
+        Page sleep_goal = new Page(25, main, new Color(0xC7EFF9));
+        Page exercise_goal = new Page(26, main, new Color(0xC7EFF9));
+        Page alcohol_goal = new Page(27, main, new Color(0xC7EFF9));
+        Page screen_goal = new Page(28, main, new Color(0xC7EFF9));
+        Page stress_goal = new Page(29, main, new Color(0xC7EFF9));
+        Page caffeine_goal = new Page(30, main, new Color(0xC7EFF9));
 
         Page water_graph = new Page(10, main, new Color(0xC7EFF9));
         Page exercise_graph = new Page(11, main, new Color(0xC7EFF9));
@@ -214,7 +220,7 @@ public class Page
         setUpDailySignIn(main, sign_in_page, home_page);
         setUpSignInPage(main, username_password_initial, more_info_page);
         setUpMoreInfoPage(main, more_info_page, home_page);
-        setUpHomePage(main, home_page, profile_page, sleep_questions, graph_visual);
+        setUpHomePage(main, home_page, profile_page, sleep_questions, graph_visual, goal_page);
         setUpProfilePage(main, profile_page, home_page, edit_profile_page, sign_in_page);
         setUpEditProfilePage(main, edit_profile_page, profile_page);
         setUpSleepQuestionsPage(main, sleep_questions, water_questions);
@@ -231,8 +237,14 @@ public class Page
         setUpExerciseYes(main, exercise_yes, exercise_no, home_page);
         setUpExerciseNo(main, exercise_no, exercise_yes, home_page);
         setUpGraphPage(main,graph_visual, home_page, more_info_page, water_graph, exercise_graph, caffeine_graph, alcohol_graph, screen_graph, stress_graph);
-        setUpGoalPage(main, goal_page, water_goal);
+        setUpGoalPage(main, goal_page, home_page, suggestions, water_goal, sleep_goal, exercise_goal, alcohol_goal, screen_goal, stress_goal, caffeine_goal);
         setUpEditWaterGoal(main, water_goal, goal_page);
+        setUpEditSleepGoal(main, sleep_goal, goal_page);
+        setUpEditExerciseGoal(main, exercise_goal, goal_page);
+        setUpEditAlcoholGoal(main, alcohol_goal, goal_page);
+        setUpEditScreenGoal(main, screen_goal, goal_page);
+        setUpEditStressGoal(main, stress_goal, goal_page);
+        setUpEditCaffeineGoal(main, caffeine_goal, goal_page);
         setupSuggestions(main, suggestions,  home_page);
 
         setUpWaterGraph(main,water_graph,graph_visual,home_page);
@@ -437,19 +449,30 @@ public class Page
         };
     }
 
-    public static void setUpHomePage(Main main, Page home_page, Page profilePage, Page sleep_questions, Page graph_visual) {
+    public static void setUpHomePage(Main main, Page home_page, Page profilePage, Page sleep_questions, Page graph_visual, Page goalPage) {
         MyImage inputFrame = new MyImage(home_page, new int[] {150, 130}, new int[] {650, 530}, "home_page_layout", true);
-
         MyImage logo = new MyImage(home_page, new int[] {260, 30}, new int[] {560, 108}, "logo", true);
+
+        // show male icon for men and female icon for women
         MyImage maleIcon = new MyImage(home_page, new int[] {550, 157}, new int[] {610, 217}, "male_icon", true);
+        MyImage femaleIcon = new MyImage(home_page, new int[] {550, 157}, new int[] {610, 217}, "female_icon", false);
+
+        // display username
         MyText username = new MyText(home_page, new int[] {270, 178}, new int[] {320, 198}, "Username");
 
         // buttons
-        MyButton dailyQuestions = new MyButton(home_page, "dailyQuestions", new int[]{165, 255}, new int[]{410, 520}, "questions"){
+        MyButton dailyQuestions = new MyButton(home_page, "dailyQuestions", new int[]{170, 260}, new int[]{404, 361}, "questions"){
             public void isClicked()
             {
                 main.setCurrentPage(sleep_questions);
                 System.out.println("Sleep questions");
+            }
+        };
+        MyButton goals = new MyButton(home_page, "goals", new int[]{170, 375}, new int[]{405, 515}, "goals"){
+            public void isClicked()
+            {
+                main.setCurrentPage(goalPage);
+                System.out.println("Goal Page");
             }
         };
         MyButton activity = new MyButton(home_page, "activity", new int[]{420, 260}, new int[]{634, 405}, "activity"){
@@ -1000,81 +1023,205 @@ public class Page
         };
     }
 
-    public static void setUpGoalPage(Main main, Page goal_page, Page nextPage) {
-        MyImage logo = new MyImage(goal_page, new int[] {70, 20}, new int[] {227, 70}, "logo", true);
-        MyImage layout = new MyImage(goal_page, new int[] {0, 76}, new int[] {800, 570}, "goal_layout", true);
+    public static void setUpGoalPage(Main main, Page goal_page, Page previousPage, Page suggestionsPage, Page waterPage, Page sleepPage, Page exercisePage, Page alcoholPage, Page screenPage, Page stressPage, Page caffeinePage) {
+        MyImage layout = new MyImage(goal_page, new int[] {0, 20}, new int[] {800, 476}, "goal_layout", true);
 
-        // buttons
-        MyButton EditWaterGoal = new MyButton(goal_page, "editWater", new int[]{70, 304}, new int[]{222, 327}, "edit_goal_1"){
+        // example of how to display goal
+        MyText goal_example = new MyText(goal_page, new int[] {110, 200}, new int[] {320, 230}, "5 / 10");
+
+        // buttons to edit goals
+        MyButton EditWaterGoal = new MyButton(goal_page, "editWater", new int[]{70, 248}, new int[]{222, 271}, "edit_goal_1"){
             public void isClicked()
             {
-                main.setCurrentPage(nextPage);
-                System.out.println("Clicked");
+                main.setCurrentPage(waterPage);
+                System.out.println("Edit Water Goal Page");
             }
         };
-        MyButton EditSleepGoal = new MyButton(goal_page, "editSleep", new int[]{247, 304}, new int[]{399, 327}, "edit_goal_1"){
+        MyButton EditSleepGoal = new MyButton(goal_page, "editSleep", new int[]{247, 248}, new int[]{399, 271}, "edit_goal_1"){
             public void isClicked()
             {
-                main.setCurrentPage(nextPage);
-                System.out.println("Clicked");
+                main.setCurrentPage(sleepPage);
+                System.out.println("Edit Sleep Goal Page");
             }
         };
-        MyButton EditExerciseGoal = new MyButton(goal_page, "editExercise", new int[]{70, 483}, new int[]{222, 506}, "edit_goal_1"){
+        MyButton EditExerciseGoal = new MyButton(goal_page, "editExercise", new int[]{70, 427}, new int[]{222, 450}, "edit_goal_1"){
             public void isClicked()
             {
-                main.setCurrentPage(nextPage);
-                System.out.println("Clicked");
+                main.setCurrentPage(exercisePage);
+                System.out.println("Edit Exercise Goal Page");
             }
         };
-        MyButton EditAlcoholGoal = new MyButton(goal_page, "editAlcohol", new int[]{247, 483}, new int[]{399, 506}, "edit_goal_1"){
+        MyButton EditAlcoholGoal = new MyButton(goal_page, "editAlcohol", new int[]{247, 427}, new int[]{399, 450}, "edit_goal_1"){
             public void isClicked()
             {
-                main.setCurrentPage(nextPage);
-                System.out.println("Clicked");
+                main.setCurrentPage(alcoholPage);
+                System.out.println("Edit Alcohol Goal Page");
             }
         };
-        MyButton EditScreenTimeGoal = new MyButton(goal_page, "editScreenTime", new int[]{709, 169}, new int[]{731, 252}, "edit_goal_2"){
+        MyButton EditScreenTimeGoal = new MyButton(goal_page, "editScreenTime", new int[]{709, 113}, new int[]{731, 196}, "edit_goal_2"){
             public void isClicked()
             {
-                main.setCurrentPage(nextPage);
-                System.out.println("Clicked");
+                main.setCurrentPage(screenPage);
+                System.out.println("Edit Screen Time Goal Page");
             }
         };
-        MyButton EditStressGoal = new MyButton(goal_page, "editStress", new int[]{709, 276}, new int[]{731, 377}, "edit_goal_2"){
+        MyButton EditStressGoal = new MyButton(goal_page, "editStress", new int[]{709, 220}, new int[]{731, 321}, "edit_goal_2"){
             public void isClicked()
             {
-                main.setCurrentPage(nextPage);
-                System.out.println("Clicked");
+                main.setCurrentPage(stressPage);
+                System.out.println("Edit Stress Goal Page");
             }
         };
-        MyButton EditCaffeineGoal = new MyButton(goal_page, "editCaffeine", new int[]{709, 401}, new int[]{731, 506}, "edit_goal_2"){
+        MyButton EditCaffeineGoal = new MyButton(goal_page, "editCaffeine", new int[]{709, 345}, new int[]{731, 450}, "edit_goal_2"){
             public void isClicked()
             {
-                main.setCurrentPage(nextPage);
-                System.out.println("Clicked");
+                main.setCurrentPage(caffeinePage);
+                System.out.println("Edit Caffeine Goal Page");
+            }
+        };
+        MyButton backButton = new MyButton(goal_page, "back", new int[] {100, 490}, new int[] {190, 520}, "back_button") {
+            public void isClicked()
+            {
+                main.setCurrentPage(previousPage);
+                System.out.println("Home Page");
+            }
+        };
+        MyButton suggestionsButton = new MyButton(goal_page, "suggestions", new int[] {520, 490}, new int[] {662, 520}, "suggestions_button") {
+            public void isClicked()
+            {
+                main.setCurrentPage(suggestionsPage);
+                System.out.println("Suggestions Page");
             }
         };
     }
 
-    public static void setUpEditWaterGoal(Main main, Page water_goal, Page nextPage) {
-        MyImage logo = new MyImage(water_goal, new int[]{70, 20}, new int[]{227, 70}, "logo", true);
-        MyImage layout = new MyImage(water_goal, new int[]{0, 76}, new int[]{800, 534}, "edit_water_goal", true);
-        MyTextField input = new MyTextField(main, water_goal, new int[]{375, 280}, new int[]{425, 330});
+    public static void setUpEditWaterGoal(Main main, Page water_goal, Page goalPage) {
+        MyImage layout = new MyImage(water_goal, new int[]{0, 10}, new int[]{800, 519}, "water_goal", true);
+        MyTextField input = new MyTextField(main, water_goal, new int[]{375, 170}, new int[]{425, 210});
 
-        MyButton backButton = new MyButton(water_goal, "back", new int[]{295, 515}, new int[]{380, 540}, "back_button") {
+        MyButton backButton = new MyButton(water_goal, "back", new int[]{240, 525}, new int[]{330, 555}, "back_button") {
             public void isClicked() {
-                main.setCurrentPage(nextPage);
-                System.out.println("Main Menu Page");
+                main.setCurrentPage(goalPage);
+                System.out.println("Goal Page");
             }
         };
-        MyButton saveButton = new MyButton(water_goal, "save", new int[]{435, 515}, new int[]{505, 540}, "save_button") {
+        MyButton saveButton = new MyButton(water_goal, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
             public void isClicked() {
-                main.setCurrentPage(nextPage);
+                main.setCurrentPage(goalPage);
                 System.out.println("Saved");
             }
         };
     }
 
+    public static void setUpEditSleepGoal(Main main, Page sleep_goal, Page goalPage) {
+        MyImage layout = new MyImage(sleep_goal, new int[]{0, 10}, new int[]{800, 519}, "sleep_goal", true);
+        MyTextField input = new MyTextField(main, sleep_goal, new int[]{375, 170}, new int[]{425, 210});
+
+        MyButton backButton = new MyButton(sleep_goal, "back", new int[]{240, 525}, new int[]{330, 555}, "back_button") {
+            public void isClicked() {
+                main.setCurrentPage(goalPage);
+                System.out.println("Goal Page");
+            }
+        };
+        MyButton saveButton = new MyButton(sleep_goal, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
+            public void isClicked() {
+                main.setCurrentPage(goalPage);
+                System.out.println("Saved");
+            }
+        };
+    }
+
+    public static void setUpEditExerciseGoal(Main main, Page exercise_goal, Page goalPage) {
+        MyImage layout = new MyImage(exercise_goal, new int[]{0, 10}, new int[]{800, 519}, "exercise_goal", true);
+        MyTextField input = new MyTextField(main, exercise_goal, new int[]{375, 170}, new int[]{425, 210});
+
+        MyButton backButton = new MyButton(exercise_goal, "back", new int[]{240, 525}, new int[]{330, 555}, "back_button") {
+            public void isClicked() {
+                main.setCurrentPage(goalPage);
+                System.out.println("Goal Page");
+            }
+        };
+        MyButton saveButton = new MyButton(exercise_goal, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
+            public void isClicked() {
+                main.setCurrentPage(goalPage);
+                System.out.println("Saved");
+            }
+        };
+    }
+
+    public static void setUpEditAlcoholGoal(Main main, Page alcohol_goal, Page goalPage) {
+        MyImage layout = new MyImage(alcohol_goal, new int[]{0, 10}, new int[]{800, 519}, "alcohol_goal", true);
+        MyTextField input = new MyTextField(main, alcohol_goal, new int[]{375, 170}, new int[]{425, 210});
+
+        MyButton backButton = new MyButton(alcohol_goal, "back", new int[]{240, 525}, new int[]{330, 555}, "back_button") {
+            public void isClicked() {
+                main.setCurrentPage(goalPage);
+                System.out.println("Goal Page");
+            }
+        };
+        MyButton saveButton = new MyButton(alcohol_goal, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
+            public void isClicked() {
+                main.setCurrentPage(goalPage);
+                System.out.println("Saved");
+            }
+        };
+    }
+
+    public static void setUpEditScreenGoal(Main main, Page screen_goal, Page goalPage) {
+        MyImage layout = new MyImage(screen_goal, new int[]{0, 10}, new int[]{800, 519}, "screen_goal", true);
+        MyTextField input = new MyTextField(main, screen_goal, new int[]{375, 170}, new int[]{425, 210});
+
+        MyButton backButton = new MyButton(screen_goal, "back", new int[]{240, 525}, new int[]{330, 555}, "back_button") {
+            public void isClicked() {
+                main.setCurrentPage(goalPage);
+                System.out.println("Goal Page");
+            }
+        };
+        MyButton saveButton = new MyButton(screen_goal, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
+            public void isClicked() {
+                main.setCurrentPage(goalPage);
+                System.out.println("Saved");
+            }
+        };
+    }
+
+    public static void setUpEditStressGoal(Main main, Page stress_goal, Page goalPage) {
+        MyImage layout = new MyImage(stress_goal, new int[]{0, 10}, new int[]{800, 519}, "stress_goal", true);
+        MyTextField input = new MyTextField(main, stress_goal, new int[]{475, 170}, new int[]{525, 210});
+
+        MyButton backButton = new MyButton(stress_goal, "back", new int[]{240, 525}, new int[]{330, 555}, "back_button") {
+            public void isClicked() {
+                main.setCurrentPage(goalPage);
+                System.out.println("Goal Page");
+            }
+        };
+        MyButton saveButton = new MyButton(stress_goal, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
+            public void isClicked() {
+                main.setCurrentPage(goalPage);
+                System.out.println("Saved");
+            }
+        };
+    }
+
+    public static void setUpEditCaffeineGoal(Main main, Page caffeine_goal, Page goalPage) {
+        MyImage layout = new MyImage(caffeine_goal, new int[]{0, 10}, new int[]{800, 519}, "caffeine_goal", true);
+        MyTextField coffeeInput = new MyTextField(main, caffeine_goal, new int[]{265, 170}, new int[]{315, 210});
+        MyTextField teaInput = new MyTextField(main, caffeine_goal, new int[]{385, 170}, new int[]{435, 210});
+        MyTextField energyDrinkInput = new MyTextField(main, caffeine_goal, new int[]{645, 170}, new int[]{695, 210});
+
+        MyButton backButton = new MyButton(caffeine_goal, "back", new int[]{240, 525}, new int[]{330, 555}, "back_button") {
+            public void isClicked() {
+                main.setCurrentPage(goalPage);
+                System.out.println("Goal Page");
+            }
+        };
+        MyButton saveButton = new MyButton(caffeine_goal, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
+            public void isClicked() {
+                main.setCurrentPage(goalPage);
+                System.out.println("Saved");
+            }
+        };
+    }
 
     private static void setupSuggestions(Main main, Page suggestions, Page home_page) {
         MyText title = new MyText(suggestions, new int[] {270, 110}, new int[] {180, 160}, "Suggestions");
