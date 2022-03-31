@@ -266,16 +266,16 @@ public class Page
         }
     }
     private static void setUpDailySignIn(Main main, Page sign_in_page, Page nextPage){
-        // Adds logo
-        MyImage logo = new MyImage(sign_in_page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
-        // Adds the box to go behind input fields
-        MyImage input_frame = new MyImage(sign_in_page, new int[] {275, 170}, new int[] {525, 350}, "box_behind", true);
+        new MyImage(sign_in_page, new int[] {0, 1}, new int[] {800, 600}, "first-page", ".jpg", true);
+
         // Adds the username input box on first page
-        MyText usernameText = new MyText(sign_in_page, new int[] {350, 200}, new int[] {365, 220}, "Username:");
-        MyTextField usernameInput = new MyTextField(main, sign_in_page, new int[] {300, 210}, new int[] {500, 235});
+        MyText.putText(sign_in_page, new int[] {400, 230}, new int[] {70, 24}, "Username:", new int[] {0, 0, 1}, "Helvetica", Font.BOLD);
+        MyTextField usernameInput = new MyTextField(main, sign_in_page, new int[] {400, 245}, new int[] {750, 275});
+
         // Adds the password boxes
-        MyText password = new MyText(sign_in_page, new int[] {350, 265}, new int[] {365, 285}, "Password:");
-        MyPasswordField passwordInput1 = new MyPasswordField(main, sign_in_page, new int[] {300, 275}, new int[] {500, 300});
+        MyText.putText(sign_in_page, new int[] {400, 310}, new int[] {70, 24}, "Password:", new int[] {0, 0, 1}, "Helvetica", Font.BOLD);
+        MyPasswordField passwordInput1 = new MyPasswordField(main, sign_in_page, new int[] {400, 325}, new int[] {750, 355});
+
         MyImage openEye = new MyImage(sign_in_page, new int[]{450, 250}, new int[]{470, 270}, "openEye", false);
         MyImage closedEye = new MyImage(sign_in_page, new int[]{450, 250}, new int[]{470, 270}, "closedEye", true);
 
@@ -292,13 +292,15 @@ public class Page
                 closedEye.setVisible(!passwordInput1.getTextVisibility());
             }
         };
+
         // Add next button
-        MyButton nextButton = new MyButton(sign_in_page, "next", new int[] {360, 400}, new int[] {440, 435}, "next") {
-            public void isClicked() {
+        new MyButton(sign_in_page, "next", new int[] {680, 365}, new int[] {750, 415}, "next-button") {    public void isClicked() {
                 // basic input validation
-                if(Database.validateUser(usernameInput.getText(), passwordInput1.getText()) == 1){
+                if (Database.validateUser(usernameInput.getText(), passwordInput1.getText()) == 1){
                     main.setCurrentPage(nextPage);
                     System.out.println("More Info Page");
+                } else {
+                    System.out.println("Validate User Failed.");
                 }
             }
         };
@@ -435,7 +437,7 @@ public class Page
 
     private static void setUpSignInPage(Main main, Page username_password_initial, Page nextPage) {
         // ADD THINGS TO FIRST PAGE
-        // Adds logo
+        // Adds background
         new MyImage(username_password_initial, new int[] {0, 1}, new int[] {800, 600}, "first-page", ".jpg", true);
 
         new MyText(username_password_initial, new int[] {400, 190}, new int[] {440, 215}, "Username:", new int[] {0, 0, 1}, "Helvetica", Font.BOLD);
