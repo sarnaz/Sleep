@@ -91,7 +91,7 @@ public class Database {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
                 Statement stmt = conn.createStatement();
-                StringBuilder sql = new StringBuilder("UPDATE FACTORS WHERE TRUE SET ");
+                StringBuilder sql = new StringBuilder("UPDATE FACTORS SET ");
                 for(int i = 0; i<factors[0].length;i++){
                     sql.append(factors[0][i]).append("=").append(factors[1][i]);
                     if(i!=factors[0].length-1){
@@ -100,6 +100,7 @@ public class Database {
                 }
                 sql.append(" where id=");
                 sql.append(id);
+                System.out.println(sql.toString());
                 stmt.executeUpdate(sql.toString());
             }
             Database.factors = factors;
