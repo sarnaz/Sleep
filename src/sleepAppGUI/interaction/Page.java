@@ -261,7 +261,7 @@ public class Page
         if (Database.checkForUsers()) {
             main.setCurrentPage(sign_in_page);
         } else {
-            main.setCurrentPage(username_password_initial);
+            main.setCurrentPage(home_page);
         }
     }
     private static void setUpDailySignIn(Main main, Page sign_in_page, Page nextPage){
@@ -449,7 +449,9 @@ public class Page
 
     public static void setUpHomePage(Main main, Page home_page, Page profilePage, Page sleep_questions, Page graph_visual, Page goalPage) {
         MyImage inputFrame = new MyImage(home_page, new int[] {150, 130}, new int[] {650, 530}, "home_page_layout", true);
-        MyImage logo = new MyImage(home_page, new int[] {260, 30}, new int[] {560, 108}, "logo", true);
+
+        // Add Logo
+        MyImage.putImage(home_page, new int[] {275, 30}, 250, "logo");
 
         // show male icon for men and female icon for women
         MyImage maleIcon = new MyImage(home_page, new int[] {550, 157}, new int[] {610, 217}, "male_icon", true);
