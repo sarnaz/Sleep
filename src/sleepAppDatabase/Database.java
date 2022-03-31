@@ -100,14 +100,16 @@ public class Database {
                 }
                 sql.append(" where id=");
                 sql.append(id);
-                System.out.println(sql.toString());
                 stmt.executeUpdate(sql.toString());
+            } else {
+                return false;
             }
             Database.factors = factors;
 
         } catch (SQLException e) {
             System.out.println("exception was caught getting factors");
             System.out.println(e.getLocalizedMessage());
+            return false;
         }
         return true;
     }
