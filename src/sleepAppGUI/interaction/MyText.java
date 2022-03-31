@@ -32,6 +32,16 @@ public class MyText extends VObject
         colour = Color.getHSBColor(textColour[0], textColour[1], textColour[2]);
     }
 
+    public MyText putText(Page page, int[] coordinates1, int[] size, String text, int[] textColour, String fontName, int style) {
+        final int[] coordinates2 = new int[] {coordinates1[0] + size[0], coordinates1[1] + size[1]};
+
+        return new MyText(page, coordinates1, coordinates2, text, textColour, fontName, style);
+    }
+
+    public MyText putText(Page page, int[] coordinates1, int[] size, String text) {
+        return putText(page, coordinates1, size, text, new int[] {0, 0, 0}, font, style);
+    }
+
     @Override
     public void paint(Graphics g)
     {
