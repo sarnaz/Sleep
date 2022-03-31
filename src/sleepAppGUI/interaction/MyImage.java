@@ -24,17 +24,19 @@ public class MyImage extends VObject
         extension = fileExtension;
     }
 
-    public static MyImage putImage(Page page, int[] coordinates1, int[] size, String imageName, boolean scale) {
+    public static MyImage putImage(Page page, int[] coordinates1, int width, String imageName) {
         final int[] coordinates2;
 
-        if (scale) {
-            final int[] imageDimensions = getImageFileDimensions(imageName);
-            coordinates2 = new int[] {coordinates1[0] + size[0], coordinates1[1] * (size[0]/imageDimensions[0])};
-        } else {
-            coordinates2 = new int[] {coordinates1[0] + size[0], coordinates1[1] + size[1]};
-        }
+        final int[] imageDimensions = getImageFileDimensions(imageName);
+        coordinates2 = new int[] {coordinates1[0] + width, coordinates1[1] * (width/imageDimensions[0])};
 
-        return new MyImage(page, coordinates1, coordinates2, imageName, scale);
+        return new MyImage(page, coordinates1, coordinates2, imageName, true);
+    }
+
+    public static MyImage putImage(Page page, int[] coordinates1, int[] size, String imageName) {
+        final int[] coordinates2 = new int[] {coordinates1[0] + size[0], coordinates1[1] + size[1]};
+
+        return new MyImage(page, coordinates1, coordinates2, imageName, true);
     }
 
     public static int[] getImageFileDimensions(String fileName) {
