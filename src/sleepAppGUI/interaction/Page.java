@@ -408,13 +408,10 @@ public class Page
         new MyText(username_password_initial, new int[] {400, 370}, new int[] {440, 395}, "Re-enter Password:", new int[] {0, 0, 1}, "Helvetica", Font.BOLD);
         MyPasswordField passwordInput2 = new MyPasswordField(main, username_password_initial, new int[] {400, 385}, new int[] {750, 415});
 
-        MyImage openEye = new MyImage(username_password_initial, new int[]{730, 250}, new int[]{750, 270}, "openEye", false);
-        MyImage closedEye = new MyImage(username_password_initial, new int[]{730, 250}, new int[]{750, 270}, "closedEye", true);
+        MyImage openEye = new MyImage(username_password_initial, new int[]{540, 262}, new int[]{560, 282}, "openEye", false);
+        MyImage closedEye = new MyImage(username_password_initial, new int[]{540, 262}, new int[]{560, 282}, "closedEye", true);
 
-        username_password_initial.pushToFront(openEye);
-        username_password_initial.pushToFront(closedEye);
-
-        new MyButton(username_password_initial, "show password", new int[] {730, 250}, new int[] {750, 270}, null)
+        new MyButton(username_password_initial, "show password", new int[]{540, 262}, new int[]{560, 282}, null)
         {
         	public void isClicked()
         	{
@@ -447,6 +444,7 @@ public class Page
             	}
             }
         };
+
     }
 
     public static void setUpHomePage(Main main, Page home_page, Page profilePage, Page sleep_questions, Page graph_visual, Page goalPage) {
