@@ -2,33 +2,58 @@ package sleepAppGUI.interaction;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class MyImage extends VObject
 {
-    String image;
+    String imageFileName;
     String extension;
 
     public MyImage(Page page, int[] coordinates1, int[] coordinates2, String imageName, boolean defaultVisible)
     {
         super(page, coordinates1, coordinates2, defaultVisible);
-        image = imageName;
+        imageFileName = imageName;
         extension = ".png";
     }
 
     public MyImage(Page page, int[] coordinates1, int[] coordinates2, String imageName, String fileExtension, boolean defaultVisible) {
         super(page, coordinates1, coordinates2, defaultVisible);
-        image = imageName;
+        imageFileName = imageName;
         extension = fileExtension;
+    }
+
+    public static MyImage putImage(Page page, int[] coordinates1, int[] size, String imageName, boolean scale) {
+        final int[] coordinates2;
+
+        if (scale) {
+            final int[] imageDimensions = getImageFileDimensions(imageName);
+            coordinates2 = new int[] {coordinates1[0] + size[0], coordinates1[1] * (size[0]/imageDimensions[0])};
+        } else {
+            coordinates2 = new int[] {coordinates1[0] + size[0], coordinates1[1] + size[1]};
+        }
+
+        return new MyImage(page, coordinates1, coordinates2, imageName, scale);
+    }
+
+    public static int[] getImageFileDimensions(String fileName) {
+        final BufferedImage image;
+        try {
+            image = ImageIO.read(new File(fileName));
+        } catch (IOException e) {
+            return new int[] {0, 0};
+        }
+
+        return new int[] {image.getWidth(), image.getHeight()};
     }
 
     public void paint(Graphics g)
     {
         try
         {
-            g.drawImage(ImageIO.read(new File("assets/" + image + extension)), corner1[0], corner1[1], corner2[0] - corner1[0], corner2[1] - corner1[1], null);
+            g.drawImage(ImageIO.read(new File("assets/" + imageFileName + extension)), corner1[0], corner1[1], corner2[0] - corner1[0], corner2[1] - corner1[1], null);
         }
-        catch(IOException f) { System.out.println(image + " couldn't be found"); }
+        catch(IOException f) { System.out.println(imageFileName + " couldn't be found"); }
     }
 }
