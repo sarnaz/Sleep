@@ -32,7 +32,7 @@ public class MyImage extends VObject
             imageDimensions[0] = 100;
             System.out.println("There was an error loading image.");
         }
-        coordinates2 = new int[] {coordinates1[0] + width, coordinates1[1] * (width/imageDimensions[0])};
+        coordinates2 = new int[] {coordinates1[0] + width, (int) (coordinates1[1] + imageDimensions[1] * ((float) width/imageDimensions[0]))};
 
         return new MyImage(page, coordinates1, coordinates2, imageName, true);
     }
@@ -55,7 +55,7 @@ public class MyImage extends VObject
     }
 
     public static int[] getImageFileDimensions(String fileName) {
-        return getImageFileDimensions(fileName, ".jpg");
+        return getImageFileDimensions(fileName, ".png");
     }
 
     public void paint(Graphics g)
