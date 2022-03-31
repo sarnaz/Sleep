@@ -6,6 +6,7 @@ import sleepAppGUI.visuals.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import sleepAppDatabase.Database;
 
@@ -295,9 +296,10 @@ public class Page
         MyButton nextButton = new MyButton(sign_in_page, "next", new int[] {360, 400}, new int[] {440, 435}, "next") {
             public void isClicked() {
                 // basic input validation
-                main.setCurrentPage(nextPage);
-                System.out.println("More Info Page");
-
+                if(Database.validateUser(usernameInput.getText(), passwordInput1.getText()) == 1){
+                    main.setCurrentPage(nextPage);
+                    System.out.println("More Info Page");
+                }
             }
         };
     }
@@ -311,7 +313,7 @@ public class Page
         // height
         MyText height = new MyText(more_info_page, new int[] {275, 50}, new int[] {290, 70}, "Height:");
         MyTextField heightInput = new MyTextField(main, more_info_page, new int[] {282, 60}, new int[] {318, 85});
-        MyText metres = new MyText(more_info_page, new int[] {320, 77}, new int[]{335, 92}, "m");
+        MyText metres = new MyText(more_info_page, new int[] {320, 77}, new int[]{335, 92}, "cm");
         // weight
         MyText weight = new MyText(more_info_page, new int[] {375, 50}, new int[] {390, 70}, "Weight:");
         MyTextField weightInput = new MyTextField(main, more_info_page, new int[] {382, 60}, new int[]{418, 85});
@@ -377,8 +379,46 @@ public class Page
 
         MyButton submit = new MyButton(more_info_page, "submit", new int[]{650, 510}, new int[]{750, 550}, "submitButton"){
             public void isClicked() {
-                main.setCurrentPage(nextPage);
-                System.out.println("Account Created!");
+                Database.setUserHeight(Integer.parseInt(heightInput.getText()));
+                Database.setUserWeight(Integer.parseInt(weightInput.getText()));
+                Object[][] new_factors = Database.getFactorArray();
+                ArrayList<String> factors_chosen = new ArrayList<String>();
+                if(caffeineClicked.isVisible()==true) {
+                    factors_chosen.add("caffeine");
+                }
+                if(alcoholClicked.isVisible()==true) {
+                    factors_chosen.add("alcohol");
+                }
+                if(exerciseClicked.isVisible()==true) {
+                    factors_chosen.add("fitness");
+                }
+                if(stressClicked.isVisible()==true) {
+                    factors_chosen.add("stress");
+                }
+                if(waterClicked.isVisible()==true) {
+                    factors_chosen.add("water");
+                }
+                if(screenTimeClicked.isVisible()==true) {
+                    factors_chosen.add("screenTime");
+                }
+                if(factors_chosen.size() < 3){
+                    System.out.println("Not enough factors");
+                }
+                else {
+                    for (String each_factor : factors_chosen) {
+                        System.out.println(factors_chosen);
+                        for (int current = 0; current < new_factors[0].length; current++) {
+                            System.out.println(new_factors[0][current]);
+                            if (new_factors[0][current] == each_factor) {
+                                new_factors[1][current] = 1;
+                                System.out.println(each_factor);
+                            }
+                        }
+                    }
+                    Database.setFactors(new_factors);
+                    main.setCurrentPage(nextPage);
+                    System.out.println("Account Created!");
+                }
             }
         };
 
@@ -435,6 +475,7 @@ public class Page
             		!passwordInput1.getText().equals("")
            			)
             	{
+                    Database.addUser(usernameInput.getText(), passwordInput1.getText());
 	                main.setCurrentPage(nextPage);
 	                System.out.println("More Info Page");
             	}

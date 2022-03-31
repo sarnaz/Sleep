@@ -91,7 +91,7 @@ public class Database {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
                 Statement stmt = conn.createStatement();
-                StringBuilder sql = new StringBuilder("UPDATE FACTORS WHERE TRUE SET ");
+                StringBuilder sql = new StringBuilder("UPDATE FACTORS SET ");
                 for(int i = 0; i<factors[0].length;i++){
                     sql.append(factors[0][i]).append("=").append(factors[1][i]);
                     if(i!=factors[0].length-1){
@@ -101,12 +101,15 @@ public class Database {
                 sql.append(" where id=");
                 sql.append(id);
                 stmt.executeUpdate(sql.toString());
+            } else {
+                return false;
             }
             Database.factors = factors;
 
         } catch (SQLException e) {
             System.out.println("exception was caught getting factors");
             System.out.println(e.getLocalizedMessage());
+            return false;
         }
         return true;
     }
@@ -197,7 +200,6 @@ public class Database {
         return getUserIntVariable("weight");
     }
 
-
     public static void setUserDateOfBirth(int year, int month, int day) {
 
         try {
@@ -263,12 +265,11 @@ public class Database {
                 }
                 //loops through each table creation statement to set up the database
             }
+            conn.close();
         } catch (SQLException e) {
             System.out.println("exception was caught initialising database");
             System.out.println(e.getLocalizedMessage());
         }
-
-
     }
     
     public static boolean databaseExists() {
@@ -423,6 +424,7 @@ public class Database {
             // returns 0 if the username is already taken
             if (rs.next()) {
                 System.out.println("username already taken");
+                conn.close();
                 return 0;
             }
 
