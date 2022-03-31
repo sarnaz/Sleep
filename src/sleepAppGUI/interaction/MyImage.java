@@ -28,6 +28,10 @@ public class MyImage extends VObject
         final int[] coordinates2;
 
         final int[] imageDimensions = getImageFileDimensions(imageName);
+        if (imageDimensions[0] == 0) {
+            imageDimensions[0] = 100;
+            System.out.println("There was an error loading image.");
+        }
         coordinates2 = new int[] {coordinates1[0] + width, coordinates1[1] * (width/imageDimensions[0])};
 
         return new MyImage(page, coordinates1, coordinates2, imageName, true);
@@ -39,15 +43,19 @@ public class MyImage extends VObject
         return new MyImage(page, coordinates1, coordinates2, imageName, true);
     }
 
-    public static int[] getImageFileDimensions(String fileName) {
+    public static int[] getImageFileDimensions(String fileName, String extension) {
         final BufferedImage image;
         try {
-            image = ImageIO.read(new File(fileName));
+            image = ImageIO.read(new File("assets/" + fileName + extension));
         } catch (IOException e) {
             return new int[] {0, 0};
         }
 
         return new int[] {image.getWidth(), image.getHeight()};
+    }
+
+    public static int[] getImageFileDimensions(String fileName) {
+        return getImageFileDimensions(fileName, ".jpg");
     }
 
     public void paint(Graphics g)
