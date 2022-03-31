@@ -9,12 +9,12 @@ import java.io.*;
 public class Database {
 
     private static final int secondsInDay = (int) ((int) 8.64 * Math.pow(10, 4));
-    private static final boolean firstLogin = true;
+    private static boolean firstLogin = true;
     //assumes this is the user's first login unless proven otherwise
     public static final String databaseURL = "jdbc:sqlite:PI.db";
     //the database url. final as it should never be changed
     private static int id;
-    private static final Object[][] factors = {{"caffeine", "alcohol", "fitness", "stress", "water"},{false, false, false, false, false}};
+    private static Object[][] factors = {{"caffeine", "alcohol", "fitness", "stress", "water", "screenTime"},{false, false, false, false, false, false}};
 
     public static int getCurrentUserId()
     {
@@ -272,58 +272,51 @@ public class Database {
     }
 
     private static String[] getSetupQuery(){
-        return new String[] {"""
-CREATE TABLE USER (
-  id INTEGER(4) NOT NULL primary key,
-  firstLogin INTEGER(1) NOT NULL DEFAULT 1,
-  name varchar(30) not null UNIQUE,
-  password varchar(32) not null,
-  salt varchar(8) not null,
-  weight INT(3) not NULL DEFAULT 72,
-  height INT(3) not null DEFAULT 174,
-  dateOfBirth DATE not null DEFAULT "2002-1-1",
-  lastQuestionTime INT(13) not null DEFAULT 1648080000
-);""",
+        return new String[] {"CREATE TABLE USER (\n" +
+                "  id INTEGER(4) NOT NULL primary key,\n" +
+                "  firstLogin INTEGER(1) NOT NULL DEFAULT 1,\n" +
+                "  name varchar(30) not null UNIQUE,\n" +
+                "  password varchar(32) not null,\n" +
+                "  salt varchar(8) not null,\n" +
+                "  weight INT(3) not NULL DEFAULT 72,\n" +
+                "  height INT(3) not null DEFAULT 174,\n" +
+                "  dateOfBirth DATE not null DEFAULT \"2002-1-1\",\n" +
+                "  lastQuestionTime INT(13) not null DEFAULT 1648080000\n" +
+                ");",
 
-                """
-CREATE TABLE FLUID (
-  id INTEGER(4) NOT NULL,
-  units INTEGER(3)  DEFAULT NULL,
-  caffeine INTEGER(4) DEFAULT NULL,
-  cupsOfWater INTEGER(3)  DEFAULT NULL,
-  addDate DATE NOT NULL
-);
-""",
+                "CREATE TABLE FLUID (\n" +
+                        "  id INTEGER(4) NOT NULL,\n" +
+                        "  units INTEGER(3)  DEFAULT NULL,\n" +
+                        "  caffeine INTEGER(4) DEFAULT NULL,\n" +
+                        "  cupsOfWater INTEGER(3)  DEFAULT NULL,\n" +
+                        "  addDate DATE NOT NULL\n" +
+                        ");\n",
 
-                """
-CREATE TABLE SLEEP (
-  id int(4) NOT NULL,
-  sleepTime INTEGER(2)  DEFAULT NULL,
-  timeToSleep INTEGER(3)  DEFAULT NULL,
-  sleepQuality INTEGER(2)  DEFAULT NULL,
-  addDate DATE NOT NULL
-);
-""",
+                "CREATE TABLE SLEEP (\n" +
+                        "  id int(4) NOT NULL,\n" +
+                        "  sleepTime INTEGER(2)  DEFAULT NULL,\n" +
+                        "  timeToSleep INTEGER(3)  DEFAULT NULL,\n" +
+                        "  sleepQuality INTEGER(2)  DEFAULT NULL,\n" +
+                        "  addDate DATE NOT NULL\n" +
+                        ");\n",
 
 
-                """
-CREATE TABLE STRESS (
-  id INTEGER(4)  NOT NULL,
-  stressLevel int(2) DEFAULT NULL,
-  addDate DATE NOT NULL
-);"""
+                "CREATE TABLE STRESS (\n" +
+                        "  id INTEGER(4)  NOT NULL,\n" +
+                        "  stressLevel int(2) DEFAULT NULL,\n" +
+                        "  addDate DATE NOT NULL\n" +
+                        ");"
                 ,
 
-                """
-CREATE TABLE FACTORS (
-  id INTEGER(4)  NOT NULL,
-  caffeine int(1) NOT NULL DEFAULT 0,
-  alcohol int(1) NOT NULL DEFAULT 0,
-  fitness int(1) NOT NULL DEFAULT 0,
-  stress int(1) NOT NULL DEFAULT 0,
-  water int(1) NOT NULL DEFAULT 0
-);
-"""};
+                "CREATE TABLE FACTORS (\n" +
+                        "  id INTEGER(4)  NOT NULL,\n" +
+                        "  caffeine int(1) NOT NULL DEFAULT 0,\n" +
+                        "  alcohol int(1) NOT NULL DEFAULT 0,\n" +
+                        "  fitness int(1) NOT NULL DEFAULT 0,\n" +
+                        "  stress int(1) NOT NULL DEFAULT 0,\n" +
+                        "  screenTime int(1) NOT NULL DEFAULT 0,\n" +
+                        "  water int(1) NOT NULL DEFAULT 0\n" +
+                        ");\n"};
     }
 
     //checks if users already exist. If none exist, returns false, otherwise returns true.
