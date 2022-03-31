@@ -169,6 +169,27 @@ public class Database {
         return false;
     }
 
+    private static boolean addStressEntry(int stressLevel, Date addDate){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql = "INSERT INTO STRESS (id, stressLevel, addDate) VALUES("+id+","+ stressLevel+","+addDate+")";
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(sql);
+
+                conn.close();
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when setting ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
 
     //sets a given user variable in a given column of the User database
     private static void setUserIntVariable(String column, int value) {
