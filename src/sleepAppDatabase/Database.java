@@ -55,6 +55,7 @@ public class Database {
 
     //gets a list of the factors in use, with boolean variables attached to each indicating whether they are being used
     public static Object[][] getFactors(){
+
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
@@ -145,9 +146,32 @@ public class Database {
         }
     }
 
+    public static boolean addScreenTimeEntry(double screentime, Date addDate){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql = "INSERT INTO SCREENTIME (id, screenTime, addDate) VALUES("+id+","
+                        +screentime+","+addDate+")";
+
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(sql);
+
+                conn.close();
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding screen time entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
 
     //sets a given user variable in a given column of the User database
-    private static boolean addSleepEntry(int sleepTime, int timeToSleep, int sleepQuality, Date addDate){
+    public static boolean addSleepEntry(int sleepTime, int timeToSleep, int sleepQuality, Date addDate){
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
@@ -163,13 +187,13 @@ public class Database {
                 return false;
             }
         } catch (SQLException e) {
-            System.out.println("exception caught when setting ");
+            System.out.println("exception caught when adding sleep entry");
             System.out.println(e.getLocalizedMessage());
         }
         return false;
     }
 
-    private static boolean addStressEntry(int stressLevel, Date addDate){
+    public static boolean addStressEntry(int stressLevel, Date addDate){
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
@@ -184,7 +208,7 @@ public class Database {
                 return false;
             }
         } catch (SQLException e) {
-            System.out.println("exception caught when setting ");
+            System.out.println("exception caught when adding stress entry ");
             System.out.println(e.getLocalizedMessage());
         }
         return false;
@@ -366,6 +390,11 @@ public class Database {
                         "  addDate DATE NOT NULL\n" +
                         ");"
                 ,
+                "CREATE TABLE SCREENTIME (\n" +
+                        " id INTEGER(4) NOT NULL,\n" +
+                        " screenTime REAL DEFAULT 6.4,\n"+
+                        " addDate DATE NOT NULL\n" +
+                        ");",
 
                 "CREATE TABLE FACTORS (\n" +
                         "  id INTEGER(4)  NOT NULL,\n" +
