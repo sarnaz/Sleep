@@ -282,7 +282,7 @@ public class Page
         sign_in_page.pushToFront(openEye);
         sign_in_page.pushToFront(closedEye);
 
-        MyButton toggleShowPasswordButton = new MyButton(sign_in_page, "show password", new int[] {450, 250}, new int[] {470, 270}, null)
+        new MyButton(sign_in_page, "show password", new int[] {450, 250}, new int[] {470, 270}, null)
         {
             public void isClicked()
             {
