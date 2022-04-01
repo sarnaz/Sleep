@@ -8,7 +8,6 @@ import java.io.*;
 
 public class Database {
 
-    //
     private static final int secondsInDay = (int) ((int) 8.64 * Math.pow(10, 4));
     private static boolean firstLogin = true;
     //assumes this is the user's first login unless proven otherwise
@@ -395,6 +394,7 @@ public class Database {
                         " screenTime REAL DEFAULT 6.4,\n"+
                         " addDate DATE NOT NULL\n" +
                         ");",
+
 
                 "CREATE TABLE FACTORS (\n" +
                         "  id INTEGER(4)  NOT NULL,\n" +
