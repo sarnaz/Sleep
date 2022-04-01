@@ -265,8 +265,10 @@ public class Page
             main.setCurrentPage(username_password_initial);
         }
     }
+
+
     private static void setUpDailySignIn(Main main, Page sign_in_page, Page nextPage){
-        new MyImage(sign_in_page, new int[] {0, 1}, new int[] {800, 600}, "first-page", ".jpg", true);
+        new MyImage(sign_in_page, new int[] {0, 0}, new int[] {800, 600}, "first-page", ".jpg", true);
 
         // Adds the username input box on first page
         MyText.putText(sign_in_page, new int[] {400, 230}, new int[] {70, 24}, "Username:", new int[] {0, 0, 1}, "Helvetica", Font.BOLD);
@@ -305,8 +307,6 @@ public class Page
             }
         };
     }
-
-
 
 
     private static void setUpMoreInfoPage(Main main, Page more_info_page, Page nextPage) {
