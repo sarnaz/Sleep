@@ -1,6 +1,8 @@
 package sleepAppGUI.interaction;
 import sleepAppGUI.visuals.Main;
 
+import java.awt.*;
+
 abstract public class UIViewPage {
 
     protected Main main;
@@ -36,8 +38,8 @@ abstract public class UIViewPage {
         this.navigator.back();
     }
 
-    protected int backgroundColor() {
-        return 0xC7EFF9;
+    protected Color backgroundColor() {
+        return new Color(0xC7EFF9);
     }
 
 }

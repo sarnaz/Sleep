@@ -3,6 +3,8 @@ package sleepAppGUI.pages;
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 
+import java.awt.*;
+
 public class SignUpPage extends UIViewPage {
 
     @Override
@@ -72,7 +74,7 @@ public class SignUpPage extends UIViewPage {
     }
 
     @Override
-    protected int backgroundColor() {
-        return 0xC7EFF9;
+    protected Color backgroundColor() {
+        return new Color(0xC7EFF9);
     }
 }

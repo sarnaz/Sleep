@@ -19,7 +19,7 @@ public class UIStoryboard implements UINavigation {
             throw new RuntimeException("Presenting a page on a storyboard requires a new page to be created.");
         }
 
-        Page newPage = new Page(page.pageNumber(), this.main, new Color(page.backgroundColor()));
+        Page newPage = new Page(page.pageNumber(), this.main, page.backgroundColor());
         page.main = this.main;
         page.setUp(newPage);
         this.main.setCurrentPage(newPage);
