@@ -6,7 +6,7 @@ import sleepAppGUI.interaction.*;
 public class SignInPage extends UIViewPage {
     @Override
     protected int pageNumber() {
-        return 0;
+        return 1;
     }
 
     @Override

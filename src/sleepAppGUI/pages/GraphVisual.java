@@ -9,7 +9,7 @@ import sleepAppGUI.pages.graphs.*;
 public class GraphVisual extends UIViewPage {
     @Override
     protected int pageNumber() {
-        return 0;
+        return 5;
     }
 
     @Override

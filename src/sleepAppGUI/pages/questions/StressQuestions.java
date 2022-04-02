@@ -6,12 +6,7 @@ import sleepAppGUI.pages.HomePage;
 public class StressQuestions extends QuestionsPage {
     @Override
     protected int pageNumber() {
-        return 0;
-    }
-
-    @Override
-    protected void viewDidLoad() {
-
+        return 14;
     }
 
     @Override

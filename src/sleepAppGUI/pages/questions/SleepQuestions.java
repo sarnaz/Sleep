@@ -5,12 +5,7 @@ import sleepAppGUI.interaction.*;
 public class SleepQuestions extends QuestionsPage {
     @Override
     protected int pageNumber() {
-        return 0;
-    }
-
-    @Override
-    protected void viewDidLoad() {
-
+        return 9;
     }
 
     @Override

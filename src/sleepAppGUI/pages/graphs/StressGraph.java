@@ -7,12 +7,7 @@ public class StressGraph extends GraphPage{
 
     @Override
     protected int pageNumber() {
-        return 0;
-    }
-
-    @Override
-    protected void viewDidLoad() {
-
+        return 15;
     }
 
     @Override

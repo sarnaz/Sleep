@@ -5,7 +5,12 @@ import sleepAppGUI.interaction.MyImage;
 import sleepAppGUI.interaction.Page;
 import sleepAppGUI.pages.HomePage;
 
-public class CaffeineNo extends CaffeineQuestions{
+public class CaffeineNo extends CaffeineQuestions {
+
+    @Override
+    protected int pageNumber() {
+        return 17;
+    }
 
     @Override
     protected void setUp(Page page) {

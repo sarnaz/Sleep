@@ -8,6 +8,11 @@ import sleepAppGUI.pages.questions.StressQuestions;
 public class AlcoholNo extends AlcoholQuestions {
 
     @Override
+    protected int pageNumber() {
+        return 13;
+    }
+
+    @Override
     protected void setUp(Page page) {
         super.setUp(page);
 

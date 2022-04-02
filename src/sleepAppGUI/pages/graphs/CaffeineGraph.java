@@ -6,12 +6,7 @@ import sleepAppGUI.interaction.Page;
 public class CaffeineGraph extends GraphPage{
     @Override
     protected int pageNumber() {
-        return 0;
-    }
-
-    @Override
-    protected void viewDidLoad() {
-
+        return 12;
     }
 
     @Override

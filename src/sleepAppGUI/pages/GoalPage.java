@@ -6,12 +6,7 @@ import sleepAppGUI.pages.goals.*;
 public class GoalPage extends UIViewPage {
     @Override
     protected int pageNumber() {
-        return 0;
-    }
-
-    @Override
-    protected void viewDidLoad() {
-
+        return 23;
     }
 
     @Override

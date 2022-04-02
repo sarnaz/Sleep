@@ -6,7 +6,7 @@ public class ProfilePage extends UIViewPage {
 
     @Override
     protected int pageNumber() {
-        return 0;
+        return 7;
     }
 
     @Override

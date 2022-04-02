@@ -7,12 +7,7 @@ import sleepAppGUI.interaction.Page;
 public class StressGoal extends GoalSet{
     @Override
     protected int pageNumber() {
-        return 0;
-    }
-
-    @Override
-    protected void viewDidLoad() {
-
+        return 29;
     }
 
     @Override

@@ -6,6 +6,11 @@ import sleepAppGUI.pages.HomePage;
 public class ExerciseYes extends ExerciseQuestions {
 
     @Override
+    protected int pageNumber() {
+        return 20;
+    }
+
+    @Override
     protected void setUp(Page page) {
         super.setUp(page);
 

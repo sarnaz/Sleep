@@ -8,7 +8,7 @@ import sleepAppGUI.interaction.UIViewPage;
 public class SuggestionPage extends UIViewPage {
     @Override
     protected int pageNumber() {
-        return 0;
+        return 22;
     }
 
     @Override

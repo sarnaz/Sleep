@@ -5,12 +5,7 @@ import sleepAppGUI.interaction.*;
 public class EditProfilePage extends UIViewPage {
     @Override
     protected int pageNumber() {
-        return 0;
-    }
-
-    @Override
-    protected void viewDidLoad() {
-
+        return 8;
     }
 
     @Override

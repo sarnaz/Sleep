@@ -6,12 +6,7 @@ import sleepAppGUI.interaction.Page;
 public class WaterGraph extends GraphPage {
     @Override
     protected int pageNumber() {
-        return 0;
-    }
-
-    @Override
-    protected void viewDidLoad() {
-
+        return 10;
     }
 
     @Override

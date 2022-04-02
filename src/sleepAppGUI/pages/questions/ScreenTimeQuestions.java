@@ -7,13 +7,9 @@ public class ScreenTimeQuestions extends QuestionsPage{
 
     @Override
     protected int pageNumber() {
-        return 0;
+        return 18;
     }
 
-    @Override
-    protected void viewDidLoad() {
-
-    }
 
     @Override
     protected void setUp(Page page) {

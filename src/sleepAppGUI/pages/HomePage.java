@@ -7,7 +7,7 @@ public class HomePage extends UIViewPage {
 
     @Override
     protected int pageNumber() {
-        return 4;
+        return 6;
     }
 
     @Override
