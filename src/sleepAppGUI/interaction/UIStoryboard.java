@@ -2,9 +2,7 @@ package sleepAppGUI.interaction;
 
 import sleepAppGUI.visuals.Main;
 
-import java.awt.*;
-
-public class UIStoryboard implements UINavigation {
+public class UIStoryboard implements UINavigator {
 
     private final Main main;
 

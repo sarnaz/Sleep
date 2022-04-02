@@ -6,11 +6,11 @@ import java.awt.*;
 abstract public class UIViewPage {
 
     protected Main main;
-    private UINavigation navigator;
+    private UINavigator navigator;
 
     public UIViewPage() {}
 
-    public void setNavigator(UIStoryboard navigator) {
+    public void setNavigator(UINavigator navigator) {
         if (this.navigator == null) {
             this.navigator = navigator;
         } else {
@@ -18,7 +18,7 @@ abstract public class UIViewPage {
         }
     }
 
-    public UINavigation navigator() {
+    public UINavigator navigator() {
         return this.navigator;
     }
 

@@ -1,6 +1,6 @@
 package sleepAppGUI.interaction;
 
-public interface UINavigation {
+public interface UINavigator {
 
     void present(UIViewPage page);
     void back();
