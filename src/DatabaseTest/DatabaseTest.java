@@ -13,16 +13,6 @@ class DatabaseTest {
 	@Test
 	void test() {
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		// https://www.w3schools.com/java/java_files_delete.asp
 		// I could look up how to do this myself
 
