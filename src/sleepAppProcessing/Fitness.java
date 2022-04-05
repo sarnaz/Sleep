@@ -1,12 +1,11 @@
 package sleepAppProcessing;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+
+
+import java.sql.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,20 +14,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class fitness extends HttpServlet{
+public class Fitness extends HttpServlet{
 
     private int id;
     public static final String databaseURL = "jdbc:sqlite:PI.db";
     private static final String clientId = "80404";
     private static final String clientSecret = "a0dbfe606f36c20e5253c02c9f2908f4a67d1699";
+    private String accessToken = null;
 
-
-    public fitness(int id){
+    public Fitness(int id){
         this.id = id;
     }
-    //non static to ensure id is initialised
+    //non-static to ensure id is initialised
 
-    public void getToken(HttpServletRequest request, HttpServletResponse response) {
+    //takes in a httpservlet request and uses it to get the token
+    public void getToken(HttpServletRequest request) {
 
         int expiresAt = -1;
         String refreshToken = null;
@@ -36,18 +36,18 @@ public class fitness extends HttpServlet{
         //-1 is my default is something is unavailable
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
             Connection conn= DriverManager.getConnection(databaseURL);
 
 
             Statement stmt= conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select expiresAt from Cyclists where id=\""+id+"\"");
+            String sql = "select expiresAt from STRAVADATA where id=\""+id+"\"";
+            ResultSet rs = stmt.executeQuery(sql);
 
             if(rs.next()) {
                 expiresAt = rs.getInt("expiresAt");
             }
 
-            rs = stmt.executeQuery("select refreshToken from Cyclists where id=\""+id+"\"");
+            rs = stmt.executeQuery("select refreshToken from STRAVADATA where id=\""+id+"\"");
 
             if(rs.next()) {
                 refreshToken = rs.getString("refreshToken");
@@ -63,15 +63,15 @@ public class fitness extends HttpServlet{
             }
             //either sends a request for the first access token, a new access token, or nothing
 
-            rs = stmt.executeQuery("select accessToken from cyclists where id=\""+(id)+"\"");
+            rs = stmt.executeQuery("select accessToken from STRAVADATA where id=\""+(id)+"\"");
 
             if(rs.next()) {
-                session.setAttribute("accessToken", ((String)rs.getString("accessToken")));
+                this.accessToken = rs.getString("accessToken");
                 //sets the access token for use in later cURL requests
             }
 
 
-            connection.close();
+            conn.close();
 
         } catch (Exception e) {
 
@@ -80,7 +80,12 @@ public class fitness extends HttpServlet{
 
     }
 
+
+    /*
+        called by getToken method. Performs actual retrieval of the token
+    */
     private void getNewToken(HttpServletRequest request, String token, String code) {
+
         HttpSession session = request.getSession();
 
         try {
@@ -134,19 +139,18 @@ public class fitness extends HttpServlet{
                 refreshToken  = dividedOutput[4].substring(17,57);
                 expiresAt = dividedOutput[2].substring(13);
             }
-            session.setAttribute("accessToken", accessToken);
+            this.accessToken = accessToken;
 
 
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection=DriverManager.getConnection(databaseURL);
+            Connection conn=DriverManager.getConnection(databaseURL);
 
 
-            Statement stmt=connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            stmt.executeUpdate("Update Cyclists set accessToken=\""+accessToken+"\", refreshToken=\""+refreshToken+"\", expiresAt=\""+expiresAt+"\" where"
+            Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            stmt.executeUpdate("Update STRAVADATA set accessToken="+accessToken+", refreshToken="+refreshToken+"\", expiresAt=\""+expiresAt+"\" where"
                     + " id=\""+id+"\"");
 
 
-            connection.close();
+            conn.close();
 
             //stops the method being called again and returns the user to the main page
 
@@ -155,6 +159,10 @@ public class fitness extends HttpServlet{
         }
     }
 
+
+    /*
+        retrieves specific activity data
+     */
     public void getActivityData(HttpServletRequest request) {
 
         HttpSession session = request.getSession();
@@ -166,10 +174,9 @@ public class fitness extends HttpServlet{
 
             int startTime = 0;
 
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection= DriverManager.getConnection(databaseURL);
+            Connection conn= DriverManager.getConnection(databaseURL);
 
-            Statement stmt=connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            Statement stmt=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery("select startDate from teams where teamId="+session.getAttribute("teamID"));
 
             if(rs.next()) {
@@ -177,7 +184,7 @@ public class fitness extends HttpServlet{
                 //used in getting data later
             }
 
-            connection.close();
+            conn.close();
 
             URL url = new URL("https://www.strava.com/api/v3/athlete/activities?after="+startTime+"&page=1&per_page=30&access_token="+session.getAttribute("accessToken"));
 
@@ -195,14 +202,12 @@ public class fitness extends HttpServlet{
                 output = output + scanner.nextLine();
             }
 
-            if(!output.equals(null)) {
+            if(output != null) {
                 String[] dividedOutput = output.split(",");
                 //allows me to find the correct pieces of data
-                boolean idFound = false;
-                int plusOrMinus = 0;
 
-                boolean stop1 = false;
-                boolean stop2 = false;
+                int plusOrMinus;
+                boolean idFound, stop1, stop2;
 
                 int lowerBound = 0;
                 //increases lower bound on loops to avoid it finding the same data set over and over, causing an infinite loop
@@ -297,14 +302,13 @@ public class fitness extends HttpServlet{
 
         try {
 
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection=DriverManager.getConnection(databaseURL);
+            Connection conn=DriverManager.getConnection(databaseURL);
 
-            Statement stmt=connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            Statement stmt=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery("select segments.name from segments join SegmentToSegmentGroup on segments.id=SegmentToSegmentGroup.SegmentID "
                     + "JOIN SegmentGroups on SegmentToSegmentGroup.SegmentGroupID=SegmentGroups.id WHERE SegmentGroups.teamId="+session.getAttribute("teamID"));
 
-            int rowCount = ManageTeamMembers.countRows(rs);
+            int rowCount = countRows(rs);
             segmentNames = new String[rowCount];
 
             if(rs.next()) {
@@ -320,7 +324,7 @@ public class fitness extends HttpServlet{
                     + " WHERE CyclistsToSegments.cyclistID="+session.getAttribute("userID")+" AND CyclistsToSegments.segmentID=segments.id");
             //gets segment name and time for each segment the cyclist has COMPLETED no result returned for incomplete segments
 
-            rowCount = ManageTeamMembers.countRows(rs);
+            rowCount = countRows(rs);
 
             String[] completedSegmentNames = new String[rowCount];
             int[] completedSegmentTimes = new int[rowCount];
@@ -341,7 +345,7 @@ public class fitness extends HttpServlet{
             session.setAttribute("completedSegmentTimes", completedSegmentTimes);
 
 
-            connection.close();
+            conn.close();
             // puts all segment names into an array
 
 
@@ -498,10 +502,9 @@ public class fitness extends HttpServlet{
 
         try {
 
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection=DriverManager.getConnection(databaseURL);
+            Connection conn=DriverManager.getConnection(databaseURL);
 
-            Statement stmt=connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            Statement stmt=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs;
 
             for(int i = 0; i<acquiredSegments.size();i++) {
@@ -547,6 +550,23 @@ public class fitness extends HttpServlet{
             System.out.println("Exception "+e+" in StravaData.checkAcquiredSegments");
         }
 
+
+    }
+
+    private static int countRows(ResultSet rs) {
+
+        int rows = 0;
+
+        try {
+            rs.last();
+            rows = rs.getRow();
+            rs.beforeFirst();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rows;
     }
 
 

@@ -179,6 +179,9 @@ public class Database {
                 Statement stmt = conn.createStatement();
                 stmt.executeUpdate(sql);
 
+                checkStreak(sleepTime);
+                //calls the checkStreak function to validate those details
+
                 conn.close();
                 return true;
             }
@@ -190,6 +193,49 @@ public class Database {
             System.out.println(e.getLocalizedMessage());
         }
         return false;
+    }
+
+
+    //function to check if the streak needs to be incremented or reset. called from addSleepEntry
+    private static void checkStreak(int sleepTime){
+        double goalTime = 8;
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            Statement stmt = conn.createStatement();
+
+            String sql = "SELECT sleepTarget FROM GOALS WHERE id="+id;
+
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                goalTime = rs.getDouble("sleepTarget");
+            }
+            else{
+                throw new Exception("no sleep goal found");
+            }
+
+            if(sleepTime<goalTime) {
+                sql = "UPDATE GOALS SET sleepStreak=0 where id=" + id;
+                stmt.executeUpdate(sql);
+            }
+            else{
+                int currentStreak = 0;
+                sql = "SELECT sleepStreak FROM GOALS WHERE id="+id;
+                rs = stmt.executeQuery(sql);
+                if(rs.next()){
+                    currentStreak = rs.getInt("sleepStreak");
+                }
+                else{
+                    throw new Exception("no sleep streak found");
+                }
+                sql = "UPDATE GOALS SET sleepStreak="+currentStreak+1+" WHERE id="+id;
+                stmt.executeUpdate(sql);
+                //updates the sleep streak by adding 1
+            }
+
+        }
+        catch(Exception e){
+            System.out.println(e.getLocalizedMessage()+ " in endStreak");
+        }
     }
 
     public static boolean addStressEntry(int stressLevel, Date addDate){
@@ -212,7 +258,6 @@ public class Database {
         }
         return false;
     }
-
 
     //sets a given user variable in a given column of the User database
     private static void setUserIntVariable(String column, int value) {
@@ -294,7 +339,7 @@ public class Database {
                 conn.close();
             }
         } catch (SQLException e) {
-            System.out.println("exception caught when setting date of birth");
+            System.out.println(e.getLocalizedMessage() + " exception caught when setting date of birth");
         }
     }
 
@@ -319,7 +364,7 @@ public class Database {
                 return value;
             }
         } catch (SQLException e) {
-            System.out.println("exception caught when getting date of birth");
+            System.out.println(e.getLocalizedMessage() + "exception caught when getting date of birth");
         }
 
         return null;
@@ -343,7 +388,7 @@ public class Database {
             }
         } catch (SQLException e) {
             System.out.println("exception was caught initialising database");
-            System.out.println(e.getLocalizedMessage());
+            System.out.println(e.getLocalizedMessage()+ " in initialiseDatabase");
         }
 
 
@@ -393,8 +438,21 @@ public class Database {
                         " id INTEGER(4) NOT NULL,\n" +
                         " screenTime REAL DEFAULT 6.4,\n"+
                         " addDate DATE NOT NULL\n" +
+                        ");"
+                ,
+                "CREATE TABLE STRAVADATA (\n" +
+                        " id INTEGER(4) NOT NULL, \n" +
+                        " expiresAt INTEGER(12) NOT NULL DEFAULT -1, \n" +
+                        " accessToken TEXT(40) DEFAULT NULL, \n" +
+                        " refreshToken TEXT(40) DEFAULT NULL \n" +
+                        ");"
+                ,
+                "CREATE TABLE GOALS (\n" +
+                        "id INTEGER(4) NOT NULL,\n" +
+                        "streakLength INTEGER(4) NOT NULL DEFAULT 0, \n" +
+                        "sleepAverage REAL DEFAULT -1, \n" +
+                        "sleepTarget REAL DEFAULT 8 \n" +
                         ");",
-
 
                 "CREATE TABLE FACTORS (\n" +
                         "  id INTEGER(4)  NOT NULL,\n" +
@@ -484,7 +542,7 @@ public class Database {
         }
         catch(Exception e){
             System.out.println("went wrong validating");
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+ " in validateUser");
         }
         return -1;
     }
@@ -559,7 +617,7 @@ public class Database {
         }
         catch(Exception e){
             System.out.println("something went wrong when adding a new user");
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+ " in addUser");
         }
 
         return 0;
@@ -582,7 +640,7 @@ public class Database {
         }
         catch(Exception e) {
             System.out.println("something went wrong removing user");
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+ " in removeUserData");
         }
 
         return 0;
@@ -635,7 +693,7 @@ public class Database {
 
         }
         catch(Exception e) {
-            System.out.println("error: "+ e);
+            System.out.println(e+ " in hashPassword");
         }
 
         return hash;
