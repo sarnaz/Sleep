@@ -16,7 +16,7 @@ public abstract class MyGraph extends VObject
     protected final Color background, axis, points;
 
     final protected int maxSteps = 10;
-    final protected int minSteps = 6;
+    final protected int minSteps = 4;
     protected double[] step = new double[2], start = new double[2], end = new double[2];
     protected int[] noOfSteps = new int[2];
 
@@ -53,11 +53,35 @@ public abstract class MyGraph extends VObject
         //very inefficient to do every paint
     }
 
+    protected void setGraphScale(double maxValue, int axis)
+    {
+        start[axis] = 0;
+        end[axis] = maxValue;
+        int msd = msdAndMag(end[axis] - start[axis])[0];
+        if(msd >= minSteps && msd <= maxSteps)
+        {
+            noOfSteps[axis] = msd;
+        }
+        else if(msd * 10 <= maxSteps)
+        {
+            noOfSteps[axis] = msd * 10;
+        }
+        else
+        {
+            noOfSteps[axis] = msd * 2;
+        }
+        step[axis] = (end[axis] - start[axis])/noOfSteps[axis];
+        upToDate = true;
+    }
+
     //axis: 0 for x axis, 1 for y
     //sets step, noOfSteps, start, end;
     //max steps doesnt work
     protected boolean setGraphScale(ArrayList<Double> data, int axis)
     {
+        System.out.println("##########################################");
+        System.out.println("graph scale reset \n\n\n\n\n");
+        System.out.println("##########################################");
         if(data.size() < 3) { System.out.println("not enough data"); return false; }
 
         double greatest = data.get(0);
