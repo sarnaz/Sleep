@@ -3,6 +3,8 @@ package sleepAppGUI.pages;
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 
+import java.awt.*;
+
 public class SignInPage extends UIViewPage {
     @Override
     protected int pageNumber() {
@@ -11,25 +13,23 @@ public class SignInPage extends UIViewPage {
 
     @Override
     protected void setUp(Page page) {
-        // Adds logo
-        MyImage logo = new MyImage(page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
-        // Adds the box to go behind input fields
-        MyImage input_frame = new MyImage(page, new int[] {275, 170}, new int[] {525, 350}, "box_behind", true);
+        new MyImage(page, new int[] {0, 0}, new int[] {800, 600}, "first-page", ".jpg", true);
 
         // Adds the username input box on first page
-        MyText usernameText = new MyText(page, new int[] {350, 200}, new int[] {365, 220}, "Username:");
-        MyTextField usernameInput = new MyTextField(main, page, new int[] {300, 210}, new int[] {500, 235});
+        MyText.putText(page, new int[] {400, 230}, new int[] {70, 24}, "Username:", new int[] {0, 0, 1}, "Helvetica", Font.BOLD);
+        MyTextField usernameInput = new MyTextField(main, page, new int[] {400, 245}, new int[] {750, 275});
 
         // Adds the password boxes
-        MyText password = new MyText(page, new int[] {350, 265}, new int[] {365, 285}, "Password:");
-        MyPasswordField passwordInput1 = new MyPasswordField(main, page, new int[] {300, 275}, new int[] {500, 300});
+        MyText.putText(page, new int[] {400, 310}, new int[] {70, 24}, "Password:", new int[] {0, 0, 1}, "Helvetica", Font.BOLD);
+        MyPasswordField passwordInput1 = new MyPasswordField(main, page, new int[] {400, 325}, new int[] {750, 355});
+
         MyImage openEye = new MyImage(page, new int[]{450, 250}, new int[]{470, 270}, "openEye", false);
         MyImage closedEye = new MyImage(page, new int[]{450, 250}, new int[]{470, 270}, "closedEye", true);
 
         page.pushToFront(openEye);
         page.pushToFront(closedEye);
 
-        MyButton toggleShowPasswordButton = new MyButton(page, "show password", new int[] {450, 250}, new int[] {470, 270}, null)
+        new MyButton(page, "show password", new int[] {450, 250}, new int[] {470, 270}, null)
         {
             public void isClicked()
             {
@@ -39,18 +39,22 @@ public class SignInPage extends UIViewPage {
                 closedEye.setVisible(!passwordInput1.getTextVisibility());
             }
         };
+
         // Add next button
-        MyButton nextButton = new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 435}, "next") {
-            public void isClicked() {
-                // basic input validation
-                if(Database.validateUser(usernameInput.getText(), passwordInput1.getText()) == 1){
-                    SignInPage.this.push(new HomePage());
-                    System.out.println("Home Page");
-                } else {
-                    System.out.println("Incorrect Password");
-                    SignInPage.this.push(new HomePage());
-                }
+        new MyButton(page, "next", new int[] {680, 365}, new int[] {750, 415}, "next-button") {    public void isClicked() {
+            // basic input validation
+            if (Database.validateUser(usernameInput.getText(), passwordInput1.getText()) == 1){
+                SignInPage.this.push(new HomePage());
+                System.out.println("Home Page");
+            } else {
+                System.out.println("Validate User Failed.");
             }
+        }
         };
+    }
+
+    @Override
+    protected Color backgroundColor() {
+        return new Color(0x6D3FB2);
     }
 }
