@@ -40,12 +40,14 @@ public class Database {
                 ResultSet rs = stmt.executeQuery(sql);
                 if(rs.next()) {
                     if((System.currentTimeMillis()/1000) - rs.getInt("lastQuestionTime") > secondsInDay){
+                    	conn.close();
                         return true;
                     }
                 } else {
                     System.out.println("no previous time found");
                 }
             }
+            conn.close();
         } catch (SQLException e) {
             System.out.println("exception was caught initialising database");
             System.out.println(e.getLocalizedMessage());
@@ -69,12 +71,14 @@ public class Database {
                             //sets the factors currently in use to true
                         }
                     }
+                    conn.close();
                     return factors;
                 }
                 else{
                     System.out.println("no factors chosen");
                 }
             }
+            conn.close();
 
         } catch (SQLException e) {
             System.out.println("exception was caught getting factors");
@@ -90,7 +94,17 @@ public class Database {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
+            	
+            	// check if user has been added to factors yet.
+            	// if not, add a row with all-false values where applicable
+
                 Statement stmt = conn.createStatement();
+                
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(*) as rowCount FROM FACTORS;");
+                if (rs.getInt("rowCount") == 0) {
+                	stmt.execute("INSERT INTO FACTORS (id, caffeine, alcohol, fitness, stress, screenTime, water) VALUES (1, false, false, false, false, false, false);");
+                }
+            	
                 StringBuilder sql = new StringBuilder("UPDATE FACTORS SET ");
                 for(int i = 0; i<factors[0].length;i++){
                     sql.append(factors[0][i]).append("=").append(factors[1][i]);
@@ -105,6 +119,7 @@ public class Database {
                 return false;
             }
             Database.factors = factors;
+            conn.close();
 
         } catch (SQLException e) {
             System.out.println("exception was caught getting factors");
@@ -138,6 +153,7 @@ public class Database {
 
                 }
             }
+            conn.close();
         } catch (SQLException e) {
             System.out.println("exception caught in setQuestionsAnswered");
             System.out.println(e.getLocalizedMessage());
@@ -184,8 +200,8 @@ public class Database {
         return Integer.MIN_VALUE;
     }
 
-    public static void setUserHeight(int newAge) {
-        setUserIntVariable("height", newAge);
+    public static void setUserHeight(int newHeight) {
+        setUserIntVariable("height", newHeight);
     }
 
     public static int getUserHeight() {
@@ -492,6 +508,7 @@ public class Database {
             deleteFromTableById(conn, id, "FLUID");
             deleteFromTableById(conn, id, "SLEEP");
             deleteFromTableById(conn, id, "STRESS");
+            deleteFromTableById(conn, id, "FACTORS");
 
             conn.close();
             return 1;
