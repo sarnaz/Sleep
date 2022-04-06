@@ -15,9 +15,17 @@ public class MyBar extends MyGraph
         super(page, coordinates1, coordinates2, new Color(0xFFFFFF), new Color(0), new Color(0x0000FF));
     }
 
+    public void setGraphScale(int maxYValue)
+    {
+        setGraphScale(maxYValue, 1);
+
+        if(data.size() != 0) { step[0] = (graphCorner2[0] - graphCorner1[0]) / data.size(); }
+    }
+
     public void paint(Graphics g)
     {
         super.paint(g);
+        if(data.size() < 3) { return; }
 
         if(!upToDate)
         {
@@ -59,7 +67,13 @@ public class MyBar extends MyGraph
             category.add((String)(xValue));
             data.add((Double)(yValue));
             //Can be better
-            upToDate = false;
+            if((Double)(yValue) > end[1])
+            {
+                upToDate = false;
+                System.out.println((Double)(yValue)+" bigger than "+end[1]);
+                System.out.println("      Up to date false");
+            }
+            step[0] = (graphCorner2[0] - graphCorner1[0]) / data.size();
             return true;
         }
         catch( ClassCastException e)
