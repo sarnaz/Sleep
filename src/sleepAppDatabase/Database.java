@@ -8,7 +8,6 @@ import java.io.*;
 
 public class Database {
 
-    //
     private static final int secondsInDay = (int) ((int) 8.64 * Math.pow(10, 4));
     private static boolean firstLogin = true;
     //assumes this is the user's first login unless proven otherwise
@@ -57,6 +56,7 @@ public class Database {
 
     //gets a list of the factors in use, with boolean variables attached to each indicating whether they are being used
     public static Object[][] getFactors(){
+
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
@@ -118,8 +118,10 @@ public class Database {
             } else {
                 return false;
             }
+
             Database.factors = factors;
             conn.close();
+
 
         } catch (SQLException e) {
             System.out.println("exception was caught getting factors");
@@ -129,7 +131,7 @@ public class Database {
         return true;
     }
 
-
+    //sets the last day that questions were answered to the end of the current day
     public static void setQuestionsAnswered(){
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
@@ -152,6 +154,8 @@ public class Database {
                     //should update the date in the database so
 
                 }
+
+                conn.close();
             }
             conn.close();
         } catch (SQLException e) {
@@ -160,6 +164,121 @@ public class Database {
         }
     }
 
+    public static boolean addScreenTimeEntry(double screentime, Date addDate){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql = "INSERT INTO SCREENTIME (id, screenTime, addDate) VALUES("+id+","
+                        +screentime+","+addDate+")";
+
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(sql);
+
+                conn.close();
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding screen time entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+
+    //sets a given user variable in a given column of the User database
+    public static boolean addSleepEntry(int sleepTime, int timeToSleep, int sleepQuality, Date addDate){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql = "INSERT INTO SLEEP (id, sleepTime, timeToSleep, sleepQuality, addDate) VALUES("+id+","
+                        +sleepTime+","+timeToSleep + ", " + sleepQuality+ ", "+addDate+")";
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(sql);
+
+                checkStreak(sleepTime);
+                //calls the checkStreak function to validate those details
+
+                conn.close();
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding sleep entry");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+
+    //function to check if the streak needs to be incremented or reset. called from addSleepEntry
+    private static void checkStreak(int sleepTime){
+        double goalTime = 8;
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            Statement stmt = conn.createStatement();
+
+            String sql = "SELECT sleepTarget FROM GOALS WHERE id="+id;
+
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                goalTime = rs.getDouble("sleepTarget");
+            }
+            else{
+                throw new Exception("no sleep goal found");
+            }
+
+            if(sleepTime<goalTime) {
+                sql = "UPDATE GOALS SET sleepStreak=0 where id=" + id;
+                stmt.executeUpdate(sql);
+            }
+            else{
+                int currentStreak = 0;
+                sql = "SELECT sleepStreak FROM GOALS WHERE id="+id;
+                rs = stmt.executeQuery(sql);
+                if(rs.next()){
+                    currentStreak = rs.getInt("sleepStreak");
+                }
+                else{
+                    throw new Exception("no sleep streak found");
+                }
+                sql = "UPDATE GOALS SET sleepStreak="+currentStreak+1+" WHERE id="+id;
+                stmt.executeUpdate(sql);
+                //updates the sleep streak by adding 1
+            }
+
+        }
+        catch(Exception e){
+            System.out.println(e.getLocalizedMessage()+ " in endStreak");
+        }
+    }
+
+    public static boolean addStressEntry(int stressLevel, Date addDate){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql = "INSERT INTO STRESS (id, stressLevel, addDate) VALUES("+id+","+ stressLevel+","+addDate+")";
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(sql);
+
+                conn.close();
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding stress entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    //sets a given user variable in a given column of the User database
     private static void setUserIntVariable(String column, int value) {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
@@ -176,6 +295,7 @@ public class Database {
         }
     }
 
+    //gets an int from the table user given a column
     private static int getUserIntVariable(String column) {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
@@ -204,10 +324,12 @@ public class Database {
         setUserIntVariable("height", newHeight);
     }
 
+    //returns the current user's height
     public static int getUserHeight() {
         return getUserIntVariable("height");
     }
 
+    //sets the current user's weight
     public static void setUserWeight(int newWeight) {
         setUserIntVariable("weight", newWeight);
     }
@@ -227,14 +349,14 @@ public class Database {
             if (conn != null) {
 
                 int value = Integer.MIN_VALUE;
-                String setDOBString = "UPDATE USER SET dateOfBirth=? WHERE TRUE";
+                String setDOBString = "UPDATE USER SET dateOfBirth=? ";
                 PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
                 preparedSetDOBStatement.setDate(1, newDate);
                 preparedSetDOBStatement.execute();
                 conn.close();
             }
         } catch (SQLException e) {
-            System.out.println("exception caught when setting date of birth");
+            System.out.println(e.getLocalizedMessage() + " exception caught when setting date of birth");
         }
     }
 
@@ -259,7 +381,7 @@ public class Database {
                 return value;
             }
         } catch (SQLException e) {
-            System.out.println("exception caught when getting date of birth");
+            System.out.println(e.getLocalizedMessage() + "exception caught when getting date of birth");
         }
 
         return null;
@@ -284,7 +406,7 @@ public class Database {
             conn.close();
         } catch (SQLException e) {
             System.out.println("exception was caught initialising database");
-            System.out.println(e.getLocalizedMessage());
+            System.out.println(e.getLocalizedMessage()+ " in initialiseDatabase");
         }
     }
     
@@ -328,6 +450,25 @@ public class Database {
                         "  addDate DATE NOT NULL\n" +
                         ");"
                 ,
+                "CREATE TABLE SCREENTIME (\n" +
+                        " id INTEGER(4) NOT NULL,\n" +
+                        " screenTime REAL DEFAULT 6.4,\n"+
+                        " addDate DATE NOT NULL\n" +
+                        ");"
+                ,
+                "CREATE TABLE STRAVADATA (\n" +
+                        " id INTEGER(4) NOT NULL, \n" +
+                        " expiresAt INTEGER(12) NOT NULL DEFAULT -1, \n" +
+                        " accessToken TEXT(40) DEFAULT NULL, \n" +
+                        " refreshToken TEXT(40) DEFAULT NULL \n" +
+                        ");"
+                ,
+                "CREATE TABLE GOALS (\n" +
+                        "id INTEGER(4) NOT NULL,\n" +
+                        "streakLength INTEGER(4) NOT NULL DEFAULT 0, \n" +
+                        "sleepAverage REAL DEFAULT -1, \n" +
+                        "sleepTarget REAL DEFAULT 8 \n" +
+                        ");",
 
                 "CREATE TABLE FACTORS (\n" +
                         "  id INTEGER(4)  NOT NULL,\n" +
@@ -387,6 +528,7 @@ public class Database {
             //System.out.println("is first: " + Boolean.toString(rs.next()));
             if (rs.next()) {
                 salt = rs.getString("salt");
+
             }
             else{
                 conn.close();
@@ -416,12 +558,13 @@ public class Database {
         }
         catch(Exception e){
             System.out.println("went wrong validating");
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+ " in validateUser");
         }
         return -1;
     }
     //returns 1 if everything functioned correctly and the user was validated
 
+    //adds a user taking in a name and password, and internally adding to
     public static int addUser(String name, String password){
 
         int nextId = -2;
@@ -491,7 +634,7 @@ public class Database {
         }
         catch(Exception e){
             System.out.println("something went wrong when adding a new user");
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+ " in addUser");
         }
 
         return 0;
@@ -515,7 +658,7 @@ public class Database {
         }
         catch(Exception e) {
             System.out.println("something went wrong removing user");
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+ " in removeUserData");
         }
 
         return 0;
@@ -568,7 +711,7 @@ public class Database {
 
         }
         catch(Exception e) {
-            System.out.println("error: "+ e);
+            System.out.println(e+ " in hashPassword");
         }
 
         return hash;
