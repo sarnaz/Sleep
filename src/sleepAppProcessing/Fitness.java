@@ -23,14 +23,13 @@ public class Fitness extends HttpServlet {
     private String accessToken = null;
 
     private static String code = null;
+
     private static volatile boolean codeSet = false;
     private static String returnURL = "http://localhost:8000/test";
     private static String returnPoint = "/test";
 
-    private static int idtest = 1;
 
-
-    public Fitness(int id, String code) {
+    public Fitness(int id) {
         try {
 
             HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
@@ -41,7 +40,7 @@ public class Fitness extends HttpServlet {
             Connection conn= DriverManager.getConnection(databaseURL);
 
             Statement stmt= conn.createStatement();
-            String sql = "select accessToken from STRAVADATA where id="+idtest;
+            String sql = "select accessToken from STRAVADATA where id="+id;
             ResultSet rs = stmt.executeQuery(sql);
 
 
@@ -64,19 +63,14 @@ public class Fitness extends HttpServlet {
 
             conn.close();
 
-
-            Fitness fitness = new Fitness(idtest, code);
-
         }
         catch(Exception e){
             System.out.println(e.getLocalizedMessage());
         }
 
-        if (true) {
-            getToken(id, code);
-            //getActivityData(id);
+        getToken(id, code);
+        //getActivityData(id);
 
-        }
     }
     //non-static to ensure id is initialised
 
