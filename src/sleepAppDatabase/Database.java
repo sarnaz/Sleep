@@ -250,7 +250,8 @@ public class Database {
 
 
     //sets a given user variable in a given column of the User database
-    public static boolean addSleepEntry(int sleepTime, int timeToSleep, int sleepQuality, Date addDate){
+    public static boolean addSleepEntry(int sleepTime, int timeToSleep, int sleepQuality, int year, int month, int day){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
@@ -364,7 +365,7 @@ public class Database {
             if (conn != null) {
 
                 int value = Integer.MIN_VALUE;
-                String getValueString = "SELECT " + column + " FROM USER";
+                String getValueString = "SELECT " + column + " FROM USER WHERE id="+id;
                 PreparedStatement preparedGetValueStatement = conn.prepareStatement(getValueString);
                 if (preparedGetValueStatement.execute()) {
                     ResultSet result = preparedGetValueStatement.getResultSet();
