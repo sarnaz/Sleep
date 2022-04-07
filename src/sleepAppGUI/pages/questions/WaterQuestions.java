@@ -1,6 +1,8 @@
 package sleepAppGUI.pages.questions;
 
+import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
+import sleepAppGUI.pages.HomePage;
 import sleepAppGUI.pages.questions.alcohol.AlcoholQuestions;
 
 public class WaterQuestions extends UIViewPage {
@@ -20,10 +22,17 @@ public class WaterQuestions extends UIViewPage {
         new MyTextField(main, page, new int[] {380, 325}, new int[] {420, 350});
 
         // Add next button
-        new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next")  {
-            public void isClicked() {
-                WaterQuestions.this.push(new AlcoholQuestions());
-                System.out.println("Stress questions");
+        MyButton nextButton = new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
+        {
+            public void isClicked()
+            {
+                Object[][] factors_chosen = Database.getFactorArray();
+                if(Boolean.valueOf((Boolean)factors_chosen[1][5])){
+                    WaterQuestions.this.push(new ScreenTimeQuestions());
+                }
+                else{
+                    WaterQuestions.this.push(new HomePage());
+                }
             }
         };
     }

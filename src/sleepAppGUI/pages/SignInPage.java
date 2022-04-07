@@ -45,10 +45,17 @@ public class SignInPage extends UIViewPage {
                 // basic input validation
                 if(Database.validateUser(usernameInput.getText(), passwordInput1.getText()) == 1){
                     SignInPage.this.push(new HomePage());
-                    System.out.println("Home Page");
-                } else {
-                    System.out.println("Incorrect Password");
+                    System.out.println("More Info Page");
                 }
+                else{
+                    System.out.println("User invalid");
+                }
+            }
+        };
+
+        MyButton createAccount = new MyButton(page, "create new account", new int[] {570, 500}, new int[] {730, 550}, "create_account"){
+            public void isClicked(){
+                SignInPage.this.push(new SignUpPage());
             }
         };
     }
