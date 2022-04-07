@@ -5,7 +5,6 @@ import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
-import javax.servlet.http.HttpServlet;
 import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -15,7 +14,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Fitness extends HttpServlet {
+public class Fitness {
 
     public static final String databaseURL = "jdbc:sqlite:PI.db";
     private static final String clientId = "80404";
