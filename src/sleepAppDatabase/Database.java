@@ -26,7 +26,31 @@ public class Database {
     public static Object[][] getFactorArray(){
         return factors;
     }
+    
+    public static boolean setGoals(String targetColumn, int value) {
+    	try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
 
+
+
+                String addStatement = "UPDATE GOALS SET ?=? WHERE id=?";
+                PreparedStatement preparedAddStatement = conn.prepareStatement(addStatement);
+                preparedAddStatement.setString(1, targetColumn);
+                preparedAddStatement.setInt(2, value);
+                preparedAddStatement.setInt(3, id);
+                
+                preparedAddStatement.execute();
+                
+                conn.close();
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception was caught initialising database");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
 
     //returns true if the daily questions haven't yet been asked
     //does not increment the time. That is done once the questions have been answered
