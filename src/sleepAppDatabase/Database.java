@@ -149,15 +149,14 @@ public class Database {
 
              */
 
-            Date time = new Date(year-1900, month, day);
-            System.out.println(time);
+            Date addDate = Date.valueOf(year + "-" + month + "-" + day);
             Connection conn = DriverManager.getConnection(databaseURL);
             Statement stmt = conn.createStatement();
             Object[][] values = new Object[][]{{"units", "caffeine", "cupsOfWater", "sleepTime", "timeToSleep", "sleepQuality", "stressLevel", "screenTime", "exerciseTime"}
                     ,{null, null, null, null, null, null, null, null, null}};
 
             String allInfo = "units, caffeine, cupsOfWater, sleepTime, timeToSleep, sleepQuality, stressLevel, screenTime, exerciseTime";
-            String sql = "SELECT "+ allInfo+"  FROM FLUID JOIN SLEEP ON SLEEP.id = FLUID.id JOIN STRESS ON  NATURAL JOIN SCREENTIME NATURAL JOIN FITNESS WHERE id="+id+" and addDate="+ time;
+            String sql = "SELECT "+ allInfo+"  FROM FLUID JOIN SLEEP ON SLEEP.id = FLUID.id JOIN STRESS ON  NATURAL JOIN SCREENTIME NATURAL JOIN FITNESS WHERE id="+id+" and addDate="+ addDate;
             ResultSet rs = stmt.executeQuery(sql);
             System.out.println(sql);
             if(rs.next()){
@@ -210,7 +209,8 @@ public class Database {
         }
     }
 
-    public static boolean addScreenTimeEntry(double screentime, Date addDate){
+    public static boolean addScreenTimeEntry(double screentime, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
@@ -235,7 +235,7 @@ public class Database {
 
 
     //sets a given user variable in a given column of the User database
-    public static boolean addSleepEntry(int sleepTime, int timeToSleep, int sleepQuality, int year, int month, int day){
+    public static boolean addSleepEntry(int sleepTime, int timeToSleep, int sleepQuality, int day, int month, int year){
         Date addDate = Date.valueOf(year + "-" + month + "-" + day);
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
@@ -305,7 +305,8 @@ public class Database {
         }
     }
 
-    public static boolean addStressEntry(int stressLevel, Date addDate){
+    public static boolean addStressEntry(int stressLevel, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
@@ -717,7 +718,7 @@ public class Database {
             //sets the current user's id as this new user's id. Allows for future database calls to be easier
 
             stmt.executeUpdate("INSERT INTO FACTORS (id) VALUES("+id+")");
-            //stmt.executeUpdate("INSERT INTO GOALS (id) values("+id+")");
+            stmt.executeUpdate("INSERT INTO GOALS (id) values("+id+")");
             //adds the id into factors for use later
 
             conn.close();
