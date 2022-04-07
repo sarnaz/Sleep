@@ -1,5 +1,6 @@
 package sleepAppGUI.pages;
 
+import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.questions.SleepQuestions;
 
@@ -28,13 +29,14 @@ public class HomePage extends UIViewPage {
         new MyText(page, new int[] {270, 178}, new int[] {320, 198}, "Username");
 
         // buttons
-        new MyButton(page, "dailyQuestions", new int[]{170, 260}, new int[]{404, 361}, "questions"){
-            public void isClicked()
-            {
-                HomePage.this.push(new SleepQuestions());
-                System.out.println("Sleep questions");
-            }
-        };
+        if(Database.askDailyQuestionsCheck()) {
+            MyButton dailyQuestions = new MyButton(page, "dailyQuestions", new int[]{170, 260}, new int[]{404, 361}, "questions") {
+                public void isClicked() {
+                    HomePage.this.push(new SleepQuestions());
+                    System.out.println("Sleep questions");
+                }
+            };
+        }
 
         new MyButton(page, "goals", new int[]{170, 375}, new int[]{405, 515}, "goals"){
             public void isClicked()
