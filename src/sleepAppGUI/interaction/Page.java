@@ -1,10 +1,12 @@
 package sleepAppGUI.interaction;
 
+import sleepAppGUI.pages.SignInPage;
+import sleepAppGUI.pages.SignUpPage;
 import sleepAppGUI.visuals.*;
 
 import java.awt.*;
 import java.util.ArrayList;
-import sleepAppGUI.pages.*;
+
 import sleepAppDatabase.Database;
 
 //whole class might be redundant

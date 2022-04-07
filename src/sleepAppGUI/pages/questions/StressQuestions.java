@@ -23,15 +23,24 @@ public class StressQuestions extends QuestionsPage {
         {
             public void isClicked()
             {
-                Object[][] factors_chosen = Database.getFactorArray();
-                if ((Boolean) factors_chosen[1][4]){
-                    StressQuestions.this.push(new WaterQuestions());
+                boolean valid = true;
+                int stress = 0;
+                try{
+                    stress = Integer.parseInt(averageStress.getText());
                 }
-                else if ((Boolean) factors_chosen[1][5]){
-                    StressQuestions.this.push(new ScreenTimeQuestions());
+                catch(NumberFormatException e){
+                    System.out.println("Invalid");
+                    valid = false;
                 }
-                else{
-                    StressQuestions.this.push(new HomePage());
+                if(valid == true) {
+                    Object[][] factors_chosen = Database.getFactorArray();
+                    if ((Boolean) factors_chosen[1][4]) {
+                        StressQuestions.this.push(new WaterQuestions());
+                    } else if ((Boolean) factors_chosen[1][5]) {
+                        StressQuestions.this.push(new ScreenTimeQuestions());
+                    } else {
+                        StressQuestions.this.push(new HomePage());
+                    }
                 }
             }
         };

@@ -25,8 +25,20 @@ public class ScreenTimeQuestions extends QuestionsPage{
         {
             public void isClicked()
             {
-                ScreenTimeQuestions.this.push(new HomePage());
-                System.out.println("Home");
+                boolean valid = true;
+                int numHours = 0;
+                try{
+                    numHours = Integer.parseInt(screenHours.getText());
+                }
+                catch(NumberFormatException e){
+                    System.out.println("Invalid");
+                    valid = false;
+                }
+                if(valid == true){
+                    ScreenTimeQuestions.this.push(new HomePage());
+                    System.out.println("Home");
+                }
+
             }
         };
     }
