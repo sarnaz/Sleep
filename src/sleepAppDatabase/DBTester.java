@@ -8,6 +8,8 @@ public class DBTester {
 
         Database.initialiseDatabase();
         Database.addUser("a","a");
+        Database.addUser("v", "x");
+        System.out.println(Database.validateUser("v", "x"));
 
     }
 }
