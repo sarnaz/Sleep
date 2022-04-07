@@ -235,7 +235,8 @@ public class Database {
 
 
     //sets a given user variable in a given column of the User database
-    public static boolean addSleepEntry(int sleepTime, int timeToSleep, int sleepQuality, Date addDate){
+    public static boolean addSleepEntry(int sleepTime, int timeToSleep, int sleepQuality, int year, int month, int day){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
