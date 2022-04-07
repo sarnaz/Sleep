@@ -706,6 +706,7 @@ public class Database {
             //sets the current user's id as this new user's id. Allows for future database calls to be easier
 
             stmt.executeUpdate("INSERT INTO FACTORS (id) VALUES("+id+")");
+            stmt.executeUpdate("INSERT INTO GOALS (id) values("+id+")");
             //adds the id into factors for use later
 
             conn.close();
