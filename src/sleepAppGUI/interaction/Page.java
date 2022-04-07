@@ -1,6 +1,5 @@
 package sleepAppGUI.interaction;
 
-import sleepAppGUI.*;
 import sleepAppGUI.visuals.*;
 
 import java.awt.*;
