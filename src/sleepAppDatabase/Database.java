@@ -547,9 +547,10 @@ public class Database {
 
 
             ResultSet rs = stmt.executeQuery(sql);
-
-            for (int i = 0; i < goals[0].length; i++) {
-                goals[1][i] = rs.getInt(rs.getInt((int) goals[0][i]));
+            if(rs.next()) {
+                for (int i = 0; i < goals[0].length; i++) {
+                    goals[1][i] = rs.getInt(rs.getInt((int) goals[0][i]));
+                }
             }
         }
         catch(Exception e){
