@@ -1,5 +1,6 @@
 package sleepAppGUI.interaction;
 
+import sleepAppGUI.pages.MoreInfoPage;
 import sleepAppGUI.pages.SignInPage;
 import sleepAppGUI.pages.SignUpPage;
 import sleepAppGUI.visuals.*;
@@ -127,14 +128,15 @@ public class Page
     }
 
     public static void setUpPages(Main main) {
-        UIStoryboard storyboard = new UIStoryboard(main, new Color(0x6D3FB2));
+        UIStoryboard storyboard = new UIStoryboard(main, new Color(0x180638));
 
         if (!Database.databaseExists()) {
         	Database.initialiseDatabase();
         }
 
+        // TODO: SET THIS BACK
         if (Database.checkForUsers()) {
-            storyboard.present(new SignInPage());
+            storyboard.present(new MoreInfoPage());
         } else {
             storyboard.present(new SignUpPage());
         }
