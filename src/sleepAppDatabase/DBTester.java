@@ -9,6 +9,5 @@ public class DBTester {
         Database.initialiseDatabase();
         Database.addUser("a","a");
 
-
     }
 }
