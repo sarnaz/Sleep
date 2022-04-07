@@ -48,7 +48,6 @@ public class SignInPage extends UIViewPage {
                     System.out.println("Home Page");
                 } else {
                     System.out.println("Incorrect Password");
-                    SignInPage.this.push(new HomePage());
                 }
             }
         };
