@@ -28,23 +28,22 @@ public class SleepQuestions extends QuestionsPage {
         {
             public void isClicked()
             {
-                Object[][] factors_chosen = Database.getFactorArray();
-                //System.out.println(Database.getFactors());
                 Database.getFactors();
-                //System.out.println(Boolean.valueOf((Boolean) factors_chosen[1][0]));
-                if(Boolean.valueOf((Boolean) factors_chosen[1][0])){
+                Object[][] factors_chosen = Database.getFactorArray();
+
+                if ((Boolean) factors_chosen[1][0]){
                     SleepQuestions.this.push(new CaffeineQuestions());
                 }
-                else if(Boolean.valueOf((Boolean)factors_chosen[1][1])){
+                else if ((Boolean)factors_chosen[1][1]){
                     SleepQuestions.this.push(new AlcoholQuestions());
                 }
-                else if(Boolean.valueOf((Boolean)factors_chosen[1][2])){
+                else if ((Boolean)factors_chosen[1][2]){
                     SleepQuestions.this.push(new ExerciseQuestions());
                 }
-                else if(Boolean.valueOf((Boolean)factors_chosen[1][3])){
+                else if ((Boolean)factors_chosen[1][3]){
                     SleepQuestions.this.push(new StressQuestions());
                 }
-                else if(Boolean.valueOf((Boolean)factors_chosen[1][4])){
+                else if ((Boolean)factors_chosen[1][4]){
                     SleepQuestions.this.push(new WaterQuestions());
                 }
                 else{

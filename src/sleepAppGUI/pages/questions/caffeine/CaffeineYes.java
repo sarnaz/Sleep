@@ -38,16 +38,16 @@ public class CaffeineYes extends CaffeineQuestions{
             public void isClicked()
             {
                 Object[][] factors_chosen = Database.getFactorArray();
-                if(Boolean.valueOf((Boolean)factors_chosen[1][1])){
+                if ((Boolean)factors_chosen[1][1]){
                     CaffeineYes.this.push(new AlcoholQuestions());
                 }
-                else if(Boolean.valueOf((Boolean)factors_chosen[1][2])){
+                else if ((Boolean)factors_chosen[1][2]){
                     CaffeineYes.this.push(new ExerciseQuestions());
                 }
-                else if(Boolean.valueOf((Boolean)factors_chosen[1][3])){
+                else if ((Boolean)factors_chosen[1][3]){
                     CaffeineYes.this.push(new StressQuestions());
                 }
-                else if(Boolean.valueOf((Boolean)factors_chosen[1][4])){
+                else if ((Boolean)factors_chosen[1][4]){
                     CaffeineYes.this.push(new WaterQuestions());
                 }
                 else{

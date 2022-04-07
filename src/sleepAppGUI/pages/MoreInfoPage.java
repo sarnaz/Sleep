@@ -108,28 +108,27 @@ public class MoreInfoPage extends UIViewPage {
                 Database.setUserWeight(Integer.parseInt(weightInput.getText()));
                 Object[][] new_factors = Database.getFactorArray();
                 ArrayList<String> factors_chosen = new ArrayList<String>();
-                if(caffeineClicked.isVisible()==true) {
+                if (caffeineClicked.isVisible()) {
                     factors_chosen.add("caffeine");
                 }
-                if(alcoholClicked.isVisible()==true) {
+                if (alcoholClicked.isVisible()) {
                     factors_chosen.add("alcohol");
                 }
-                if(exerciseClicked.isVisible()==true) {
+                if (exerciseClicked.isVisible()) {
                     factors_chosen.add("fitness");
                 }
-                if(stressClicked.isVisible()==true) {
+                if (stressClicked.isVisible()) {
                     factors_chosen.add("stress");
                 }
-                if(waterClicked.isVisible()==true) {
+                if (waterClicked.isVisible()) {
                     factors_chosen.add("water");
                 }
-                if(screenTimeClicked.isVisible()==true) {
+                if (screenTimeClicked.isVisible()) {
                     factors_chosen.add("screenTime");
                 }
                 if(factors_chosen.size() < 3){
                     System.out.println("Not enough factors");
-                }
-                else {
+                } else {
                     for (String each_factor : factors_chosen) {
                         System.out.println(factors_chosen);
                         for (int current = 0; current < new_factors[0].length; current++) {
@@ -141,6 +140,7 @@ public class MoreInfoPage extends UIViewPage {
                         }
                     }
                     Database.setFactors(new_factors);
+
                     MoreInfoPage.this.push(new HomePage());
                     System.out.println("Account Created!");
                 }
