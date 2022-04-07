@@ -345,7 +345,7 @@ public class Database {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
-                String setValueString = "UPDATE USER SET " + column + "=?";
+                String setValueString = "UPDATE USER SET " + column + "=? WHERE id="+id;
                 PreparedStatement preparedSetValueStatement = conn.prepareStatement(setValueString);
                 preparedSetValueStatement.setInt(1, value);
                 preparedSetValueStatement.execute();
@@ -575,6 +575,7 @@ public class Database {
                     goals[1][i] = rs.getInt(rs.getInt((int) goals[0][i]));
                 }
             }
+            conn.close();
         }
         catch(Exception e){
             System.out.println(e.getLocalizedMessage());
@@ -729,7 +730,7 @@ public class Database {
             //sets the current user's id as this new user's id. Allows for future database calls to be easier
 
             stmt.executeUpdate("INSERT INTO FACTORS (id) VALUES("+id+")");
-            stmt.executeUpdate("INSERT INTO GOALS (id) values("+id+")");
+            //stmt.executeUpdate("INSERT INTO GOALS (id) values("+id+")");
             //adds the id into factors for use later
 
             conn.close();
