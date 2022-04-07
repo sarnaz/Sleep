@@ -1,6 +1,10 @@
 package sleepAppGUI.pages.questions;
 
+import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
+import sleepAppGUI.pages.questions.alcohol.AlcoholQuestions;
+import sleepAppGUI.pages.questions.caffeine.CaffeineQuestions;
+import sleepAppGUI.pages.questions.exercise.ExerciseQuestions;
 
 public class SleepQuestions extends QuestionsPage {
     @Override
@@ -20,13 +24,32 @@ public class SleepQuestions extends QuestionsPage {
         new MyText(page, new int[] {220, 310}, new int[] {245, 330}, "Rate the quality of your sleep (1-10) ");
         MyTextField rateQuality = new MyTextField(main, page, new int[] {380, 325}, new int[] {420, 350});
 
-        // Add next button
-        new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
+        MyButton nextButton = new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
         {
             public void isClicked()
             {
-                SleepQuestions.this.push(new WaterQuestions());
-                System.out.println("Water questions");
+                Object[][] factors_chosen = Database.getFactorArray();
+                //System.out.println(Database.getFactors());
+                Database.getFactors();
+                //System.out.println(Boolean.valueOf((Boolean) factors_chosen[1][0]));
+                if(Boolean.valueOf((Boolean) factors_chosen[1][0])){
+                    SleepQuestions.this.push(new CaffeineQuestions());
+                }
+                else if(Boolean.valueOf((Boolean)factors_chosen[1][1])){
+                    SleepQuestions.this.push(new AlcoholQuestions());
+                }
+                else if(Boolean.valueOf((Boolean)factors_chosen[1][2])){
+                    SleepQuestions.this.push(new ExerciseQuestions());
+                }
+                else if(Boolean.valueOf((Boolean)factors_chosen[1][3])){
+                    SleepQuestions.this.push(new StressQuestions());
+                }
+                else if(Boolean.valueOf((Boolean)factors_chosen[1][4])){
+                    SleepQuestions.this.push(new WaterQuestions());
+                }
+                else{
+                    SleepQuestions.this.push(new ScreenTimeQuestions());
+                }
             }
         };
     }

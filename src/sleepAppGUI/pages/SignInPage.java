@@ -51,5 +51,11 @@ public class SignInPage extends UIViewPage {
                 }
             }
         };
+
+        MyButton createAccount = new MyButton(page, "create new account", new int[] {570, 500}, new int[] {730, 550}, "create_account"){
+            public void isClicked(){
+                SignInPage.this.push(new SignUpPage());
+            }
+        };
     }
 }
