@@ -3,6 +3,7 @@ package sleepAppGUI.pages;
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class MoreInfoPage extends UIViewPage {
@@ -21,7 +22,8 @@ public class MoreInfoPage extends UIViewPage {
     @Override
     protected void setUp(Page page) {
         // ADD THINGS TO SECOND PAGE
-        new MyImage(page, new int[] {150, 15}, new int[] {650, 560}, "box_behind", true);
+        //new MyImage(page, new int[] {150, 15}, new int[] {650, 560}, "box_behind", true);
+        new MyRectangle(page, new int[] {150, 15}, new int[] {500, 545}, 20, new Color(0x6D3FB2));
 
         // height
         new MyText(page, new int[] {275, 50}, new int[] {290, 70}, "Height:");
