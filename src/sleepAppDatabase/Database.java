@@ -3,13 +3,14 @@ package sleepAppDatabase;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Random;
 import java.io.*;
 
 public class Database {
 
     private static final int secondsInDay = (int) ((int) 8.64 * Math.pow(10, 4));
-    private static boolean firstLogin = true;
     //assumes this is the user's first login unless proven otherwise
     public static final String databaseURL = "jdbc:sqlite:PI.db";
     //the database url. final as it should never be changed
@@ -114,6 +115,59 @@ public class Database {
             return false;
         }
         return true;
+    }
+    public static int getStressData(Date date){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            Statement stmt = conn.createStatement();
+
+            String sql = "SELECT stressLevel FROM STRESS WHERE id="+id+" and addDate="+date;
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                return rs.getInt("stressLevel");
+            }
+
+        }
+        catch(Exception e){
+            System.out.println(e.getLocalizedMessage());
+        }
+        return -1;
+    }
+
+    public static int getDataForDate(int year, int month, int day){
+
+        try{
+            /*SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            java.util.Date d = sdf.parse(day+"-"+month+"-"+year);
+            long time = d.getTime();
+
+             */
+
+            Date time = new Date(year-1900, month, day);
+            System.out.println(time);
+            Connection conn = DriverManager.getConnection(databaseURL);
+            Statement stmt = conn.createStatement();
+            Object[][] values = new Object[][]{{"units", "caffeine", "cupsOfWater", "sleepTime", "timeToSleep", "sleepQuality", "stressLevel", "screenTime", "exerciseTime"}
+                    ,{null, null, null, null, null, null, null, null, null}};
+
+            String allInfo = "units, caffeine, cupsOfWater, sleepTime, timeToSleep, sleepQuality, stressLevel, screenTime, exerciseTime";
+            String sql = "SELECT "+ allInfo+"  FROM FLUID JOIN SLEEP ON SLEEP.id = FLUID.id JOIN STRESS ON  NATURAL JOIN SCREENTIME NATURAL JOIN FITNESS WHERE id="+id+" and addDate="+ time;
+            ResultSet rs = stmt.executeQuery(sql);
+            System.out.println(sql);
+            if(rs.next()){
+                for(int i = 0; i<values[0].length;i++){
+                    values[1][i] = rs.getInt((String) values[0][i]);
+                }
+                System.out.println("a");
+                System.out.println(Arrays.toString(values[0]));
+                System.out.println(Arrays.toString(values));
+            }
+
+        }
+        catch(Exception e){
+            System.out.println(e.getLocalizedMessage());
+        }
+        return -1;
     }
 
     //sets the last day that questions were answered to the end of the current day
@@ -448,11 +502,27 @@ public class Database {
                         " refreshToken TEXT(40) DEFAULT NULL \n" +
                         ");"
                 ,
+                "CREATE TABLE FITNESS (\n" +
+                        " id INTEGER(4) NOT NULL, \n" +
+                        " exerciseTime INTEGER(4) NOT NULL DEFAULT -1, \n" +
+                        " latestEndTime INTEGER(4) NOT NULL DEFAULT 0100, \n" +
+                        " addDate DATE NOT NULL \n" +
+                        ");"
+                ,
                 "CREATE TABLE GOALS (\n" +
                         "id INTEGER(4) NOT NULL,\n" +
                         "streakLength INTEGER(4) NOT NULL DEFAULT 0, \n" +
                         "sleepAverage REAL DEFAULT -1, \n" +
-                        "sleepTarget REAL DEFAULT 8 \n" +
+                        "sleepTarget REAL DEFAULT 8, \n" +
+                        "cupsOfWater int(3) DEFAULT 0, " +
+                        "sleepDuration int(2) DEFAULT 8, " +
+                        "exerciseDuration int(2) DEFAULT 1, " +
+                        "units int(2) DEFAULT 0," +
+                        "screenTime int(2) DEFAULT 0, " +
+                        "stress int(2) DEFAULT 0," +
+                        "coffee int(2) DEFAULT 0," +
+                        "tea int(2) DEFAULT 0, " +
+                        "energyDrinks int(2) DEFAULT 0 " +
                         ");",
 
                 "CREATE TABLE FACTORS (\n" +
@@ -464,6 +534,29 @@ public class Database {
                         "  screenTime int(1) NOT NULL DEFAULT 0,\n" +
                         "  water int(1) NOT NULL DEFAULT 0\n" +
                         ");\n"};
+    }
+
+    public static Object[][] getGoalData(){
+        Object[][] goals = {{"cupsOfWater", "sleepDuration", "exerciseDuration", "units", "screenTime", "stress", "coffee", "tea", "energyDrinks"}, {0, 0, 0, 0, 0, 0, 0, 0}};
+
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT cupsOfWater, sleepDuration, exerciseDuration, units, screenTime, stress, coffee, tea, energyDrinks FROM GOALS WHERE id=" + id;
+
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            for (int i = 0; i < goals[0].length; i++) {
+                goals[1][i] = rs.getInt(rs.getInt((int) goals[0][i]));
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.getLocalizedMessage());
+        }
+
+        return goals;
     }
 
     //checks if users already exist. If none exist, returns false, otherwise returns true.
