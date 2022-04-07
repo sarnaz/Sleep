@@ -28,16 +28,16 @@ public class AlcoholYes extends AlcoholQuestions {
             public void isClicked()
             {
                 Object[][] factors_chosen = Database.getFactorArray();
-                if((Boolean)factors_chosen[1][2]){
+                if((Boolean) factors_chosen[1][2]){
                     AlcoholYes.this.push(new ExerciseQuestions());
                 }
-                else if ((Boolean)factors_chosen[1][3]){
+                else if ((Boolean) factors_chosen[1][3]){
                     AlcoholYes.this.push(new StressQuestions());
                 }
-                else if ((Boolean)factors_chosen[1][4]){
+                else if ((Boolean) factors_chosen[1][4]){
                     AlcoholYes.this.push(new WaterQuestions());
                 }
-                else if ((Boolean)factors_chosen[1][5]){
+                else if ((Boolean) factors_chosen[1][5]){
                     AlcoholYes.this.push(new ScreenTimeQuestions());
                 }
                 else{
