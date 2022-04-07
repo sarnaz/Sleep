@@ -104,6 +104,10 @@ public class MoreInfoPage extends UIViewPage {
 
         new MyButton(page, "submit", new int[]{650, 510}, new int[]{750, 550}, "submitButton"){
             public void isClicked() {
+            	
+            	// validation of number input before parsing
+            	if (heightInput.getText().equals("") || weightInput.getText().equals("")) return;
+            	
                 Database.setUserHeight(Integer.parseInt(heightInput.getText()));
                 Database.setUserWeight(Integer.parseInt(weightInput.getText()));
                 Object[][] new_factors = Database.getFactorArray();
