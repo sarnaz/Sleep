@@ -1,7 +1,11 @@
 package sleepAppGUI.pages.questions.exercise;
 
+import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.HomePage;
+import sleepAppGUI.pages.questions.ScreenTimeQuestions;
+import sleepAppGUI.pages.questions.StressQuestions;
+import sleepAppGUI.pages.questions.WaterQuestions;
 
 public class ExerciseYes extends ExerciseQuestions {
 
@@ -24,8 +28,19 @@ public class ExerciseYes extends ExerciseQuestions {
         {
             public void isClicked()
             {
-                ExerciseYes.this.push(new HomePage());
-                System.out.println("Home");
+                Object[][] factors_chosen = Database.getFactorArray();
+                if ((Boolean) factors_chosen[1][3]){
+                    ExerciseYes.this.push(new StressQuestions());
+                }
+                else if ((Boolean) factors_chosen[1][4]){
+                    ExerciseYes.this.push(new WaterQuestions());
+                }
+                else if ((Boolean) factors_chosen[1][5]){
+                    ExerciseYes.this.push(new ScreenTimeQuestions());
+                }
+                else{
+                    ExerciseYes.this.push(new HomePage());
+                }
             }
         };
     }

@@ -1,9 +1,13 @@
 package sleepAppGUI.pages.questions.exercise;
 
+import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.MyButton;
 import sleepAppGUI.interaction.MyImage;
 import sleepAppGUI.interaction.Page;
 import sleepAppGUI.pages.HomePage;
+import sleepAppGUI.pages.questions.ScreenTimeQuestions;
+import sleepAppGUI.pages.questions.StressQuestions;
+import sleepAppGUI.pages.questions.WaterQuestions;
 
 public class ExerciseNo extends ExerciseQuestions {
 
@@ -22,8 +26,19 @@ public class ExerciseNo extends ExerciseQuestions {
         {
             public void isClicked()
             {
-                ExerciseNo.this.push(new HomePage());
-                System.out.println("Home");
+                Object[][] factors_chosen = Database.getFactorArray();
+                if ((Boolean) factors_chosen[1][3]){
+                    ExerciseNo.this.push(new StressQuestions());
+                }
+                else if ((Boolean) factors_chosen[1][4]){
+                    ExerciseNo.this.push(new WaterQuestions());
+                }
+                else if ((Boolean) factors_chosen[1][5]){
+                    ExerciseNo.this.push(new ScreenTimeQuestions());
+                }
+                else{
+                    ExerciseNo.this.push(new HomePage());
+                }
             }
         };
     }

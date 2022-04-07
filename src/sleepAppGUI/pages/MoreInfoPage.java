@@ -111,7 +111,7 @@ public class MoreInfoPage extends UIViewPage {
                 Database.setUserHeight(Integer.parseInt(heightInput.getText()));
                 Database.setUserWeight(Integer.parseInt(weightInput.getText()));
                 Object[][] new_factors = Database.getFactorArray();
-                ArrayList<String> factors_chosen = new ArrayList<>();
+                ArrayList<String> factors_chosen = new ArrayList<String>();
                 if (caffeineClicked.isVisible()) {
                     factors_chosen.add("caffeine");
                 }
@@ -132,19 +132,19 @@ public class MoreInfoPage extends UIViewPage {
                 }
                 if(factors_chosen.size() < 3){
                     System.out.println("Not enough factors");
-                }
-                else {
+                } else {
                     for (String each_factor : factors_chosen) {
                         System.out.println(factors_chosen);
                         for (int current = 0; current < new_factors[0].length; current++) {
                             System.out.println(new_factors[0][current]);
                             if (new_factors[0][current] == each_factor) {
-                                new_factors[1][current] = 1;
+                                new_factors[1][current] = true;
                                 System.out.println(each_factor);
                             }
                         }
                     }
                     Database.setFactors(new_factors);
+
                     MoreInfoPage.this.push(new HomePage());
                     System.out.println("Account Created!");
                 }
