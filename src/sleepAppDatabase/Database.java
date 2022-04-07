@@ -47,6 +47,7 @@ public class Database {
                     System.out.println("no previous time found");
                 }
             }
+            assert conn != null;
             conn.close();
         } catch (SQLException e) {
             System.out.println("exception was caught initialising database");
@@ -78,6 +79,7 @@ public class Database {
                 else{
                     System.out.println("no factors chosen");
                 }
+                conn.close();
             }
             conn.close();
 
@@ -116,6 +118,7 @@ public class Database {
                 sql.append(" where id=");
                 sql.append(id);
                 stmt.executeUpdate(sql.toString());
+                conn.close();
             } else {
                 return false;
             }
@@ -141,6 +144,8 @@ public class Database {
             if(rs.next()){
                 return rs.getInt("stressLevel");
             }
+
+            conn.close();
 
         }
         catch(Exception e){
@@ -177,6 +182,8 @@ public class Database {
                 System.out.println(Arrays.toString(values[0]));
                 System.out.println(Arrays.toString(values));
             }
+
+            conn.close();
 
         }
         catch(Exception e){
@@ -304,6 +311,7 @@ public class Database {
                 stmt.executeUpdate(sql);
                 //updates the sleep streak by adding 1
             }
+            conn.close();
 
         }
         catch(Exception e){
@@ -725,6 +733,7 @@ public class Database {
             //adds the id into factors for use later
 
             conn.close();
+
             return 1;
         }
         catch(Exception e){
