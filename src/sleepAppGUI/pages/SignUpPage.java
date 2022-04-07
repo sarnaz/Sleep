@@ -23,14 +23,14 @@ public class SignUpPage extends UIViewPage {
         // Adds background
         new MyImage(page, new int[] {0, 1}, new int[] {800, 600}, "first-page", ".jpg", true);
 
-        new MyText(page, new int[] {400, 190}, new int[] {440, 215}, "Username:", new int[] {0, 0, 1}, "Helvetica", Font.BOLD);
+        new MyText(page, new int[] {400, 190}, new int[] {440, 215}, "Username:", Color.white, "Helvetica", Font.BOLD);
         MyTextField usernameInput = new MyTextField(main, page, new int[] {400, 205}, new int[] {750, 235});
 
         // Adds the password boxes
-        new MyText(page, new int[] {400, 280}, new int[] {440, 305}, "Password:", new int[] {0, 0, 1}, "Helvetica", Font.BOLD);
+        new MyText(page, new int[] {400, 280}, new int[] {440, 305}, "Password:", Color.white, "Helvetica", Font.BOLD);
         MyPasswordField passwordInput1 = new MyPasswordField(main, page, new int[] {400, 295}, new int[] {750, 325});
 
-        new MyText(page, new int[] {400, 370}, new int[] {440, 395}, "Re-enter Password:", new int[] {0, 0, 1}, "Helvetica", Font.BOLD);
+        new MyText(page, new int[] {400, 370}, new int[] {440, 395}, "Re-enter Password:", Color.white, "Helvetica", Font.BOLD);
         MyPasswordField passwordInput2 = new MyPasswordField(main, page, new int[] {400, 385}, new int[] {750, 415});
 
         MyImage openEye = new MyImage(page, new int[]{540, 262}, new int[]{560, 282}, "openEye", false);

@@ -16,11 +16,11 @@ public class SignInPage extends UIViewPage {
         new MyImage(page, new int[] {0, 0}, new int[] {800, 600}, "first-page", ".jpg", true);
 
         // Adds the username input box on first page
-        MyText.putText(page, new int[] {400, 230}, new int[] {70, 24}, "Username:", new int[] {0, 0, 1}, "Helvetica", Font.BOLD);
+        MyText.putText(page, new int[] {400, 230}, new int[] {70, 24}, "Username:", Color.white, "Helvetica", Font.BOLD);
         MyTextField usernameInput = new MyTextField(main, page, new int[] {400, 245}, new int[] {750, 275});
 
         // Adds the password boxes
-        MyText.putText(page, new int[] {400, 310}, new int[] {70, 24}, "Password:", new int[] {0, 0, 1}, "Helvetica", Font.BOLD);
+        MyText.putText(page, new int[] {400, 310}, new int[] {70, 24}, "Password:", Color.white, "Helvetica", Font.BOLD);
         MyPasswordField passwordInput1 = new MyPasswordField(main, page, new int[] {400, 325}, new int[] {750, 355});
 
         MyImage openEye = new MyImage(page, new int[]{450, 250}, new int[]{470, 270}, "openEye", false);

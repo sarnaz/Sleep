@@ -5,12 +5,11 @@ import java.awt.*;
 public class MyText extends VObject
 {
     public final static String defaultFont = "Century Gothic";
-    public final static int[] defaultColour = new int[] {0, 0, 0};
     public final static int defaultStyle = Font.PLAIN;
 
     private String text;
     private String font = defaultFont;
-    private Color colour = Color.getHSBColor(defaultColour[0], defaultColour[1], defaultColour[2]);
+    private Color colour = Color.black;
     private int style = defaultStyle;
 
     public MyText(Page page, int[] coordinates1, int[] coordinates2, String text)
@@ -19,30 +18,30 @@ public class MyText extends VObject
         this.text = text;
     }
 
-    public MyText(Page page, int[] coordinates1, int[] coordinates2, String text, int[] textColour)
+    public MyText(Page page, int[] coordinates1, int[] coordinates2, String text, Color textColour)
     {
         super(page, coordinates1, coordinates2, true);
         this.text = text;
-        colour = Color.getHSBColor(textColour[0], textColour[1], textColour[2]);
+        colour = textColour;
     }
 
-    public MyText(Page page, int[] coordinates1, int[] coordinates2, String text, int[] textColour, String fontName, int style)
+    public MyText(Page page, int[] coordinates1, int[] coordinates2, String text, Color textColour, String fontName, int style)
     {
         super(page, coordinates1, coordinates2, true);
         this.text = text;
         this.font = fontName;
         this.style = style;
-        colour = Color.getHSBColor(textColour[0], textColour[1], textColour[2]);
+        this.colour = textColour;
     }
 
-    public static MyText putText(Page page, int[] coordinates1, int[] size, String text, int[] textColour, String fontName, int style) {
+    public static MyText putText(Page page, int[] coordinates1, int[] size, String text, Color textColour, String fontName, int style) {
         final int[] coordinates2 = new int[] {coordinates1[0] + size[0], coordinates1[1] + size[1]};
 
         return new MyText(page, coordinates1, coordinates2, text, textColour, fontName, style);
     }
 
     public static MyText putText(Page page, int[] coordinates1, int[] size, String text) {
-        return putText(page, coordinates1, size, text, defaultColour, defaultFont, defaultStyle);
+        return putText(page, coordinates1, size, text, Color.black, defaultFont, defaultStyle);
     }
 
     @Override
