@@ -349,7 +349,7 @@ public class Database {
             if (conn != null) {
 
                 int value = Integer.MIN_VALUE;
-                String getValueString = "SELECT " + column + " FROM USER";
+                String getValueString = "SELECT " + column + " FROM USER WHERE id="+id;
                 PreparedStatement preparedGetValueStatement = conn.prepareStatement(getValueString);
                 if (preparedGetValueStatement.execute()) {
                     ResultSet result = preparedGetValueStatement.getResultSet();
