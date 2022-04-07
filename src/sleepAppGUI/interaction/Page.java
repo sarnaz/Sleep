@@ -127,7 +127,7 @@ public class Page
     }
 
     public static void setUpPages(Main main) {
-        UIStoryboard storyboard = new UIStoryboard(main);
+        UIStoryboard storyboard = new UIStoryboard(main, new Color(0x6D3FB2));
 
         if (!Database.databaseExists()) {
         	Database.initialiseDatabase();
