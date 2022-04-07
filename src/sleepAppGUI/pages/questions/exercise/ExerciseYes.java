@@ -29,13 +29,13 @@ public class ExerciseYes extends ExerciseQuestions {
             public void isClicked()
             {
                 Object[][] factors_chosen = Database.getFactorArray();
-                if(Boolean.valueOf((Boolean)factors_chosen[1][3])){
+                if ((Boolean) factors_chosen[1][3]){
                     ExerciseYes.this.push(new StressQuestions());
                 }
-                else if(Boolean.valueOf((Boolean)factors_chosen[1][4])){
+                else if ((Boolean) factors_chosen[1][4]){
                     ExerciseYes.this.push(new WaterQuestions());
                 }
-                else if(Boolean.valueOf((Boolean)factors_chosen[1][5])){
+                else if ((Boolean) factors_chosen[1][5]){
                     ExerciseYes.this.push(new ScreenTimeQuestions());
                 }
                 else{

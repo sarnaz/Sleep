@@ -27,7 +27,7 @@ public class WaterQuestions extends UIViewPage {
             public void isClicked()
             {
                 Object[][] factors_chosen = Database.getFactorArray();
-                if(Boolean.valueOf((Boolean)factors_chosen[1][5])){
+                if ((Boolean) factors_chosen[1][5]){
                     WaterQuestions.this.push(new ScreenTimeQuestions());
                 }
                 else{
