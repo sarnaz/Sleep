@@ -156,7 +156,7 @@ public class Database {
                     ,{null, null, null, null, null, null, null, null, null}};
 
             String allInfo = "units, caffeine, cupsOfWater, sleepTime, timeToSleep, sleepQuality, stressLevel, screenTime, exerciseTime";
-            String sql = "SELECT "+ allInfo+"  FROM FLUID JOIN SLEEP ON SLEEP.id = FLUID.id JOIN STRESS ON  NATURAL JOIN SCREENTIME NATURAL JOIN FITNESS WHERE id="+id+" and addDate="+ addDate;
+            String sql = "SELECT "+ allInfo+"  FROM FLUID JOIN SLEEP ON SLEEP.id = FLUID.id JOIN STRESS ON STRESS.id = FLUID.id JOIN SCREENTIME ON SCREENTIME.id = STRESS.id JOIN FITNESS ON FITNESS.id=STRESS.id WHERE id="+id+" and addDate="+ addDate;
             ResultSet rs = stmt.executeQuery(sql);
             System.out.println(sql);
             if(rs.next()){
