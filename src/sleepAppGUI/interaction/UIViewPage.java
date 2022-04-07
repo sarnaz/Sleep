@@ -7,8 +7,13 @@ abstract public class UIViewPage {
 
     protected Main main;
     private UINavigator navigator;
+    private Color defaultBackgroundColor = new Color(0xFFFFFF);
 
     public UIViewPage() {}
+
+    public UIViewPage(Color defaultBackgroundColor) {
+        this.defaultBackgroundColor = defaultBackgroundColor;
+    }
 
     public void setNavigator(UINavigator navigator) {
         if (this.navigator == null) {
@@ -39,7 +44,7 @@ abstract public class UIViewPage {
     }
 
     protected Color backgroundColor() {
-        return new Color(0xC7EFF9);
+        return defaultBackgroundColor;
     }
 
 }
