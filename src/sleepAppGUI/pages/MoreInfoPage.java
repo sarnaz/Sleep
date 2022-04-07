@@ -23,10 +23,11 @@ public class MoreInfoPage extends UIViewPage {
     protected void setUp(Page page) {
         // ADD THINGS TO SECOND PAGE
         //new MyImage(page, new int[] {150, 15}, new int[] {650, 560}, "box_behind", true);
-        new MyRectangle(page, new int[] {150, 15}, new int[] {500, 545}, 20, new Color(0x6D3FB2));
+        MyImage.putImage(page, new int[] {25, 170}, 750, "logo");
+        new MyRectangle(page, new int[] {150, 15}, new int[] {500, 545}, 20, new Color(0xD0271649, true));
 
         // height
-        new MyText(page, new int[] {275, 50}, new int[] {290, 70}, "Height:");
+        new MyText(page, new int[] {275, 50}, new int[] {290, 70}, "Height:", Color.white);
         MyTextField heightInput = new MyTextField(main, page, new int[] {282, 60}, new int[] {318, 85});
         new MyText(page, new int[] {320, 77}, new int[]{335, 92}, "cm");
 
