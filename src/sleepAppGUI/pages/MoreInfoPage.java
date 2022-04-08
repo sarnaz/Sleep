@@ -104,35 +104,32 @@ public class MoreInfoPage extends UIViewPage {
 
         new MyButton(page, "submit", new int[]{650, 510}, new int[]{750, 550}, "submitButton"){
             public void isClicked() {
-            	
-            	// validation of number input before parsing
-            	if (heightInput.getText().equals("") || weightInput.getText().equals("")) return;
-            	
                 Database.setUserHeight(Integer.parseInt(heightInput.getText()));
                 Database.setUserWeight(Integer.parseInt(weightInput.getText()));
                 Object[][] new_factors = Database.getFactorArray();
                 ArrayList<String> factors_chosen = new ArrayList<String>();
-                if (caffeineClicked.isVisible()) {
+                if(caffeineClicked.isVisible()==true) {
                     factors_chosen.add("caffeine");
                 }
-                if (alcoholClicked.isVisible()) {
+                if(alcoholClicked.isVisible()==true) {
                     factors_chosen.add("alcohol");
                 }
-                if (exerciseClicked.isVisible()) {
+                if(exerciseClicked.isVisible()==true) {
                     factors_chosen.add("fitness");
                 }
-                if (stressClicked.isVisible()) {
+                if(stressClicked.isVisible()==true) {
                     factors_chosen.add("stress");
                 }
-                if (waterClicked.isVisible()) {
+                if(waterClicked.isVisible()==true) {
                     factors_chosen.add("water");
                 }
-                if (screenTimeClicked.isVisible()) {
+                if(screenTimeClicked.isVisible()==true) {
                     factors_chosen.add("screenTime");
                 }
                 if(factors_chosen.size() < 3){
                     System.out.println("Not enough factors");
-                } else {
+                }
+                else {
                     for (String each_factor : factors_chosen) {
                         System.out.println(factors_chosen);
                         for (int current = 0; current < new_factors[0].length; current++) {
@@ -144,7 +141,6 @@ public class MoreInfoPage extends UIViewPage {
                         }
                     }
                     Database.setFactors(new_factors);
-
                     MoreInfoPage.this.push(new HomePage());
                     System.out.println("Account Created!");
                 }

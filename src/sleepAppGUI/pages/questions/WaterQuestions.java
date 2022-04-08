@@ -5,7 +5,7 @@ import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.HomePage;
 import sleepAppGUI.pages.questions.alcohol.AlcoholQuestions;
 
-public class WaterQuestions extends UIViewPage {
+public class WaterQuestions extends QuestionsPage {
     @Override
     protected int pageNumber() {
         return 10;
@@ -13,6 +13,7 @@ public class WaterQuestions extends UIViewPage {
 
     @Override
     protected void setUp(Page page) {
+        super.setUp(page);
         new MyImage(page, new int[] {185, 15}, new int[] {330, 160}, "waterLogo", true);
         // number cups water
         new MyText(page, new int[] {195, 220}, new int[] {220, 240}, "How many cups of water have you had?");
