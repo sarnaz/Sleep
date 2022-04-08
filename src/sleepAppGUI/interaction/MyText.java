@@ -4,12 +4,12 @@ import java.awt.*;
 
 public class MyText extends VObject
 {
-    public final static String defaultFont = "Century Gothic";
+    public final static String defaultFont = "Helvetica";
     public final static int defaultStyle = Font.PLAIN;
 
     private String text;
     private String font = defaultFont;
-    private Color colour = Color.black;
+    private Color colour = Color.white;
     private int style = defaultStyle;
 
     public MyText(Page page, int[] coordinates1, int[] coordinates2, String text)
