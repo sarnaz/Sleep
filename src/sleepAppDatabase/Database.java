@@ -3,8 +3,6 @@ package sleepAppDatabase;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Random;
 import java.io.*;
 
@@ -158,12 +156,15 @@ public class Database {
         }
         return true;
     }
-    public static int getStressData(Date date){
+    public static int getStressData(int year, int month, int day){
+
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             Statement stmt = conn.createStatement();
 
-            String sql = "SELECT stressLevel FROM STRESS WHERE id="+id+" and addDate="+date;
+            String sql = "SELECT stressLevel FROM STRESS WHERE id="+id+" and addDate="+addDate.getTime();
             ResultSet rs = stmt.executeQuery(sql);
             if(rs.next()){
                 return rs.getInt("stressLevel");
@@ -178,7 +179,10 @@ public class Database {
         return -1;
     }
 
-    public static int getDataForDate(int year, int month, int day){
+    public static Object[][] getDataForDate(int year, int month, int day){
+
+        Object[][] values = new Object[][]{{"units", "caffeine", "cupsOfWater", "sleepTime", "timeToSleep", "sleepQuality", "stressLevel", "screenTime", "exerciseTime"}
+                ,{null, null, null, null, null, null, null, null, null}};
 
         try{
             /*SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -187,23 +191,45 @@ public class Database {
 
              */
 
+
             Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+
             Connection conn = DriverManager.getConnection(databaseURL);
             Statement stmt = conn.createStatement();
-            Object[][] values = new Object[][]{{"units", "caffeine", "cupsOfWater", "sleepTime", "timeToSleep", "sleepQuality", "stressLevel", "screenTime", "exerciseTime"}
-                    ,{null, null, null, null, null, null, null, null, null}};
 
-            String allInfo = "units, caffeine, cupsOfWater, sleepTime, timeToSleep, sleepQuality, stressLevel, screenTime, exerciseTime";
-            String sql = "SELECT "+ allInfo+"  FROM FLUID JOIN SLEEP ON SLEEP.id = FLUID.id JOIN STRESS ON  NATURAL JOIN SCREENTIME NATURAL JOIN FITNESS WHERE id="+id+" and addDate="+ addDate;
+            String sql = "SELECT units, caffeine, cupsOfWater FROM FLUID WHERE addDate="+ addDate.getTime() + " and id="+id;
             ResultSet rs = stmt.executeQuery(sql);
             System.out.println(sql);
             if(rs.next()){
-                for(int i = 0; i<values[0].length;i++){
-                    values[1][i] = rs.getInt((String) values[0][i]);
-                }
-                System.out.println("a");
-                System.out.println(Arrays.toString(values[0]));
-                System.out.println(Arrays.toString(values));
+                values[1][0] = rs.getInt((String)values[0][0]);
+                values[1][1] = rs.getInt((String)values[0][1]);
+                values[1][2] = rs.getInt((String)values[0][2]);
+            }
+
+            sql = "SELECT sleepTime, timeToSleep, sleepQuality FROM SLEEP where addDate="+addDate.getTime() +" and id="+id;
+            rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                values[1][3] = rs.getInt((String)values[0][3]);
+                values[1][4] = rs.getInt((String)values[0][4]);
+                values[1][5] = rs.getInt((String)values[0][5]);
+            }
+            sql = "SELECT stressLevel FROM STRESS where addDate="+addDate.getTime() +" and id="+id;
+            rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                System.out.println("B");
+                values[1][6] = rs.getInt((String)values[0][6]);
+            }
+            sql = "SELECT screenTime FROM SCREENTIME where addDate="+addDate.getTime() +" and id="+id;
+            rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                System.out.println("C");
+                values[1][7] = rs.getInt((String)values[0][7]);
+            }
+            sql = "SELECT exerciseTime FROM FITNESS where addDate="+addDate.getTime() +" and id="+id;
+            rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                System.out.println("D");
+                values[1][8] = rs.getInt((String)values[0][8]);
             }
 
             conn.close();
@@ -212,7 +238,7 @@ public class Database {
         catch(Exception e){
             System.out.println(e.getLocalizedMessage());
         }
-        return -1;
+        return values;
     }
 
     //sets the last day that questions were answered to the end of the current day
@@ -254,7 +280,7 @@ public class Database {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
                 String sql = "INSERT INTO SCREENTIME (id, screenTime, addDate) VALUES("+id+","
-                        +screentime+","+addDate+")";
+                        +screentime+","+addDate.getTime()+")";
 
                 Statement stmt = conn.createStatement();
                 stmt.executeUpdate(sql);
@@ -280,7 +306,7 @@ public class Database {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
                 String sql = "INSERT INTO SLEEP (id, sleepTime, timeToSleep, sleepQuality, addDate) VALUES("+id+","
-                        +sleepTime+","+timeToSleep + ", " + sleepQuality+ ", "+addDate+")";
+                        +sleepTime+","+timeToSleep + ", " + sleepQuality+ ", "+addDate.getTime()+")";
                 Statement stmt = conn.createStatement();
                 stmt.executeUpdate(sql);
 
@@ -319,12 +345,12 @@ public class Database {
             }
 
             if(sleepTime<goalTime) {
-                sql = "UPDATE GOALS SET sleepStreak=0 where id=" + id;
+                sql = "UPDATE GOALS SET streakLength=0 where id=" + id;
                 stmt.executeUpdate(sql);
             }
             else{
                 int currentStreak = 0;
-                sql = "SELECT sleepStreak FROM GOALS WHERE id="+id;
+                sql = "SELECT streakLength FROM GOALS WHERE id="+id;
                 rs = stmt.executeQuery(sql);
                 if(rs.next()){
                     currentStreak = rs.getInt("sleepStreak");
@@ -332,7 +358,7 @@ public class Database {
                 else{
                     throw new Exception("no sleep streak found");
                 }
-                sql = "UPDATE GOALS SET sleepStreak="+currentStreak+1+" WHERE id="+id;
+                sql = "UPDATE GOALS SET streakLength="+currentStreak+1+" WHERE id="+id;
                 stmt.executeUpdate(sql);
                 //updates the sleep streak by adding 1
             }
@@ -349,7 +375,7 @@ public class Database {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
-                String sql = "INSERT INTO STRESS (id, stressLevel, addDate) VALUES("+id+","+ stressLevel+","+addDate+")";
+                String sql = "INSERT INTO STRESS (id, stressLevel, addDate) VALUES("+id+","+ stressLevel+","+addDate.getTime()+")";
                 Statement stmt = conn.createStatement();
                 stmt.executeUpdate(sql);
 
@@ -586,7 +612,8 @@ public class Database {
     }
 
     public static Object[][] getGoalData(){
-        Object[][] goals = {{"cupsOfWater", "sleepDuration", "exerciseDuration", "units", "screenTime", "stress", "coffee", "tea", "energyDrinks"}, {0, 0, 0, 0, 0, 0, 0, 0}};
+        Object[][] goals = {{"cupsOfWater", "sleepDuration", "exerciseDuration", "units", "screenTime", "stress", "coffee", "tea", "energyDrinks"},
+                                {0, 0, 0, 0, 0, 0, 0, 0}};
 
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
