@@ -3,8 +3,6 @@ package sleepAppDatabase;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Random;
 import java.io.*;
 
@@ -323,12 +321,12 @@ public class Database {
             }
 
             if(sleepTime<goalTime) {
-                sql = "UPDATE GOALS SET sleepStreak=0 where id=" + id;
+                sql = "UPDATE GOALS SET streakLength=0 where id=" + id;
                 stmt.executeUpdate(sql);
             }
             else{
                 int currentStreak = 0;
-                sql = "SELECT sleepStreak FROM GOALS WHERE id="+id;
+                sql = "SELECT streakLength FROM GOALS WHERE id="+id;
                 rs = stmt.executeQuery(sql);
                 if(rs.next()){
                     currentStreak = rs.getInt("sleepStreak");
@@ -336,7 +334,7 @@ public class Database {
                 else{
                     throw new Exception("no sleep streak found");
                 }
-                sql = "UPDATE GOALS SET sleepStreak="+currentStreak+1+" WHERE id="+id;
+                sql = "UPDATE GOALS SET streakLength="+currentStreak+1+" WHERE id="+id;
                 stmt.executeUpdate(sql);
                 //updates the sleep streak by adding 1
             }
