@@ -683,6 +683,7 @@ public class Database {
         return new String[] {"CREATE TABLE USER (\n" +
                 "  id INTEGER(4) NOT NULL primary key,\n" +
                 "  name varchar(30) not null UNIQUE,\n" +
+                "  firstLogin int(1) not NULL DEFAULT 0, \n" +
                 "  password varchar(32) not null,\n" +
                 "  salt varchar(8) not null,\n" +
                 "  weight INT(3) not NULL DEFAULT 72,\n" +
@@ -763,7 +764,7 @@ public class Database {
 
     public static Object[][] getGoalData(){
         Object[][] goals = {{"cupsOfWater", "sleepDuration", "exerciseDuration", "units", "screenTime", "stress", "coffee", "tea", "energyDrinks"},
-                                {0, 0, 0, 0, 0, 0, 0, 0}};
+                                {0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
@@ -771,11 +772,11 @@ public class Database {
             Statement stmt = conn.createStatement();
             String sql = "SELECT cupsOfWater, sleepDuration, exerciseDuration, units, screenTime, stress, coffee, tea, energyDrinks FROM GOALS WHERE id=" + id;
 
-
             ResultSet rs = stmt.executeQuery(sql);
             if(rs.next()) {
+
                 for (int i = 0; i < goals[0].length; i++) {
-                    goals[1][i] = rs.getInt(rs.getInt((int) goals[0][i]));
+                    goals[1][i] = rs.getInt((String) goals[0][i]);
                 }
             }
             conn.close();
