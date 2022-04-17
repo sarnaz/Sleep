@@ -463,6 +463,38 @@ public class Database {
         return false;
     }
 
+    public static boolean addFitnessEntry(int exerciseTime, int latestEndTime, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql  = "SELECT * FROM FITNESS WHERE id="+id+" and addDate="+addDate.getTime();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if(rs.next()) {
+                    sql = "UPDATE FITNESS SET  exerciseTime="+exerciseTime + ", latestEndTime="+ latestEndTime +" WHERE id="+id+" AND addDate="+addDate.getTime();
+                    stmt.executeUpdate(sql);
+                    return true;
+                }
+                else{
+                    sql = "INSERT INTO FITNESS (id, exerciseTime, latestEndTime, addDate) VALUES(" + id + "," + exerciseTime + ","+ latestEndTime+ "," + addDate.getTime() + ")";
+                    stmt.executeUpdate(sql);
+
+                    conn.close();
+                    return true;
+                }
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding stress entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
     //sets a given user variable in a given column of the User database
     private static void setUserIntVariable(String column, int value) {
         try {
