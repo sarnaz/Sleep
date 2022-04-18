@@ -46,6 +46,7 @@ public class AlcoholYes extends AlcoholQuestions {
                     int year = calendar.get(Calendar.YEAR);
                     int month = calendar.get(Calendar.MONTH) + 1;
                     int date = calendar.get(Calendar.DAY_OF_MONTH);
+                    Database.addAlcoholEntry(units, date, month, year);
                     Object[][] factors_chosen = Database.getFactorArray();
                     if ((Boolean) factors_chosen[1][2]) {
                         AlcoholYes.this.push(new ExerciseQuestions());

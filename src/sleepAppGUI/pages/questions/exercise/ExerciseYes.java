@@ -47,7 +47,7 @@ public class ExerciseYes extends ExerciseQuestions {
                     int year = calendar.get(Calendar.YEAR);
                     int month = calendar.get(Calendar.MONTH) + 1;
                     int date = calendar.get(Calendar.DAY_OF_MONTH);
-
+                    Database.addFitnessEntry(ex, 0, date, month, year);
                     Object[][] factors_chosen = Database.getFactorArray();
                     if ((Boolean) factors_chosen[1][3]) {
                         ExerciseYes.this.push(new StressQuestions());

@@ -25,10 +25,7 @@ public class Database {
         return factors;
     }
     
-    public static boolean setGoals(String targetColumn, int value) {
-    	try {
-            Connection conn = DriverManager.getConnection(databaseURL);
-            if (conn != null) {
+
 
 
     public static boolean setGoals(String targetColumn, int value) {
@@ -56,7 +53,9 @@ public class Database {
         return false;
     }
 
-                String addStatement = "UPDATE GOALS SET ?=? WHERE id=?";
+
+
+                /*String addStatement = "UPDATE GOALS SET ?=? WHERE id=?";
                 PreparedStatement preparedAddStatement = conn.prepareStatement(addStatement);
                 preparedAddStatement.setString(1, targetColumn);
                 preparedAddStatement.setInt(2, value);
@@ -72,7 +71,7 @@ public class Database {
             System.out.println(e.getLocalizedMessage());
         }
         return false;
-    }
+    }*/
 
     //returns true if the daily questions haven't yet been asked
     //does not increment the time. That is done once the questions have been answered

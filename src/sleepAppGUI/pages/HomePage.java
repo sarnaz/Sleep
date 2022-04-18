@@ -29,7 +29,7 @@ public class HomePage extends UIViewPage {
         new MyText(page, new int[] {270, 178}, new int[] {320, 198}, "Username");
 
         // buttons
-        if(Database.askDailyQuestionsCheck()) {
+        if(Database.askDailyQuestionsCheck() == true) {
             MyButton dailyQuestions = new MyButton(page, "dailyQuestions", new int[]{170, 260}, new int[]{404, 361}, "questions") {
                 public void isClicked() {
                     HomePage.this.push(new SleepQuestions());
