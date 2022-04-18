@@ -26,7 +26,9 @@ public class HomePage extends UIViewPage {
         new MyImage(page, new int[] {550, 157}, new int[] {610, 217}, "female_icon", false);
 
         // display username
-        new MyText(page, new int[] {270, 178}, new int[] {320, 198}, "Username");
+        String username = Database.getUsername();
+
+        new MyText(page, new int[] {270, 178}, new int[] {320, 198}, username);
 
         // buttons
         if(Database.askDailyQuestionsCheck() == true) {

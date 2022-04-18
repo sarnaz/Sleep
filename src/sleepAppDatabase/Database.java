@@ -59,7 +59,9 @@ public class Database {
 
                 ResultSet rs = stmt.executeQuery(sql);
                 if(rs.next()){
-                    return rs.getString("name");
+                    String returnValue = rs.getString("name");
+                    conn.close();
+                    return returnValue;
                 }
             }
         }

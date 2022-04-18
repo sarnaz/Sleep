@@ -13,8 +13,10 @@ public class EditProfilePage extends UIViewPage {
     protected void setUp(Page page) {
         new MyImage(page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
         new MyImage(page, new int[] {275, 170}, new int[] {525, 470}, "profile_box", true);
-        // add a function to database to return username only
-        new MyText(page, new int[] {305, 230}, new int[] {340, 250}, "Username");
+        String username = Database.getUsername();
+        new MyText(page, new int[] {305, 230}, new int[] {340, 250}, username);
+
+        //change height and weight here
         MyTextField heightInput = new MyTextField(main, page, new int[] {370, 280}, new int[] {398, 305});
         MyText cm = new MyText(page, new int[] {401, 298}, new int[] {406, 316}, "cm");
         MyTextField weightInput = new MyTextField(main, page, new int[] {370, 345}, new int[] {398, 370});
