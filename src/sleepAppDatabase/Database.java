@@ -50,6 +50,26 @@ public class Database {
         return false;
     }
 
+    public static String getUsername(){
+        try{
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if(conn!=null){
+                String sql = "SELECT name FROM USER WHERE id="+id;
+                Statement stmt = conn.createStatement();
+
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next()){
+                    return rs.getString("name");
+                }
+            }
+        }
+        catch(Exception e){
+            System.out.println("error in Database.getUsername");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return "error";
+    }
+
     //returns true if the daily questions haven't yet been asked
     //does not increment the time. That is done once the questions have been answered
     //returns false if the daily questions have already been asked that day
