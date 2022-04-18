@@ -107,36 +107,38 @@ public class MoreInfoPage extends UIViewPage {
                 Database.setUserHeight(Integer.parseInt(heightInput.getText()));
                 Database.setUserWeight(Integer.parseInt(weightInput.getText()));
                 Object[][] new_factors = Database.getFactorArray();
-                ArrayList<String> factors_chosen = new ArrayList<>();
-                if (caffeineClicked.isVisible()) {
+                ArrayList<String> factors_chosen = new ArrayList<String>();
+                if(caffeineClicked.isVisible()==true) {
                     factors_chosen.add("caffeine");
                 }
-                if (alcoholClicked.isVisible()) {
+                if(alcoholClicked.isVisible()==true) {
                     factors_chosen.add("alcohol");
                 }
-                if (exerciseClicked.isVisible()) {
+                if(exerciseClicked.isVisible()==true) {
                     factors_chosen.add("fitness");
                 }
-                if (stressClicked.isVisible()) {
+                if(stressClicked.isVisible()==true) {
                     factors_chosen.add("stress");
                 }
-                if (waterClicked.isVisible()) {
+                if(waterClicked.isVisible()==true) {
                     factors_chosen.add("water");
                 }
-                if (screenTimeClicked.isVisible()) {
+                if(screenTimeClicked.isVisible()==true) {
                     factors_chosen.add("screenTime");
                 }
                 if(factors_chosen.size() < 3){
                     System.out.println("Not enough factors");
                 }
                 else {
+                    System.out.println("CHOSEN: " + factors_chosen);
                     for (String each_factor : factors_chosen) {
-                        System.out.println(factors_chosen);
+                        System.out.println("CHOSEN COMPARE: " + each_factor);
                         for (int current = 0; current < new_factors[0].length; current++) {
-                            System.out.println(new_factors[0][current]);
+                            System.out.println("CHECKING AGAINST: " + new_factors[0][current]);
                             if (new_factors[0][current] == each_factor) {
-                                new_factors[1][current] = 1;
-                                System.out.println(each_factor);
+                                new_factors[1][current] = true;
+                                System.out.println("TRUE");
+                                //System.out.println(each_factor);
                             }
                         }
                     }

@@ -50,8 +50,8 @@ public class Database {
         return false;
     }
 
-    public static String getUsername(){
-        try{
+    public static String getUsername() {
+        try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if(conn!=null){
                 String sql = "SELECT name FROM USER WHERE id="+id;
@@ -63,7 +63,7 @@ public class Database {
                 }
             }
         }
-        catch(Exception e){
+        catch(Exception e) {
             System.out.println("error in Database.getUsername");
             System.out.println(e.getLocalizedMessage());
         }
@@ -294,7 +294,7 @@ public class Database {
         }
     }
 
-    public static boolean addScreenTimeEntry(double screentime, int day, int month, int year){
+    public static boolean addScreenTimeEntry(int screentime, int day, int month, int year){
         Date addDate = Date.valueOf(year + "-" + month + "-" + day);
         try {
             Connection conn = DriverManager.getConnection(databaseURL);

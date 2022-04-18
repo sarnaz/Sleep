@@ -1,7 +1,12 @@
 package sleepAppGUI.pages.questions;
 
+import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.HomePage;
+
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class ScreenTimeQuestions extends QuestionsPage{
 
@@ -25,8 +30,26 @@ public class ScreenTimeQuestions extends QuestionsPage{
         {
             public void isClicked()
             {
-                ScreenTimeQuestions.this.push(new HomePage());
-                System.out.println("Home");
+                boolean valid = true;
+                int numHours = 0;
+                try{
+                    numHours = Integer.parseInt(screenHours.getText());
+                }
+                catch(NumberFormatException e){
+                    System.out.println("Invalid");
+                    valid = false;
+                }
+                if(valid == true){
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(new Date());
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    int date = calendar.get(Calendar.DAY_OF_MONTH);
+                    Database.addScreenTimeEntry(numHours, date, month, year);
+                    ScreenTimeQuestions.this.push(new HomePage());
+                    System.out.println("Home");
+                }
+
             }
         };
     }
