@@ -61,6 +61,7 @@ public class CaffeineYes extends CaffeineQuestions{
                     int year = calendar.get(Calendar.YEAR);
                     int month = calendar.get(Calendar.MONTH) + 1;
                     int date = calendar.get(Calendar.DAY_OF_MONTH);
+                    Database.addCaffeineEntry(totCaffeine, date, month, year);
                     Object[][] factors_chosen = Database.getFactorArray();
                     if ((Boolean) factors_chosen[1][1]) {
                         CaffeineYes.this.push(new AlcoholQuestions());
