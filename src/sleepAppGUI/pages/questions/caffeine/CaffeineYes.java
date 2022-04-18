@@ -8,6 +8,9 @@ import sleepAppGUI.pages.questions.WaterQuestions;
 import sleepAppGUI.pages.questions.alcohol.AlcoholQuestions;
 import sleepAppGUI.pages.questions.exercise.ExerciseQuestions;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class CaffeineYes extends CaffeineQuestions{
 
     @Override
@@ -37,21 +40,40 @@ public class CaffeineYes extends CaffeineQuestions{
         {
             public void isClicked()
             {
-                Object[][] factors_chosen = Database.getFactorArray();
-                if ((Boolean) factors_chosen[1][1]){
-                    CaffeineYes.this.push(new AlcoholQuestions());
+                boolean valid = true;
+                int cof = 0;
+                int tea = 0;
+                int enrg = 0;
+                try{
+                    cof = Integer.parseInt(coffeeInput.getText());
+                    tea = Integer.parseInt(teaInput.getText());
+                    enrg = Integer.parseInt(energyInput.getText());
                 }
-                else if ((Boolean) factors_chosen[1][2]){
-                    CaffeineYes.this.push(new ExerciseQuestions());
+                catch(NumberFormatException e){
+                    System.out.println("Invalid");
+                    valid = false;
                 }
-                else if ((Boolean) factors_chosen[1][3]){
-                    CaffeineYes.this.push(new StressQuestions());
-                }
-                else if ((Boolean) factors_chosen[1][4]){
-                    CaffeineYes.this.push(new WaterQuestions());
-                }
-                else{
-                    CaffeineYes.this.push(new ScreenTimeQuestions());
+                if(valid == true) {
+                    int totCaffeine = (cof*95) + (tea*26) + (enrg*86);
+                    // write to DB here!
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(new Date());
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    int date = calendar.get(Calendar.DAY_OF_MONTH);
+                    Database.addCaffeineEntry(totCaffeine, date, month, year);
+                    Object[][] factors_chosen = Database.getFactorArray();
+                    if ((Boolean) factors_chosen[1][1]) {
+                        CaffeineYes.this.push(new AlcoholQuestions());
+                    } else if ((Boolean) factors_chosen[1][2]) {
+                        CaffeineYes.this.push(new ExerciseQuestions());
+                    } else if ((Boolean) factors_chosen[1][3]) {
+                        CaffeineYes.this.push(new StressQuestions());
+                    } else if ((Boolean) factors_chosen[1][4]) {
+                        CaffeineYes.this.push(new WaterQuestions());
+                    } else {
+                        CaffeineYes.this.push(new ScreenTimeQuestions());
+                    }
                 }
             }
         };

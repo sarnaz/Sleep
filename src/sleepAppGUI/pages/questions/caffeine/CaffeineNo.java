@@ -11,6 +11,9 @@ import sleepAppGUI.pages.questions.WaterQuestions;
 import sleepAppGUI.pages.questions.alcohol.AlcoholQuestions;
 import sleepAppGUI.pages.questions.exercise.ExerciseQuestions;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class CaffeineNo extends CaffeineQuestions {
 
     @Override
@@ -28,6 +31,13 @@ public class CaffeineNo extends CaffeineQuestions {
         {
             public void isClicked()
             {
+                // write to DB here!! 0 cups
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date());
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH) + 1;
+                int date = calendar.get(Calendar.DAY_OF_MONTH);
+                Database.addCaffeineEntry(0, date, month, year);
                 Object[][] factors_chosen = Database.getFactorArray();
                 if ((Boolean) factors_chosen[1][1]){
                     CaffeineNo.this.push(new AlcoholQuestions());

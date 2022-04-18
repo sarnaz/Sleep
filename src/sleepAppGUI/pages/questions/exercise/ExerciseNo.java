@@ -9,6 +9,9 @@ import sleepAppGUI.pages.questions.ScreenTimeQuestions;
 import sleepAppGUI.pages.questions.StressQuestions;
 import sleepAppGUI.pages.questions.WaterQuestions;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class ExerciseNo extends ExerciseQuestions {
 
     @Override
@@ -26,6 +29,13 @@ public class ExerciseNo extends ExerciseQuestions {
         {
             public void isClicked()
             {
+                // write to the database here!! 0 hrs
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date());
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH) + 1;
+                int date = calendar.get(Calendar.DAY_OF_MONTH);
+                Database.addFitnessEntry(0, 0, date, month, year);
                 Object[][] factors_chosen = Database.getFactorArray();
                 if ((Boolean) factors_chosen[1][3]){
                     ExerciseNo.this.push(new StressQuestions());

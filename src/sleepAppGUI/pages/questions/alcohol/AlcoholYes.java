@@ -8,6 +8,9 @@ import sleepAppGUI.pages.questions.StressQuestions;
 import sleepAppGUI.pages.questions.WaterQuestions;
 import sleepAppGUI.pages.questions.exercise.ExerciseQuestions;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class AlcoholYes extends AlcoholQuestions {
 
     @Override
@@ -27,21 +30,35 @@ public class AlcoholYes extends AlcoholQuestions {
         {
             public void isClicked()
             {
-                Object[][] factors_chosen = Database.getFactorArray();
-                if((Boolean) factors_chosen[1][2]){
-                    AlcoholYes.this.push(new ExerciseQuestions());
+                boolean valid = true;
+                int units = 0;
+                try{
+                    units = Integer.parseInt(howMany.getText());
                 }
-                else if ((Boolean) factors_chosen[1][3]){
-                    AlcoholYes.this.push(new StressQuestions());
+                catch(NumberFormatException e){
+                    System.out.println("Invalid");
+                    valid = false;
                 }
-                else if ((Boolean) factors_chosen[1][4]){
-                    AlcoholYes.this.push(new WaterQuestions());
-                }
-                else if ((Boolean) factors_chosen[1][5]){
-                    AlcoholYes.this.push(new ScreenTimeQuestions());
-                }
-                else{
-                    AlcoholYes.this.push(new HomePage());
+                if(valid == true) {
+                    // write to DB here!
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(new Date());
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    int date = calendar.get(Calendar.DAY_OF_MONTH);
+                    Database.addAlcoholEntry(units, date, month, year);
+                    Object[][] factors_chosen = Database.getFactorArray();
+                    if ((Boolean) factors_chosen[1][2]) {
+                        AlcoholYes.this.push(new ExerciseQuestions());
+                    } else if ((Boolean) factors_chosen[1][3]) {
+                        AlcoholYes.this.push(new StressQuestions());
+                    } else if ((Boolean) factors_chosen[1][4]) {
+                        AlcoholYes.this.push(new WaterQuestions());
+                    } else if ((Boolean) factors_chosen[1][5]) {
+                        AlcoholYes.this.push(new ScreenTimeQuestions());
+                    } else {
+                        AlcoholYes.this.push(new HomePage());
+                    }
                 }
             }
         };

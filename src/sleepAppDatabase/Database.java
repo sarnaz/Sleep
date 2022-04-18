@@ -24,9 +24,9 @@ public class Database {
     public static Object[][] getFactorArray(){
         return factors;
     }
-    
+
     public static boolean setGoals(String targetColumn, int value) {
-    	try {
+        try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
 
@@ -37,9 +37,9 @@ public class Database {
                 preparedAddStatement.setString(1, targetColumn);
                 preparedAddStatement.setInt(2, value);
                 preparedAddStatement.setInt(3, id);
-                
+
                 preparedAddStatement.execute();
-                
+
                 conn.close();
                 return true;
             }
@@ -48,6 +48,26 @@ public class Database {
             System.out.println(e.getLocalizedMessage());
         }
         return false;
+    }
+
+    public static String getUsername() {
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if(conn!=null){
+                String sql = "SELECT name FROM USER WHERE id="+id;
+                Statement stmt = conn.createStatement();
+
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next()){
+                    return rs.getString("name");
+                }
+            }
+        }
+        catch(Exception e) {
+            System.out.println("error in Database.getUsername");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return "error";
     }
 
     //returns true if the daily questions haven't yet been asked
@@ -274,7 +294,7 @@ public class Database {
         }
     }
 
-    public static boolean addScreenTimeEntry(double screentime, int day, int month, int year){
+    public static boolean addScreenTimeEntry(int screentime, int day, int month, int year){
         Date addDate = Date.valueOf(year + "-" + month + "-" + day);
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
@@ -370,6 +390,101 @@ public class Database {
         }
     }
 
+    public static boolean addCaffeineEntry(int caffeine, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql  = "SELECT * FROM FLUID WHERE id="+id+" and addDate="+addDate.getTime();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next()) {
+                    sql = "UPDATE FLUID SET caffeine="+caffeine +" WHERE id="+id+" AND addDate="+addDate.getTime();
+                    stmt.executeUpdate(sql);
+                    return true;
+                }
+                else{
+                    sql = "INSERT INTO FLUID (id, caffeine, addDate) VALUES(" + id + "," + caffeine + "," + addDate.getTime() + ")";
+                    stmt.executeUpdate(sql);
+
+                    conn.close();
+                    return true;
+                }
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding stress entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    public static boolean addWaterEntry(int cupsOfWater, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql  = "SELECT * FROM FLUID WHERE id="+id+" and addDate="+addDate.getTime();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if(rs.next()) {
+                    sql = "UPDATE FLUID SET cupsOfWater="+cupsOfWater +" WHERE id="+id+" AND addDate="+addDate.getTime();
+                    stmt.executeUpdate(sql);
+                    return true;
+                }
+                else{
+                    sql = "INSERT INTO FLUID (id, cupsOfWater, addDate) VALUES(" + id + "," + cupsOfWater + "," + addDate.getTime() + ")";
+                    stmt.executeUpdate(sql);
+
+                    conn.close();
+                    return true;
+                }
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding stress entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    public static boolean addAlcoholEntry(int units, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql  = "SELECT * FROM FLUID WHERE id="+id+" and addDate="+addDate.getTime();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if(rs.next()) {
+                    sql = "UPDATE FLUID SET units="+units +" WHERE id="+id+" AND addDate="+addDate.getTime();
+                    stmt.executeUpdate(sql);
+                    return true;
+                }
+                else{
+                    sql = "INSERT INTO FLUID (id, units, addDate) VALUES(" + id + "," + units + "," + addDate.getTime() + ")";
+                    stmt.executeUpdate(sql);
+
+                    conn.close();
+                    return true;
+                }
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding stress entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
     public static boolean addStressEntry(int stressLevel, int day, int month, int year){
         Date addDate = Date.valueOf(year + "-" + month + "-" + day);
         try {
@@ -381,6 +496,38 @@ public class Database {
 
                 conn.close();
                 return true;
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding stress entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    public static boolean addFitnessEntry(int exerciseTime, int latestEndTime, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql  = "SELECT * FROM FITNESS WHERE id="+id+" and addDate="+addDate.getTime();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if(rs.next()) {
+                    sql = "UPDATE FITNESS SET  exerciseTime="+exerciseTime + ", latestEndTime="+ latestEndTime +" WHERE id="+id+" AND addDate="+addDate.getTime();
+                    stmt.executeUpdate(sql);
+                    return true;
+                }
+                else{
+                    sql = "INSERT INTO FITNESS (id, exerciseTime, latestEndTime, addDate) VALUES(" + id + "," + exerciseTime + ","+ latestEndTime+ "," + addDate.getTime() + ")";
+                    stmt.executeUpdate(sql);
+
+                    conn.close();
+                    return true;
+                }
             }
             else{
                 return false;
@@ -531,8 +678,8 @@ public class Database {
     private static String[] getSetupQuery(){
         return new String[] {"CREATE TABLE USER (\n" +
                 "  id INTEGER(4) NOT NULL primary key,\n" +
-                "  firstLogin INTEGER(1) NOT NULL DEFAULT 1,\n" +
                 "  name varchar(30) not null UNIQUE,\n" +
+                "  firstLogin int(1) not NULL DEFAULT 0, \n" +
                 "  password varchar(32) not null,\n" +
                 "  salt varchar(8) not null,\n" +
                 "  weight INT(3) not NULL DEFAULT 72,\n" +
@@ -613,7 +760,7 @@ public class Database {
 
     public static Object[][] getGoalData(){
         Object[][] goals = {{"cupsOfWater", "sleepDuration", "exerciseDuration", "units", "screenTime", "stress", "coffee", "tea", "energyDrinks"},
-                                {0, 0, 0, 0, 0, 0, 0, 0}};
+                                {0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
@@ -621,11 +768,11 @@ public class Database {
             Statement stmt = conn.createStatement();
             String sql = "SELECT cupsOfWater, sleepDuration, exerciseDuration, units, screenTime, stress, coffee, tea, energyDrinks FROM GOALS WHERE id=" + id;
 
-
             ResultSet rs = stmt.executeQuery(sql);
             if(rs.next()) {
+
                 for (int i = 0; i < goals[0].length; i++) {
-                    goals[1][i] = rs.getInt(rs.getInt((int) goals[0][i]));
+                    goals[1][i] = rs.getInt((String) goals[0][i]);
                 }
             }
             conn.close();

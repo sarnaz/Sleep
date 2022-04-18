@@ -130,13 +130,15 @@ public class MoreInfoPage extends UIViewPage {
                     System.out.println("Not enough factors");
                 }
                 else {
+                    System.out.println("CHOSEN: " + factors_chosen);
                     for (String each_factor : factors_chosen) {
-                        System.out.println(factors_chosen);
+                        System.out.println("CHOSEN COMPARE: " + each_factor);
                         for (int current = 0; current < new_factors[0].length; current++) {
-                            System.out.println(new_factors[0][current]);
+                            System.out.println("CHECKING AGAINST: " + new_factors[0][current]);
                             if (new_factors[0][current] == each_factor) {
                                 new_factors[1][current] = true;
-                                System.out.println(each_factor);
+                                System.out.println("TRUE");
+                                //System.out.println(each_factor);
                             }
                         }
                     }
