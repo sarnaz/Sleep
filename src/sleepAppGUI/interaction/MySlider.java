@@ -44,7 +44,7 @@ public class MySlider extends VObject {
     {
         super(page, coordinate1, coordinate2, true);
         page.addSlider(this);
-        sliderName = sliderName;
+        this.sliderName = sliderName;
         backgroundImage = backgroundImageName;
         sliderImage = sliderImageName;
         notchImage = notchImageName;

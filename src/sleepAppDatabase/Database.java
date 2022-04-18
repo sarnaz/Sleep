@@ -810,6 +810,9 @@ public class Database {
             deleteFromTableById(conn, id, "SLEEP");
             deleteFromTableById(conn, id, "STRESS");
             deleteFromTableById(conn, id, "FACTORS");
+            deleteFromTableById(conn, id, "GOALS");
+            deleteFromTableById(conn, id, "STRAVADATA");
+            deleteFromTableById(conn, id, "FITNESS");
 
             conn.close();
             return 1;
