@@ -24,9 +24,6 @@ public class Database {
     public static Object[][] getFactorArray(){
         return factors;
     }
-    
-
-
 
     public static boolean setGoals(String targetColumn, int value) {
         try {
@@ -53,25 +50,25 @@ public class Database {
         return false;
     }
 
+    public static String getUsername() {
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if(conn!=null){
+                String sql = "SELECT name FROM USER WHERE id="+id;
+                Statement stmt = conn.createStatement();
 
-
-                /*String addStatement = "UPDATE GOALS SET ?=? WHERE id=?";
-                PreparedStatement preparedAddStatement = conn.prepareStatement(addStatement);
-                preparedAddStatement.setString(1, targetColumn);
-                preparedAddStatement.setInt(2, value);
-                preparedAddStatement.setInt(3, id);
-                
-                preparedAddStatement.execute();
-                
-                conn.close();
-                return true;
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next()){
+                    return rs.getString("name");
+                }
             }
-        } catch (SQLException e) {
-            System.out.println("exception was caught initialising database");
+        }
+        catch(Exception e) {
+            System.out.println("error in Database.getUsername");
             System.out.println(e.getLocalizedMessage());
         }
-        return false;
-    }*/
+        return "error";
+    }
 
     //returns true if the daily questions haven't yet been asked
     //does not increment the time. That is done once the questions have been answered
