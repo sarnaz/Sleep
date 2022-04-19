@@ -81,7 +81,7 @@ public class Database {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
                 Statement stmt = conn.createStatement();
-                String sql = "SELECT lastQuestionTime FROM USER";
+                String sql = "SELECT lastQuestionTime FROM USER WHERE id="+id;
                 ResultSet rs = stmt.executeQuery(sql);
                 int day = Calendar.getInstance().get(Calendar.DATE);
                 int month = Calendar.getInstance().get(Calendar.MONTH);
