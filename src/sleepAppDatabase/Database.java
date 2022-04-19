@@ -3,6 +3,7 @@ package sleepAppDatabase;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.sql.*;
+import java.util.Calendar;
 import java.util.Random;
 import java.io.*;
 
@@ -47,6 +48,7 @@ public class Database {
             System.out.println("exception was caught initialising database");
             System.out.println(e.getLocalizedMessage());
         }
+
         return false;
     }
 
@@ -74,15 +76,20 @@ public class Database {
     //does not increment the time. That is done once the questions have been answered
     //returns false if the daily questions have already been asked that day
     public static boolean askDailyQuestionsCheck(){
+
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
                 Statement stmt = conn.createStatement();
                 String sql = "SELECT lastQuestionTime FROM USER";
                 ResultSet rs = stmt.executeQuery(sql);
+                int day = Calendar.getInstance().get(Calendar.DATE);
+                int month = Calendar.getInstance().get(Calendar.MONTH);
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+
                 if(rs.next()) {
-                    if((System.currentTimeMillis()/1000) - rs.getInt("lastQuestionTime") > secondsInDay){
-                    	conn.close();
+                    if(rs.getLong("lastQuestionTime")<Date.valueOf(year+"-"+month+"-"+day).getTime()){
+                        conn.close();
                         return true;
                     }
                 } else {
@@ -96,6 +103,30 @@ public class Database {
             System.out.println(e.getLocalizedMessage());
         }
         return false;
+    }
+
+    public static int getStreak(){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT sleepStreak FROM SLEEP WHERE id="+id;
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next()) {
+                    int sleepStreak = rs.getInt("sleepStreak");
+                    System.out.println(sleepStreak);
+                    conn.close();
+                    return sleepStreak;
+                }
+            }
+            assert conn != null;
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("exception caught fetching streak");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return 0;
     }
 
     //gets a list of the factors in use, with boolean variables attached to each indicating whether they are being used
@@ -267,23 +298,14 @@ public class Database {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
                 Statement stmt = conn.createStatement();
-                String sql = "SELECT * FROM USER";
-                ResultSet rs = stmt.executeQuery(sql);
 
-                if (rs.getInt("lastQuestionDay") - (System.currentTimeMillis() / 1000) > secondsInDay) {
+                int day = Calendar.getInstance().get(Calendar.DATE);
+                int month = Calendar.getInstance().get(Calendar.MONTH);
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+                System.out.println(Date.valueOf(year+"-"+month+"-"+day).getTime());
 
-                    int newTime = rs.getInt("lastQuestionDay");
-
-                    while (newTime < (System.currentTimeMillis() / 1000)) {
-                        newTime += secondsInDay;
-                        //adds millis in the day until newTime is accurate to the current day
-                    }
-
-                    String updateDate = "UPDATE USER SET lastQuestionTime=" + newTime + " WHERE id="+id;
-                    stmt.executeUpdate(updateDate);
-                    //should update the date in the database so
-
-                }
+                String sql = "UPDATE USER SET lastQuestionTime="+Date.valueOf(year+"-"+month+"-"+day).getTime()+" WHERE id="+id;
+                stmt.executeUpdate(sql);
 
                 conn.close();
             }
@@ -685,7 +707,7 @@ public class Database {
                 "  weight INT(3) not NULL DEFAULT 72,\n" +
                 "  height INT(3) not null DEFAULT 174,\n" +
                 "  dateOfBirth DATE not null DEFAULT \"2002-1-1\",\n" +
-                "  lastQuestionTime INT(13) not null DEFAULT 1648080000\n" +
+                "  lastQuestionTime INT(13) not null DEFAULT 1647561600000\n" +
                 ");",
 
                 "CREATE TABLE FLUID (\n" +
