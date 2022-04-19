@@ -95,6 +95,7 @@ public class Database {
                         return true;
                     }
                 } else {
+                    conn.close();
                     System.out.println("no previous time found");
                 }
             }

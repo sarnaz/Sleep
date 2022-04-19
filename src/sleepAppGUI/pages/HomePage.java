@@ -21,13 +21,17 @@ public class HomePage extends UIViewPage {
         new MyImage(page, new int[] {150, 130}, new int[] {650, 530}, "home_page_layout", true);
         new MyImage(page, new int[] {260, 30}, new int[] {560, 108}, "logo", true);
 
+        // put streak here instead?? 25x20
+        new MyText(page, new int[] {500, 157}, new int[] {525, 177}, "Current Sleep");
+        new MyText(page, new int[] {535, 175}, new int[] {560, 195}, "Streak:");
+        String currentStreak = String.valueOf(Database.getStreak());
+        new MyText(page, new int[] {535, 193}, new int[] {560, 213}, currentStreak);
         // show male icon for men and female icon for women
-        new MyImage(page, new int[] {550, 157}, new int[] {610, 217}, "male_icon", true);
-        new MyImage(page, new int[] {550, 157}, new int[] {610, 217}, "female_icon", false);
+        //new MyImage(page, new int[] {550, 157}, new int[] {610, 217}, "male_icon", true);
+        //new MyImage(page, new int[] {550, 157}, new int[] {610, 217}, "female_icon", false);
 
         // display username
         String username = Database.getUsername();
-
         new MyText(page, new int[] {270, 178}, new int[] {320, 198}, username);
 
         // buttons
