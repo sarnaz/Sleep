@@ -5,6 +5,9 @@ import sleepAppGUI.interaction.Page;
 import sleepAppGUI.interaction.graphs.MyBar;
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
+import sleepAppGUI.pages.GraphVisual;
+import sleepAppGUI.pages.HomePage;
+
 import java.util.Calendar;
 
 public class AlcoholGraph extends GraphPage {
@@ -16,12 +19,29 @@ public class AlcoholGraph extends GraphPage {
 
     @Override
     protected void setUp(Page page) {
-        new MyImage(page, new int[] {20, 100}, new int[] {760, 500}, "box_behind", true);
-        new MyImage(page, new int[] {300, 10}, new int[] {500, 100}, "exercise", true);
-        MyBar alcohol_bar = new MyBar(page, new int[] {80,120}, new int[] {700,470});
-        alcohol_bar.addPoint("Thursday",5.00);
-        alcohol_bar.addPoint("Wednesday",3.00);
-        alcohol_bar.addPoint("Friday",4.00);
+        MyImage water_frame = new MyImage(page, new int[] {20, 100}, new int[] {760, 500}, "box_behind", true);
+        MyImage water = new MyImage(page, new int[] {300, 10}, new int[] {500, 100}, "alcohol", true);
+        MyButton homebutton = new MyButton(page, "home", new int[] {565, 30}, new int[] {635, 100}, "home")
+        {
+            public void isClicked()
+            {
+                AlcoholGraph.this.push(new HomePage());
+                System.out.println("home");
+            }
+        };
+        MyButton backbutton = new MyButton(page, "back", new int[] {150, 30}, new int[] {220, 100}, "back")
+        {
+            public void isClicked()
+            {
+                AlcoholGraph.this.push(new GraphVisual());
+                System.out.println("graph");
+            }
+        };
+        MyBar screen_scatter = new MyBar(page, new int[] {80,120}, new int[] {700,470});
+        screen_scatter.addPoint("Thursday",5.00);
+        screen_scatter.addPoint("Wednesday",3.00);
+        screen_scatter.addPoint("Friday",4.00);
+
         super.setUp(page);
     }
 }
