@@ -2,6 +2,7 @@ package sleepAppGUI.interaction;
 
 import sleepAppGUI.pages.SignInPage;
 import sleepAppGUI.pages.SignUpPage;
+import sleepAppGUI.pages.questions.exercise.ExerciseYes;
 import sleepAppGUI.visuals.*;
 
 import java.awt.*;
@@ -136,6 +137,7 @@ public class Page
         
         if (Database.checkForUsers()) {
             storyboard.present(new SignInPage());
+            //storyboard.present(new ExerciseYes());
         } else {
             storyboard.present(new SignUpPage());
         }
