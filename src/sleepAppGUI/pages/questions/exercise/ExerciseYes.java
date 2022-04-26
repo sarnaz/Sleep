@@ -26,6 +26,26 @@ public class ExerciseYes extends ExerciseQuestions {
         MyText amountEx = new MyText(page, new int[] {200, 290}, new int[] {225, 310}, "Please enter how much you have done:");
         MyText nearestHour = new MyText(page, new int[]{290, 320}, new int[]{305, 340}, "(to the nearest hour)");
         MyTextField exerciseHours = new MyTextField(main, page, new int[]{380, 330}, new int[]{420, 355});
+
+        // get data from Strava
+        MyButton stravaButton = new MyButton(page, "strava", new int[] {620, 470}, new int[]{755, 530}, "strava")
+        {
+            @Override
+            public void isClicked() {
+                // call Strava database function
+
+                Object[][] factors_chosen = Database.getFactorArray();
+                if ((Boolean) factors_chosen[1][3]) {
+                    ExerciseYes.this.push(new StressQuestions());
+                } else if ((Boolean) factors_chosen[1][4]) {
+                    ExerciseYes.this.push(new WaterQuestions());
+                } else if ((Boolean) factors_chosen[1][5]) {
+                    ExerciseYes.this.push(new ScreenTimeQuestions());
+                } else {
+                    ExerciseYes.this.push(new HomePage());
+                }
+            }
+        };
         // next button
         MyButton nextButton = new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
         {

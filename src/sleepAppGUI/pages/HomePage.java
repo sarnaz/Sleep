@@ -23,10 +23,11 @@ public class HomePage extends UIViewPage {
 
         // show male icon for men and female icon for women
         new MyImage(page, new int[] {550, 157}, new int[] {610, 217}, "male_icon", true);
-        new MyImage(page, new int[] {550, 157}, new int[] {610, 217}, "female_icon", false);
+        new MyImage(page, new int[] {550, 157}, new int[] {610, 217}, "female_icon", true);
 
         // display username
-        new MyText(page, new int[] {270, 178}, new int[] {320, 198}, "Username");
+        String username = Database.getUsername();
+        new MyText(page, new int[] {270, 178}, new int[] {320, 198}, username);
 
         // buttons
         if(Database.askDailyQuestionsCheck() == true) {
@@ -34,6 +35,14 @@ public class HomePage extends UIViewPage {
                 public void isClicked() {
                     HomePage.this.push(new SleepQuestions());
                     System.out.println("Sleep questions");
+                }
+            };
+        }
+        else {
+            MyButton streaksPage = new MyButton(page, "streakButton", new int[]{170, 260}, new int[]{404, 361}, "streak"){
+                public void isClicked () {
+                    HomePage.this.push(new Streaks());
+                    System.out.println("Streaks");
                 }
             };
         }
