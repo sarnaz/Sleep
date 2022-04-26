@@ -32,16 +32,9 @@ public class Database {
 
             if (conn != null) {
 
-
-
-                String addStatement = "UPDATE GOALS SET ?=? WHERE id="+id;
-                PreparedStatement preparedAddStatement = conn.prepareStatement(addStatement);
-                preparedAddStatement.setString(1, targetColumn);
-                preparedAddStatement.setInt(2, value);
-                preparedAddStatement.setInt(3, id);
-                System.out.println(preparedAddStatement);
-
-                preparedAddStatement.execute();
+                String addStatement = "UPDATE GOALS SET " + targetColumn + "=" + value + " WHERE id="+id;
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(addStatement);
 
                 conn.close();
                 return true;
