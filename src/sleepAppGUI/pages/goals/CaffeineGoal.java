@@ -17,6 +17,8 @@ public class CaffeineGoal extends GoalSet{
         MyTextField teaInput = new MyTextField(main, page, new int[]{385, 170}, new int[]{435, 210});
         MyTextField energyDrinkInput = new MyTextField(main, page, new int[]{645, 170}, new int[]{695, 210});
 
+
+
         super.setUp(page);
     }
 }
