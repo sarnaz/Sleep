@@ -29,15 +29,17 @@ public class Database {
     public static boolean setGoals(String targetColumn, int value) {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
+
             if (conn != null) {
 
 
 
-                String addStatement = "UPDATE GOALS SET ?=? WHERE id=?";
+                String addStatement = "UPDATE GOALS SET ?=? WHERE id="+id;
                 PreparedStatement preparedAddStatement = conn.prepareStatement(addStatement);
                 preparedAddStatement.setString(1, targetColumn);
                 preparedAddStatement.setInt(2, value);
                 preparedAddStatement.setInt(3, id);
+                System.out.println(preparedAddStatement);
 
                 preparedAddStatement.execute();
 
