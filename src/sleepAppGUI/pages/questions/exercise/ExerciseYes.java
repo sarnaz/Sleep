@@ -1,7 +1,14 @@
 package sleepAppGUI.pages.questions.exercise;
 
+import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.HomePage;
+import sleepAppGUI.pages.questions.ScreenTimeQuestions;
+import sleepAppGUI.pages.questions.StressQuestions;
+import sleepAppGUI.pages.questions.WaterQuestions;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class ExerciseYes extends ExerciseQuestions {
 
@@ -24,8 +31,34 @@ public class ExerciseYes extends ExerciseQuestions {
         {
             public void isClicked()
             {
-                ExerciseYes.this.push(new HomePage());
-                System.out.println("Home");
+                boolean valid = true;
+                int ex = 0;
+                try{
+                    ex = Integer.parseInt(exerciseHours.getText());
+                }
+                catch(NumberFormatException e){
+                    System.out.println("Invalid");
+                    valid = false;
+                }
+                if(valid == true) {
+                    // write to DB here!
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(new Date());
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    int date = calendar.get(Calendar.DAY_OF_MONTH);
+                    Database.addFitnessEntry(ex, 0, date, month, year);
+                    Object[][] factors_chosen = Database.getFactorArray();
+                    if ((Boolean) factors_chosen[1][3]) {
+                        ExerciseYes.this.push(new StressQuestions());
+                    } else if ((Boolean) factors_chosen[1][4]) {
+                        ExerciseYes.this.push(new WaterQuestions());
+                    } else if ((Boolean) factors_chosen[1][5]) {
+                        ExerciseYes.this.push(new ScreenTimeQuestions());
+                    } else {
+                        ExerciseYes.this.push(new HomePage());
+                    }
+                }
             }
         };
     }

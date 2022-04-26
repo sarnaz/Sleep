@@ -3,14 +3,13 @@ package sleepAppDatabase;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.sql.*;
+import java.util.Calendar;
 import java.util.Random;
 import java.io.*;
 
 public class Database {
 
-    //
     private static final int secondsInDay = (int) ((int) 8.64 * Math.pow(10, 4));
-    private static boolean firstLogin = true;
     //assumes this is the user's first login unless proven otherwise
     public static final String databaseURL = "jdbc:sqlite:PI.db";
     //the database url. final as it should never be changed
@@ -27,25 +26,78 @@ public class Database {
         return factors;
     }
 
+    public static boolean setGoals(String targetColumn, int value) {
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+
+
+
+                String addStatement = "UPDATE GOALS SET ?=? WHERE id=?";
+                PreparedStatement preparedAddStatement = conn.prepareStatement(addStatement);
+                preparedAddStatement.setString(1, targetColumn);
+                preparedAddStatement.setInt(2, value);
+                preparedAddStatement.setInt(3, id);
+
+                preparedAddStatement.execute();
+
+                conn.close();
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception was caught initialising database");
+            System.out.println(e.getLocalizedMessage());
+        }
+
+        return false;
+    }
+
+    public static String getUsername() {
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if(conn!=null){
+                String sql = "SELECT name FROM USER WHERE id="+id;
+                Statement stmt = conn.createStatement();
+
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next()){
+                    return rs.getString("name");
+                }
+            }
+        }
+        catch(Exception e) {
+            System.out.println("error in Database.getUsername");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return "error";
+    }
 
     //returns true if the daily questions haven't yet been asked
     //does not increment the time. That is done once the questions have been answered
     //returns false if the daily questions have already been asked that day
     public static boolean askDailyQuestionsCheck(){
+
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
                 Statement stmt = conn.createStatement();
-                String sql = "SELECT lastQuestionTime FROM USER";
+                String sql = "SELECT lastQuestionTime FROM USER WHERE id="+id;
                 ResultSet rs = stmt.executeQuery(sql);
+                int day = Calendar.getInstance().get(Calendar.DATE);
+                int month = Calendar.getInstance().get(Calendar.MONTH);
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+
                 if(rs.next()) {
-                    if((System.currentTimeMillis()/1000) - rs.getInt("lastQuestionTime") > secondsInDay){
+                    if(rs.getLong("lastQuestionTime")<Date.valueOf(year+"-"+month+"-"+day).getTime()){
+                        conn.close();
                         return true;
                     }
                 } else {
                     System.out.println("no previous time found");
                 }
             }
+            assert conn != null;
+            conn.close();
         } catch (SQLException e) {
             System.out.println("exception was caught initialising database");
             System.out.println(e.getLocalizedMessage());
@@ -53,8 +105,33 @@ public class Database {
         return false;
     }
 
+    public static int getStreak(){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT sleepStreak FROM SLEEP WHERE id="+id;
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next()) {
+                    int sleepStreak = rs.getInt("sleepStreak");
+                    System.out.println(sleepStreak);
+                    conn.close();
+                    return sleepStreak;
+                }
+            }
+            assert conn != null;
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("exception caught fetching streak");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return 0;
+    }
+
     //gets a list of the factors in use, with boolean variables attached to each indicating whether they are being used
     public static Object[][] getFactors(){
+
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
@@ -69,12 +146,15 @@ public class Database {
                             //sets the factors currently in use to true
                         }
                     }
+                    conn.close();
                     return factors;
                 }
                 else{
                     System.out.println("no factors chosen");
                 }
+                conn.close();
             }
+            conn.close();
 
         } catch (SQLException e) {
             System.out.println("exception was caught getting factors");
@@ -90,7 +170,17 @@ public class Database {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
+            	
+            	// check if user has been added to factors yet.
+            	// if not, add a row with all-false values where applicable
+
                 Statement stmt = conn.createStatement();
+                
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(*) as rowCount FROM FACTORS;");
+                if (rs.getInt("rowCount") == 0) {
+                	stmt.execute("INSERT INTO FACTORS (id, caffeine, alcohol, fitness, stress, screenTime, water) VALUES (1, false, false, false, false, false, false);");
+                }
+            	
                 StringBuilder sql = new StringBuilder("UPDATE FACTORS SET ");
                 for(int i = 0; i<factors[0].length;i++){
                     sql.append(factors[0][i]).append("=").append(factors[1][i]);
@@ -101,10 +191,14 @@ public class Database {
                 sql.append(" where id=");
                 sql.append(id);
                 stmt.executeUpdate(sql.toString());
+                conn.close();
             } else {
                 return false;
             }
+
             Database.factors = factors;
+            conn.close();
+
 
         } catch (SQLException e) {
             System.out.println("exception was caught getting factors");
@@ -113,42 +207,366 @@ public class Database {
         }
         return true;
     }
+    public static int getStressData(int year, int month, int day){
+
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            Statement stmt = conn.createStatement();
+
+            String sql = "SELECT stressLevel FROM STRESS WHERE id="+id+" and addDate="+addDate.getTime();
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                return rs.getInt("stressLevel");
+            }
+
+            conn.close();
+
+        }
+        catch(Exception e){
+            System.out.println(e.getLocalizedMessage());
+        }
+        return -1;
+    }
+
+    public static Object[][] getDataForDate(int year, int month, int day){
+
+        Object[][] values = new Object[][]{{"units", "caffeine", "cupsOfWater", "sleepTime", "timeToSleep", "sleepQuality", "stressLevel", "screenTime", "exerciseTime"}
+                ,{null, null, null, null, null, null, null, null, null}};
+
+        try{
+            /*SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            java.util.Date d = sdf.parse(day+"-"+month+"-"+year);
+            long time = d.getTime();
+
+             */
 
 
+            Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+
+            Connection conn = DriverManager.getConnection(databaseURL);
+            Statement stmt = conn.createStatement();
+
+            String sql = "SELECT units, caffeine, cupsOfWater FROM FLUID WHERE addDate="+ addDate.getTime() + " and id="+id;
+            ResultSet rs = stmt.executeQuery(sql);
+            System.out.println(sql);
+            if(rs.next()){
+                values[1][0] = rs.getInt((String)values[0][0]);
+                values[1][1] = rs.getInt((String)values[0][1]);
+                values[1][2] = rs.getInt((String)values[0][2]);
+            }
+
+            sql = "SELECT sleepTime, timeToSleep, sleepQuality FROM SLEEP where addDate="+addDate.getTime() +" and id="+id;
+            rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                values[1][3] = rs.getInt((String)values[0][3]);
+                values[1][4] = rs.getInt((String)values[0][4]);
+                values[1][5] = rs.getInt((String)values[0][5]);
+            }
+            sql = "SELECT stressLevel FROM STRESS where addDate="+addDate.getTime() +" and id="+id;
+            rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                System.out.println("B");
+                values[1][6] = rs.getInt((String)values[0][6]);
+            }
+            sql = "SELECT screenTime FROM SCREENTIME where addDate="+addDate.getTime() +" and id="+id;
+            rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                System.out.println("C");
+                values[1][7] = rs.getInt((String)values[0][7]);
+            }
+            sql = "SELECT exerciseTime FROM FITNESS where addDate="+addDate.getTime() +" and id="+id;
+            rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                System.out.println("D");
+                values[1][8] = rs.getInt((String)values[0][8]);
+            }
+
+            conn.close();
+
+        }
+        catch(Exception e){
+            System.out.println(e.getLocalizedMessage());
+        }
+        return values;
+    }
+
+    //sets the last day that questions were answered to the end of the current day
     public static void setQuestionsAnswered(){
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
                 Statement stmt = conn.createStatement();
-                String sql = "SELECT * FROM USER";
-                ResultSet rs = stmt.executeQuery(sql);
 
-                if (rs.getInt("lastQuestionDay") - (System.currentTimeMillis() / 1000) > secondsInDay) {
+                int day = Calendar.getInstance().get(Calendar.DATE);
+                int month = Calendar.getInstance().get(Calendar.MONTH);
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+                System.out.println(Date.valueOf(year+"-"+month+"-"+day).getTime());
 
-                    int newTime = rs.getInt("lastQuestionDay");
+                String sql = "UPDATE USER SET lastQuestionTime="+Date.valueOf(year+"-"+month+"-"+day).getTime()+" WHERE id="+id;
+                stmt.executeUpdate(sql);
 
-                    while (newTime < (System.currentTimeMillis() / 1000)) {
-                        newTime += secondsInDay;
-                        //adds millis in the day until newTime is accurate to the current day
-                    }
-
-                    String updateDate = "UPDATE USER SET lastQuestionTime=" + newTime + " WHERE id="+id;
-                    stmt.executeUpdate(updateDate);
-                    //should update the date in the database so
-
-                }
+                conn.close();
             }
+            conn.close();
         } catch (SQLException e) {
             System.out.println("exception caught in setQuestionsAnswered");
             System.out.println(e.getLocalizedMessage());
         }
     }
 
+    public static boolean addScreenTimeEntry(int screentime, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql = "INSERT INTO SCREENTIME (id, screenTime, addDate) VALUES("+id+","
+                        +screentime+","+addDate.getTime()+")";
+
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(sql);
+
+                conn.close();
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding screen time entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+
+    //sets a given user variable in a given column of the User database
+    public static boolean addSleepEntry(int sleepTime, int timeToSleep, int sleepQuality, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql = "INSERT INTO SLEEP (id, sleepTime, timeToSleep, sleepQuality, addDate) VALUES("+id+","
+                        +sleepTime+","+timeToSleep + ", " + sleepQuality+ ", "+addDate.getTime()+")";
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(sql);
+
+                checkStreak(sleepTime);
+                //calls the checkStreak function to validate those details
+
+                conn.close();
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding sleep entry");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+
+    //function to check if the streak needs to be incremented or reset. called from addSleepEntry
+    private static void checkStreak(int sleepTime){
+        double goalTime = 8;
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            Statement stmt = conn.createStatement();
+
+            String sql = "SELECT sleepTarget FROM GOALS WHERE id="+id;
+
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                goalTime = rs.getDouble("sleepTarget");
+            }
+            else{
+                throw new Exception("no sleep goal found");
+            }
+
+            if(sleepTime<goalTime) {
+                sql = "UPDATE GOALS SET streakLength=0 where id=" + id;
+                stmt.executeUpdate(sql);
+            }
+            else{
+                int currentStreak = 0;
+                sql = "SELECT streakLength FROM GOALS WHERE id="+id;
+                rs = stmt.executeQuery(sql);
+                if(rs.next()){
+                    currentStreak = rs.getInt("sleepStreak");
+                }
+                else{
+                    throw new Exception("no sleep streak found");
+                }
+                sql = "UPDATE GOALS SET streakLength="+currentStreak+1+" WHERE id="+id;
+                stmt.executeUpdate(sql);
+                //updates the sleep streak by adding 1
+            }
+            conn.close();
+
+        }
+        catch(Exception e){
+            System.out.println(e.getLocalizedMessage()+ " in endStreak");
+        }
+    }
+
+    public static boolean addCaffeineEntry(int caffeine, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql  = "SELECT * FROM FLUID WHERE id="+id+" and addDate="+addDate.getTime();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next()) {
+                    sql = "UPDATE FLUID SET caffeine="+caffeine +" WHERE id="+id+" AND addDate="+addDate.getTime();
+                    stmt.executeUpdate(sql);
+                    return true;
+                }
+                else{
+                    sql = "INSERT INTO FLUID (id, caffeine, addDate) VALUES(" + id + "," + caffeine + "," + addDate.getTime() + ")";
+                    stmt.executeUpdate(sql);
+
+                    conn.close();
+                    return true;
+                }
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding stress entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    public static boolean addWaterEntry(int cupsOfWater, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql  = "SELECT * FROM FLUID WHERE id="+id+" and addDate="+addDate.getTime();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if(rs.next()) {
+                    sql = "UPDATE FLUID SET cupsOfWater="+cupsOfWater +" WHERE id="+id+" AND addDate="+addDate.getTime();
+                    stmt.executeUpdate(sql);
+                    return true;
+                }
+                else{
+                    sql = "INSERT INTO FLUID (id, cupsOfWater, addDate) VALUES(" + id + "," + cupsOfWater + "," + addDate.getTime() + ")";
+                    stmt.executeUpdate(sql);
+
+                    conn.close();
+                    return true;
+                }
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding stress entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    public static boolean addAlcoholEntry(int units, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql  = "SELECT * FROM FLUID WHERE id="+id+" and addDate="+addDate.getTime();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if(rs.next()) {
+                    sql = "UPDATE FLUID SET units="+units +" WHERE id="+id+" AND addDate="+addDate.getTime();
+                    stmt.executeUpdate(sql);
+                    return true;
+                }
+                else{
+                    sql = "INSERT INTO FLUID (id, units, addDate) VALUES(" + id + "," + units + "," + addDate.getTime() + ")";
+                    stmt.executeUpdate(sql);
+
+                    conn.close();
+                    return true;
+                }
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding stress entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    public static boolean addStressEntry(int stressLevel, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql = "INSERT INTO STRESS (id, stressLevel, addDate) VALUES("+id+","+ stressLevel+","+addDate.getTime()+")";
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(sql);
+
+                conn.close();
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding stress entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    public static boolean addFitnessEntry(int exerciseTime, int latestEndTime, int day, int month, int year){
+        Date addDate = Date.valueOf(year + "-" + month + "-" + day);
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+            if (conn != null) {
+                String sql  = "SELECT * FROM FITNESS WHERE id="+id+" and addDate="+addDate.getTime();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if(rs.next()) {
+                    sql = "UPDATE FITNESS SET  exerciseTime="+exerciseTime + ", latestEndTime="+ latestEndTime +" WHERE id="+id+" AND addDate="+addDate.getTime();
+                    stmt.executeUpdate(sql);
+                    return true;
+                }
+                else{
+                    sql = "INSERT INTO FITNESS (id, exerciseTime, latestEndTime, addDate) VALUES(" + id + "," + exerciseTime + ","+ latestEndTime+ "," + addDate.getTime() + ")";
+                    stmt.executeUpdate(sql);
+
+                    conn.close();
+                    return true;
+                }
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("exception caught when adding stress entry ");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    //sets a given user variable in a given column of the User database
     private static void setUserIntVariable(String column, int value) {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
-                String setValueString = "UPDATE USER SET " + column + "=?";
+                String setValueString = "UPDATE USER SET " + column + "=? WHERE id="+id;
                 PreparedStatement preparedSetValueStatement = conn.prepareStatement(setValueString);
                 preparedSetValueStatement.setInt(1, value);
                 preparedSetValueStatement.execute();
@@ -160,13 +578,14 @@ public class Database {
         }
     }
 
+    //gets an int from the table user given a column
     private static int getUserIntVariable(String column) {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
 
                 int value = Integer.MIN_VALUE;
-                String getValueString = "SELECT " + column + " FROM USER";
+                String getValueString = "SELECT " + column + " FROM USER WHERE id="+id;
                 PreparedStatement preparedGetValueStatement = conn.prepareStatement(getValueString);
                 if (preparedGetValueStatement.execute()) {
                     ResultSet result = preparedGetValueStatement.getResultSet();
@@ -184,14 +603,16 @@ public class Database {
         return Integer.MIN_VALUE;
     }
 
-    public static void setUserHeight(int newAge) {
-        setUserIntVariable("height", newAge);
+    public static void setUserHeight(int newHeight) {
+        setUserIntVariable("height", newHeight);
     }
 
+    //returns the current user's height
     public static int getUserHeight() {
         return getUserIntVariable("height");
     }
 
+    //sets the current user's weight
     public static void setUserWeight(int newWeight) {
         setUserIntVariable("weight", newWeight);
     }
@@ -211,14 +632,14 @@ public class Database {
             if (conn != null) {
 
                 int value = Integer.MIN_VALUE;
-                String setDOBString = "UPDATE USER SET dateOfBirth=? WHERE TRUE";
+                String setDOBString = "UPDATE USER SET dateOfBirth=? ";
                 PreparedStatement preparedSetDOBStatement = conn.prepareStatement(setDOBString);
                 preparedSetDOBStatement.setDate(1, newDate);
                 preparedSetDOBStatement.execute();
                 conn.close();
             }
         } catch (SQLException e) {
-            System.out.println("exception caught when setting date of birth");
+            System.out.println(e.getLocalizedMessage() + " exception caught when setting date of birth");
         }
     }
 
@@ -243,7 +664,7 @@ public class Database {
                 return value;
             }
         } catch (SQLException e) {
-            System.out.println("exception caught when getting date of birth");
+            System.out.println(e.getLocalizedMessage() + "exception caught when getting date of birth");
         }
 
         return null;
@@ -268,7 +689,7 @@ public class Database {
             conn.close();
         } catch (SQLException e) {
             System.out.println("exception was caught initialising database");
-            System.out.println(e.getLocalizedMessage());
+            System.out.println(e.getLocalizedMessage()+ " in initialiseDatabase");
         }
     }
     
@@ -279,14 +700,14 @@ public class Database {
     private static String[] getSetupQuery(){
         return new String[] {"CREATE TABLE USER (\n" +
                 "  id INTEGER(4) NOT NULL primary key,\n" +
-                "  firstLogin INTEGER(1) NOT NULL DEFAULT 1,\n" +
                 "  name varchar(30) not null UNIQUE,\n" +
+                "  firstLogin int(1) not NULL DEFAULT 0, \n" +
                 "  password varchar(32) not null,\n" +
                 "  salt varchar(8) not null,\n" +
                 "  weight INT(3) not NULL DEFAULT 72,\n" +
                 "  height INT(3) not null DEFAULT 174,\n" +
                 "  dateOfBirth DATE not null DEFAULT \"2002-1-1\",\n" +
-                "  lastQuestionTime INT(13) not null DEFAULT 1648080000\n" +
+                "  lastQuestionTime INT(13) not null DEFAULT 1647561600000\n" +
                 ");",
 
                 "CREATE TABLE FLUID (\n" +
@@ -312,6 +733,41 @@ public class Database {
                         "  addDate DATE NOT NULL\n" +
                         ");"
                 ,
+                "CREATE TABLE SCREENTIME (\n" +
+                        " id INTEGER(4) NOT NULL,\n" +
+                        " screenTime REAL DEFAULT 6.4,\n"+
+                        " addDate DATE NOT NULL\n" +
+                        ");"
+                ,
+                "CREATE TABLE STRAVADATA (\n" +
+                        " id INTEGER(4) NOT NULL, \n" +
+                        " expiresAt INTEGER(12) NOT NULL DEFAULT -1, \n" +
+                        " accessToken TEXT(40) DEFAULT NULL, \n" +
+                        " refreshToken TEXT(40) DEFAULT NULL \n" +
+                        ");"
+                ,
+                "CREATE TABLE FITNESS (\n" +
+                        " id INTEGER(4) NOT NULL, \n" +
+                        " exerciseTime INTEGER(4) NOT NULL DEFAULT -1, \n" +
+                        " latestEndTime INTEGER(4) NOT NULL DEFAULT 0100, \n" +
+                        " addDate DATE NOT NULL \n" +
+                        ");"
+                ,
+                "CREATE TABLE GOALS (\n" +
+                        "id INTEGER(4) NOT NULL,\n" +
+                        "streakLength INTEGER(4) NOT NULL DEFAULT 0, \n" +
+                        "sleepAverage REAL DEFAULT -1, \n" +
+                        "sleepTarget REAL DEFAULT 8, \n" +
+                        "cupsOfWater int(3) DEFAULT 0, " +
+                        "sleepDuration int(2) DEFAULT 8, " +
+                        "exerciseDuration int(2) DEFAULT 1, " +
+                        "units int(2) DEFAULT 0," +
+                        "screenTime int(2) DEFAULT 0, " +
+                        "stress int(2) DEFAULT 0," +
+                        "coffee int(2) DEFAULT 0," +
+                        "tea int(2) DEFAULT 0, " +
+                        "energyDrinks int(2) DEFAULT 0 " +
+                        ");",
 
                 "CREATE TABLE FACTORS (\n" +
                         "  id INTEGER(4)  NOT NULL,\n" +
@@ -322,6 +778,32 @@ public class Database {
                         "  screenTime int(1) NOT NULL DEFAULT 0,\n" +
                         "  water int(1) NOT NULL DEFAULT 0\n" +
                         ");\n"};
+    }
+
+    public static Object[][] getGoalData(){
+        Object[][] goals = {{"cupsOfWater", "sleepDuration", "exerciseDuration", "units", "screenTime", "stress", "coffee", "tea", "energyDrinks"},
+                                {0, 0, 0, 0, 0, 0, 0, 0, 0}};
+
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT cupsOfWater, sleepDuration, exerciseDuration, units, screenTime, stress, coffee, tea, energyDrinks FROM GOALS WHERE id=" + id;
+
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()) {
+
+                for (int i = 0; i < goals[0].length; i++) {
+                    goals[1][i] = rs.getInt((String) goals[0][i]);
+                }
+            }
+            conn.close();
+        }
+        catch(Exception e){
+            System.out.println(e.getLocalizedMessage());
+        }
+
+        return goals;
     }
 
     //checks if users already exist. If none exist, returns false, otherwise returns true.
@@ -371,6 +853,7 @@ public class Database {
             //System.out.println("is first: " + Boolean.toString(rs.next()));
             if (rs.next()) {
                 salt = rs.getString("salt");
+
             }
             else{
                 conn.close();
@@ -400,12 +883,13 @@ public class Database {
         }
         catch(Exception e){
             System.out.println("went wrong validating");
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+ " in validateUser");
         }
         return -1;
     }
     //returns 1 if everything functioned correctly and the user was validated
 
+    //adds a user taking in a name and password, and internally adding to
     public static int addUser(String name, String password){
 
         int nextId = -2;
@@ -468,14 +952,16 @@ public class Database {
             //sets the current user's id as this new user's id. Allows for future database calls to be easier
 
             stmt.executeUpdate("INSERT INTO FACTORS (id) VALUES("+id+")");
+            stmt.executeUpdate("INSERT INTO GOALS (id) values("+id+")");
             //adds the id into factors for use later
 
             conn.close();
+
             return 1;
         }
         catch(Exception e){
             System.out.println("something went wrong when adding a new user");
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+ " in addUser");
         }
 
         return 0;
@@ -492,13 +978,14 @@ public class Database {
             deleteFromTableById(conn, id, "FLUID");
             deleteFromTableById(conn, id, "SLEEP");
             deleteFromTableById(conn, id, "STRESS");
+            deleteFromTableById(conn, id, "FACTORS");
 
             conn.close();
             return 1;
         }
         catch(Exception e) {
             System.out.println("something went wrong removing user");
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+ " in removeUserData");
         }
 
         return 0;
@@ -551,7 +1038,7 @@ public class Database {
 
         }
         catch(Exception e) {
-            System.out.println("error: "+ e);
+            System.out.println(e+ " in hashPassword");
         }
 
         return hash;

@@ -19,6 +19,7 @@ public class MyScatter extends MyGraph
     public void paint(Graphics g)
     {
         super.paint(g);
+        if(data.size() < 3) { return; }
 
         //updates graph scale
         if(!upToDate)
