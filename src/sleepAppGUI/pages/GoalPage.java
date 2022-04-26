@@ -19,8 +19,6 @@ public class GoalPage extends UIViewPage {
         calendar.setTime(new Date());
         Object Goal_array[][] = Database.getGoalData();
         Object DailyQData_array[][] = Database.getDataForDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
-        System.out.println(calendar.get(Calendar.YEAR)+","+ calendar.get(Calendar.MONTH) + 1+","+ calendar.get(Calendar.DAY_OF_MONTH));
-        System.out.println(Arrays.toString(DailyQData_array[1]));
         MyImage layout = new MyImage(page, new int[] {0, 20}, new int[] {800, 476}, "goal_layout", true);
 
         // example of how to display goal
