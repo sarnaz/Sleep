@@ -1,5 +1,6 @@
 package sleepAppGUI.pages.goals;
 
+import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.MyImage;
 import sleepAppGUI.interaction.MyTextField;
 import sleepAppGUI.interaction.Page;

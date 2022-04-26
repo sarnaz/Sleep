@@ -4,20 +4,21 @@ import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.goals.*;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 
 public class GoalPage extends UIViewPage {
     @Override
     protected int pageNumber() {
         return 23;
     }
-
     @Override
     protected void setUp(Page page) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
         Object Goal_array[][] = Database.getGoalData();
-        Object DailyQData_array[][] = Database.getDataForDate(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
-
-
+        Object DailyQData_array[][] = Database.getDataForDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
         MyImage layout = new MyImage(page, new int[] {0, 20}, new int[] {800, 476}, "goal_layout", true);
 
         // example of how to display goal
