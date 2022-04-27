@@ -52,6 +52,10 @@ public class Database {
         return false;
     }
 
+    public static int getId(){
+        return id;
+    }
+
     public static String getUsername() {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
