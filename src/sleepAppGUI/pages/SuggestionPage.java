@@ -1,9 +1,9 @@
 package sleepAppGUI.pages;
 
-import sleepAppGUI.interaction.MyButton;
-import sleepAppGUI.interaction.MyText;
-import sleepAppGUI.interaction.Page;
-import sleepAppGUI.interaction.UIViewPage;
+import sleepAppGUI.interaction.*;
+import sleepAppGUI.visuals.ColourUtil;
+
+import java.awt.*;
 
 public class SuggestionPage extends UIViewPage {
     @Override
@@ -18,18 +18,21 @@ public class SuggestionPage extends UIViewPage {
 
     @Override
     protected void setUp(Page page) {
-        new MyText(page, new int[] {270, 100}, new int[] {180, 150}, "Suggestions");
-        MyText WaterSuggestion = new MyText(page, new int[] {20, 150}, new int[] {365, 170}, "WATER: You can try eating fruit/vegetables that have high levels of moisture.");
-        MyText CaffeineSuggestion = new MyText(page, new int[] {20, 180}, new int[] {365, 200}, "CAFFEINE: You can try drinking more water, decaf coffee and check caffeine");
-        MyText CaffeineSuggestion2 = new MyText(page, new int[] {20, 200}, new int[] {365, 220}, "mg on each product.");
-        MyText AlcoholSuggestion = new MyText(page, new int[] {20, 230}, new int[] {365, 250}, "ALCOHOL: You can try drinking other liquids, taking fixed budged for drinks");
-        MyText AlcoholSuggestion2 = new MyText(page, new int[] {20, 250}, new int[] {365, 270}, "when going out.");
-        MyText StressSuggestion = new MyText(page, new int[] {20, 280}, new int[] {365, 300}, "STRESS: You can try having a healthy diet, exercise regularly and stop using");
-        MyText StressSuggestion2 = new MyText(page, new int[] {20, 300}, new int[] {365, 320}, "nicotine products.");
-        MyText ExerciseSuggestion = new MyText(page, new int[] {20, 330}, new int[] {365, 350}, "EXERCISE: You can try breaking workout down into small sessions,");
-        MyText ExerciseSuggestion2 = new MyText(page, new int[] {20, 350}, new int[] {365, 370}, "exercise with a friend.");
-        MyText Screen_timeSuggestion = new MyText(page, new int[] {20, 380}, new int[] {365, 400}, "SCREEN-TIME: You can try scheduling Do_not_Disturb or Bedtime mode");
-        MyButton backButton = new MyButton(page, "back", new int[] {360, 420}, new int[] {440, 455}, "back_button")
+        MyImage.putImage(page, new int[] {300, 30}, 200, "logo");
+        new MyRectangle(page, new int[] {40, 120}, new int[] {720, 350}, 30, ColourUtil.foregroundColour);
+
+        MyText.putText(page, new int[] {50, 160}, 30, "Suggestions", Color.white, "Helvetica", Font.BOLD);
+        MyText.putText(page, new int[] {50, 200}, 20, "WATER: You can try eating fruit/vegetables that have high levels of moisture.");
+        MyText.putText(page, new int[] {50, 230}, 20, "CAFFEINE: You can try drinking more water, decaf coffee and check caffeine");
+        MyText.putText(page, new int[] {50, 250}, 20, "mg on each product.");
+        MyText.putText(page, new int[] {50, 280}, 20, "ALCOHOL: You can try drinking other liquids, taking fixed budged for drinks");
+        MyText.putText(page, new int[] {50, 300}, 20, "when going out.");
+        MyText.putText(page, new int[] {50, 330}, 20, "STRESS: You can try having a healthy diet, exercise regularly and stop using");
+        MyText.putText(page, new int[] {50, 350}, 20, "nicotine products.");
+        MyText.putText(page, new int[] {50, 380}, 20, "EXERCISE: You can try breaking workout down into small sessions,");
+        MyText.putText(page, new int[] {50, 400}, 20, "exercise with a friend.");
+        MyText.putText(page, new int[] {50, 430}, 20, "SCREEN-TIME: You can try scheduling \"Do Not Disturb\" or Bedtime mode");
+        MyButton backButton = new MyButton(page, "back", new int[] {345, 500}, new int[] {455, 538}, "back_button")
         {
             public void isClicked()
             {
