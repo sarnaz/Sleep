@@ -59,6 +59,20 @@ public class MyText extends VObject
         return putText(page, coordinates1, size, text, textColour, defaultFont, defaultStyle);
     }
 
+    public static MyText putText(Page page, int[] coordinates1, int fontSize, String text, Color textColour, String fontName, int style) {
+        final int[] coordinates2 = new int[] {0, coordinates1[1] + fontSize};
+
+        return new MyText(page, coordinates1, coordinates2, text, textColour, fontName, style);
+    }
+
+    public static MyText putText(Page page, int[] coordinates1, int fontSize, String text, Color textColour) {
+        return putText(page, coordinates1, fontSize, text, textColour, defaultFont, defaultStyle);
+    }
+
+    public static MyText putText(Page page, int[] coordinates1, int fontSize, String text) {
+        return putText(page, coordinates1, fontSize, text, Color.white);
+    }
+
     public static MyText putTextCentred(Page page, int[] coordinateCentre, int[] size, String text, Color textColour, String fontName, int style) {
         final int[] coordinates2 = new int[] {coordinateCentre[0] + size[0], coordinateCentre[1] + size[1]};
 
