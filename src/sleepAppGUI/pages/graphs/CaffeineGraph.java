@@ -19,26 +19,9 @@ public class CaffeineGraph extends GraphPage{
 
     @Override
     protected void setUp(Page page) {
-        MyImage water_frame = new MyImage(page, new int[] {20, 100}, new int[] {760, 500}, "box_behind", true);
-        MyImage water = new MyImage(page, new int[] {300, 10}, new int[] {500, 100}, "caffeine", true);
-        MyButton homebutton = new MyButton(page, "home", new int[] {565, 30}, new int[] {635, 100}, "home")
-        {
-            public void isClicked()
-            {
-                CaffeineGraph.this.push(new HomePage());
-                System.out.println("home");
-            }
-        };
-        MyButton backbutton = new MyButton(page, "back", new int[] {150, 30}, new int[] {220, 100}, "back")
-        {
-            public void isClicked()
-            {
-                CaffeineGraph.this.push(new GraphVisual());
-                System.out.println("graph");
-            }
-        };
-        MyBar caffeine_bar = new MyBar(page, new int[] {80,150}, new int[] {380,450});
-        MyScatter caffeine_scatter = new MyScatter(page, new int[] {400,150}, new int[] {700,450});
+
+        MyBar caffeine_bar = new MyBar(page, new int[] {80,200}, new int[] {380,450});
+        MyScatter caffeine_scatter = new MyScatter(page, new int[] {400,200}, new int[] {700,450});
         Calendar calendar = Calendar.getInstance();
         String[] dayofweek = {"Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"};
         for (int i = 0; i < 5; i++) {
