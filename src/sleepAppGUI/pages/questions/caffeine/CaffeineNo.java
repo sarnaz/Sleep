@@ -27,7 +27,7 @@ public class CaffeineNo extends CaffeineQuestions {
 
         MyImage noClicked = new MyImage(page, new int[] {425, 230}, new int[] {475, 265}, "noButton", true);
         page.pushToFront(noClicked);
-        MyButton nextButton = new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
+        new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
         {
             public void isClicked()
             {
