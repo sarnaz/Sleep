@@ -18,6 +18,14 @@ public class MyButton extends VObject
         buttonImage = imageName;
     }
 
+    public MyButton(Page page, String buttonName, Rectangle rectangle, String imageName) {
+        super(page, new int[] {rectangle.x, rectangle.y}, new int[] {rectangle.x + rectangle.width, rectangle.y + rectangle.height}, true);
+        page.addButton(this);
+        this.buttonName = buttonName;
+        buttonImage = imageName;
+    }
+
+
     public boolean onButton(int[] coordinates)
     {
         return( ((coordinates[0] >= corner1[0] && coordinates[0] <= corner2[0]) ||
