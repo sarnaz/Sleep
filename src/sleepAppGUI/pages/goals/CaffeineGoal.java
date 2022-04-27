@@ -1,5 +1,6 @@
 package sleepAppGUI.pages.goals;
 
+import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.MyButton;
 import sleepAppGUI.interaction.MyImage;
 import sleepAppGUI.interaction.MyTextField;
@@ -21,8 +22,40 @@ public class CaffeineGoal extends GoalSet{
 
         MyButton saveButton = new MyButton(page, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
             public void isClicked() {
+                boolean blank = true;
+
+                if (!teaInput.getText().isBlank()) {
+                    try {
+                        Database.setGoals("tea", Integer.parseInt(teaInput.getText()));
+                        blank = false;
+                    }
+                    catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!coffeeInput.getText().isBlank()) {
+                    try {
+                        Database.setGoals("coffee", Integer.parseInt(coffeeInput.getText()));
+                        blank = false;
+                    }
+                    catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!energyDrinkInput.getText().isBlank()) {
+                    try {
+                        Database.setGoals("energyDrinks", Integer.parseInt(energyDrinkInput.getText()));
+                        blank = false;
+                    }
+                    catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (!blank) {
+                    Object Goal_array[][] = Database.getGoalData();
+                }
                 CaffeineGoal.this.push(new GoalPage());
-                System.out.println("Saved");
             }
         };
 

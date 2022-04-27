@@ -1,5 +1,6 @@
 package sleepAppGUI.pages.goals;
 
+import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.MyButton;
 import sleepAppGUI.interaction.MyImage;
 import sleepAppGUI.interaction.MyTextField;
@@ -20,8 +21,19 @@ public class StressGoal extends GoalSet{
 
         MyButton saveButton = new MyButton(page, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
             public void isClicked() {
+                boolean valid = true;
+                try {
+                    Database.setGoals("stress", Integer.parseInt(input.getText()));
+                    System.out.println("Stress Goal Saved");
+                }
+                catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    valid = false;
+                }
+                if (valid == true) {
+                    Object Goal_array[][] = Database.getGoalData();
+                }
                 StressGoal.this.push(new GoalPage());
-                System.out.println("Saved");
             }
         };
 
