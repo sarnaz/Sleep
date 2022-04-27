@@ -2,34 +2,34 @@ package sleepAppGUI.pages;
 
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
+import sleepAppGUI.visuals.ColourUtil;
 
-public class ProfilePage extends UIViewPage {
+import javax.swing.plaf.ColorUIResource;
+import java.awt.*;
+
+public class ProfilePage extends ProfileCommon {
 
     @Override
     protected int pageNumber() {
         return 7;
     }
 
-    @Override
-    protected void viewDidLoad() {
-
-    }
 
     @Override
     protected void setUp(Page page) {
-        new MyImage(page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
-        new MyImage(page, new int[] {275, 170}, new int[] {525, 470}, "profile_box", true);
-        String username = Database.getUsername();
-        new MyText(page, new int[] {305, 230}, new int[] {340, 250}, username);
+        super.setUp(page);
 
         String height = Integer.toString(Database.getUserHeight());
         String weight = Integer.toString(Database.getUserWeight());
 
-        new MyText(page, new int[] {366, 298}, new int[] {388, 316}, height + " cm");
-        new MyText(page, new int[] {366, 366}, new int[] {388, 384}, weight + " kg");
+        MyText.putTextCentred(page, new int[] {290, 360}, new int[] {100, 50}, height, ColourUtil.accentColour, "Helvetica", Font.BOLD);
+        MyText.putTextCentred(page, new int[] {500, 360}, new int[] {100, 50}, weight, ColourUtil.accentColour, "Helvetica", Font.BOLD);
+
+        MyText.putTextCentred(page, new int[] {290, 400}, new int[] {100, 20}, "cm", ColourUtil.accentColour);
+        MyText.putTextCentred(page, new int[] {500, 400}, new int[] {100, 20}, "kg", ColourUtil.accentColour);
 
         // Add edit profile button
-        new MyButton(page, "next", new int[] {400, 425}, new int[] {505, 450}, "edit_profile") {
+        new MyButton(page, "edit", new int[] {350, 425}, new int[] {450, 450}, "edit_profile") {
             public void isClicked()
             {
                 ProfilePage.this.push(new EditProfilePage());
