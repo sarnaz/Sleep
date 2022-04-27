@@ -1,11 +1,10 @@
 package sleepAppGUI.pages.goals;
 
 import sleepAppDatabase.Database;
-import sleepAppGUI.interaction.MyButton;
-import sleepAppGUI.interaction.MyImage;
-import sleepAppGUI.interaction.MyTextField;
-import sleepAppGUI.interaction.Page;
+import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.GoalPage;
+
+import java.awt.*;
 
 public class ExerciseGoal extends GoalSet{
     @Override
@@ -15,8 +14,9 @@ public class ExerciseGoal extends GoalSet{
 
     @Override
     protected void setUp(Page page) {
-        new MyImage(page, new int[]{0, 10}, new int[]{800, 519}, "exercise_goal", true);
-        MyTextField input = new MyTextField(main, page, new int[]{375, 170}, new int[]{425, 210});
+        super.setUp(page);
+
+        MyTextField input = new MyTextField(main, page, new int[]{375, 205}, new int[]{425, 245});
 
         MyButton saveButton = new MyButton(page, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
             public void isClicked() {
@@ -29,14 +29,27 @@ public class ExerciseGoal extends GoalSet{
                     e.printStackTrace();
                     valid = false;
                 }
-                if (valid == true) {
+                if (valid) {
                     Object Goal_array[][] = Database.getGoalData();
                 }
                 ExerciseGoal.this.push(new GoalPage());
             }
         };
+    }
 
-        super.setUp(page);
+    @Override
+    protected String pageTitle() {
+        return "Exercise";
+    }
+
+    @Override
+    protected String unit() {
+        return "hours";
+    }
+
+    @Override
+    protected String imageName() {
+        return "exercise_goal";
     }
 }
 

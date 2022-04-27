@@ -1,11 +1,11 @@
 package sleepAppGUI.pages.goals;
 
 import sleepAppDatabase.Database;
-import sleepAppGUI.interaction.MyButton;
-import sleepAppGUI.interaction.MyImage;
-import sleepAppGUI.interaction.MyTextField;
-import sleepAppGUI.interaction.Page;
+import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.GoalPage;
+import sleepAppGUI.visuals.ColourPalette;
+
+import java.awt.*;
 
 public class CaffeineGoal extends GoalSet{
     @Override
@@ -15,10 +15,20 @@ public class CaffeineGoal extends GoalSet{
 
     @Override
     protected void setUp(Page page) {
-        new MyImage(page, new int[]{0, 10}, new int[]{800, 519}, "caffeine_goal", true);
-        MyTextField coffeeInput = new MyTextField(main, page, new int[]{265, 170}, new int[]{315, 210});
-        MyTextField teaInput = new MyTextField(main, page, new int[]{385, 170}, new int[]{435, 210});
-        MyTextField energyDrinkInput = new MyTextField(main, page, new int[]{645, 170}, new int[]{695, 210});
+
+        MyImage.putImage(page, new int[] {300, 20}, 200, "logo");
+        new MyRectangle(page, new int[] {80, 100}, new int[] {640, 390}, 50, Color.white);
+        new MyRectangle(page, new int[] {80, 100}, new int[] {640, 90}, 50, ColourPalette.foregroundColour);
+
+        MyImage.putImage(page, new int[] {250, 250}, 300, this.imageName());
+        MyText.putText(page, new int[] {110, 158}, 40, pageTitle(), Color.white, "Helvetica", Font.BOLD);
+        MyText.putText(page, new int[] {130, 235}, 26, "Goal: Coffee", Color.black, "Helvetica", Font.BOLD);
+        MyText.putText(page, new int[] {345, 235}, 26, "Tea", Color.black, "Helvetica", Font.BOLD);
+        MyText.putText(page, new int[] {460, 235}, 26, "Energy Drink", Color.black, "Helvetica", Font.BOLD);
+
+        MyTextField coffeeInput = new MyTextField(main, page, new int[] {295, 205}, new int[]{340, 245});
+        MyTextField teaInput = new MyTextField(main, page, new int[] {395, 205}, new int[]{445, 245});
+        MyTextField energyDrinkInput = new MyTextField(main, page, new int[] {630, 205}, new int[]{695, 245});
 
         MyButton saveButton = new MyButton(page, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
             public void isClicked() {
@@ -59,6 +69,26 @@ public class CaffeineGoal extends GoalSet{
             }
         };
 
-        super.setUp(page);
+        new MyButton(page, "back", new int[]{240, 525}, new int[]{330, 555}, "back_button") {
+            public void isClicked() {
+                CaffeineGoal.this.push(new GoalPage());
+                System.out.println("Goal Page");
+            }
+        };
+    }
+
+    @Override
+    protected String pageTitle() {
+        return "Caffeine";
+    }
+
+    @Override
+    protected String unit() {
+        return null;
+    }
+
+    @Override
+    protected String imageName() {
+        return "caffeine_goal";
     }
 }
