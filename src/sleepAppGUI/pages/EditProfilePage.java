@@ -22,16 +22,15 @@ public class EditProfilePage extends ProfileCommon {
 
         MyText.putTextCentred(page, new int[] {290, 400}, new int[] {100, 20}, "cm", ColourUtil.accentColour);
         MyText.putTextCentred(page, new int[] {500, 400}, new int[] {100, 20}, "kg", ColourUtil.accentColour);
-
-
-        MyButton cancelButton = new MyButton(page, "cancel", new int[]{285, 420}, new int[]{390, 450}, "cancel_button") {
+        new MyButton(page, "cancel", new int[]{285, 420}, new int[]{390, 450}, "cancel_button") {
             public void isClicked()
             {
                 EditProfilePage.this.push(new ProfilePage());
                 System.out.println("Profile Page");
             }
         };
-        MyButton saveButton = new MyButton(page, "save", new int[]{425, 420}, new int[]{515, 450}, "save_button") {
+
+        new MyButton(page, "save", new int[]{425, 420}, new int[]{515, 450}, "save_button") {
             public void isClicked()
             {
                 boolean valid = true;
@@ -53,7 +52,8 @@ public class EditProfilePage extends ProfileCommon {
                 }
             }
         };
-        MyButton deleteData = new MyButton (page, "delete data", new int[]{620, 475}, new int[]{770, 550}, "deleteData"){
+
+        new MyButton (page, "delete data", new int[]{620, 475}, new int[]{770, 550}, "deleteData"){
             public void isClicked()
             {
                 Database.removeUserData(Database.getCurrentUserId());
