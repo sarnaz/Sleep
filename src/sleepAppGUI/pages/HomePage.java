@@ -3,7 +3,7 @@ package sleepAppGUI.pages;
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.questions.SleepQuestions;
-import sleepAppGUI.visuals.ColourUtil;
+import sleepAppGUI.visuals.ColourPalette;
 
 import java.awt.*;
 
@@ -22,7 +22,7 @@ public class HomePage extends UIViewPage {
     @Override
     protected void setUp(Page page) {
         new MyRectangle(page, new int[] {151, 130}, new int[] {500, 400}, 40, Color.white);
-        new MyRectangle(page, new int[] {151, 130}, new int[] {500, 115}, 40, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {151, 130}, new int[] {500, 115}, 40, ColourPalette.foregroundColour);
         new MyImage(page, new int[] {275, 30}, new int[] {530, 108}, "logo", true);
         MyText.putText(page, new int[] {198, 210}, new int[] {200, 20}, "Let's check your activities", Color.white);
 

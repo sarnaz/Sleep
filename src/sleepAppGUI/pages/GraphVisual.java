@@ -4,10 +4,9 @@ import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.interaction.graphs.MyBar;
 import sleepAppGUI.pages.graphs.*;
-import sleepAppGUI.visuals.ColourUtil;
+import sleepAppGUI.visuals.ColourPalette;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.Calendar;
 
 public class GraphVisual extends UIViewPage {
@@ -25,7 +24,7 @@ public class GraphVisual extends UIViewPage {
     protected void setUp(Page page) {
         String[] dayofweek = {"Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"};
 
-        new MyRectangle(page, new int[] {10, 10}, new int[] {250, 235}, 20, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {10, 10}, new int[] {250, 235}, 20, ColourPalette.foregroundColour);
         MyImage.putImage(page, new int[] {24, 205}, 30, "waternotext");
         MyText.putText(page, new int[] {65, 230}, new int[] {200, 18}, "Water", Color.white, "Helvetica", Font.BOLD);
         new MyButton(page, "water", new Rectangle(142, 208, 110, 31), "moreinfo") {
@@ -47,7 +46,7 @@ public class GraphVisual extends UIViewPage {
             calendar.add(Calendar.DATE,-1);
         }
 
-        new MyRectangle(page, new int[] {270, 10}, new int[] {250, 235}, 20, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {270, 10}, new int[] {250, 235}, 20, ColourPalette.foregroundColour);
         MyImage.putImage(page, new int[] {284, 205}, 30, "exercisenotext");
         MyText.putText(page, new int[] {322, 230}, new int[] {200, 18}, "Exercise", Color.white, "Helvetica", Font.BOLD);
         new MyButton(page, "exercise", new Rectangle(402, 208, 110, 31), "moreinfo") {
@@ -71,7 +70,7 @@ public class GraphVisual extends UIViewPage {
             calendar.add(Calendar.DATE,-1);
         }
 
-        new MyRectangle(page, new int[] {530, 10}, new int[] {250, 235}, 20, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {530, 10}, new int[] {250, 235}, 20, ColourPalette.foregroundColour);
         MyImage.putImage(page, new int[] {544, 205}, 23, "screentimenotext");
         MyText.putText(page, new int[] {585, 230}, new int[] {200, 18}, "Screen", Color.white, "Helvetica", Font.BOLD);
         new MyButton(page, "screen", new Rectangle(662, 208, 110, 31), "moreinfo") {
@@ -94,7 +93,7 @@ public class GraphVisual extends UIViewPage {
             calendar.add(Calendar.DATE,-1);
         }
 
-        new MyRectangle(page, new int[] {10, 250}, new int[] {250, 235}, 20, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {10, 250}, new int[] {250, 235}, 20, ColourPalette.foregroundColour);
         MyImage.putImage(page, new int[] {24, 450}, 14, "alcoholnotext");
         MyText.putText(page, new int[] {65, 472}, new int[] {200, 18}, "Alcohol", Color.white, "Helvetica", Font.BOLD);
         new MyButton(page, "alcohol", new Rectangle(142, 450, 110, 31), "moreinfo")
@@ -118,7 +117,7 @@ public class GraphVisual extends UIViewPage {
             calendar.add(Calendar.DATE,-1);
         }
 
-        new MyRectangle(page, new int[] {270, 250}, new int[] {250, 235}, 20, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {270, 250}, new int[] {250, 235}, 20, ColourPalette.foregroundColour);
         MyImage.putImage(page, new int[] {284, 445}, 30, "caffeinenotext");
         MyText.putText(page, new int[] {322, 472}, new int[] {200, 18}, "Caffeine", Color.white, "Helvetica", Font.BOLD);
         new MyButton(page, "caffeine", new Rectangle(402, 450, 110, 31), "moreinfo")
@@ -145,7 +144,7 @@ public class GraphVisual extends UIViewPage {
         }
 
 
-        new MyRectangle(page, new int[] {530, 250}, new int[] {250, 235}, 20, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {530, 250}, new int[] {250, 235}, 20, ColourPalette.foregroundColour);
         MyImage.putImage(page, new int[] {544, 450}, 30, "stressnotext");
         MyText.putText(page, new int[] {585, 472}, new int[] {200, 18}, "Stress", Color.white, "Helvetica", Font.BOLD);
 

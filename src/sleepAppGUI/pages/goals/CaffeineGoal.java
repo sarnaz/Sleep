@@ -3,7 +3,7 @@ package sleepAppGUI.pages.goals;
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.GoalPage;
-import sleepAppGUI.visuals.ColourUtil;
+import sleepAppGUI.visuals.ColourPalette;
 
 import java.awt.*;
 
@@ -18,7 +18,7 @@ public class CaffeineGoal extends GoalSet{
 
         MyImage.putImage(page, new int[] {300, 20}, 200, "logo");
         new MyRectangle(page, new int[] {80, 100}, new int[] {640, 390}, 50, Color.white);
-        new MyRectangle(page, new int[] {80, 100}, new int[] {640, 90}, 50, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {80, 100}, new int[] {640, 90}, 50, ColourPalette.foregroundColour);
 
         MyImage.putImage(page, new int[] {250, 250}, 300, this.imageName());
         MyText.putText(page, new int[] {110, 158}, 40, pageTitle(), Color.white, "Helvetica", Font.BOLD);

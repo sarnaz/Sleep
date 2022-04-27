@@ -2,7 +2,7 @@ package sleepAppGUI.pages;
 
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
-import sleepAppGUI.visuals.ColourUtil;
+import sleepAppGUI.visuals.ColourPalette;
 
 import java.awt.*;
 
@@ -13,7 +13,7 @@ abstract public class ProfileCommon extends UIViewPage {
     protected void setUp(Page page) {
         MyImage.putImage(page, new int[] {250, 30}, 305, "logo");
         new MyRectangle(page, new int[] {200, 170}, new int[] {400, 290}, 30, Color.white);
-        new MyRectangle(page, new int[] {200, 170}, new int[] {400, 80}, 30, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {200, 170}, new int[] {400, 80}, 30, ColourPalette.foregroundColour);
 
         String username = Database.getUsername();
         MyText.putTextCentred(page, new int[] {400, 200}, 18, "Profile", Color.white, "Helvetica", Font.BOLD);

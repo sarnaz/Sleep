@@ -3,10 +3,9 @@ package sleepAppGUI.pages;
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.goals.*;
-import sleepAppGUI.visuals.ColourUtil;
+import sleepAppGUI.visuals.ColourPalette;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -22,8 +21,8 @@ public class GoalPage extends UIViewPage {
         Object Goal_array[][] = Database.getGoalData();
         Object DailyQData_array[][] = Database.getDataForDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
 
-        new MyRectangle(page, new int[] {40, 21}, new int[] {720, 455}, 40, ColourUtil.lightForegroundColour);
-        new MyRectangle(page, new int[] {40, 21}, new int[] {720, 80}, 40, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {40, 21}, new int[] {720, 455}, 40, ColourPalette.lightForegroundColour);
+        new MyRectangle(page, new int[] {40, 21}, new int[] {720, 80}, 40, ColourPalette.foregroundColour);
         MyText.putText(page, new int[] {56, 75}, 40, "Goals", Color.white, "Helvetica", Font.BOLD);
 
         new MyRectangle(page, new int[] {70, 127}, new int[] {152, 140}, 20, Color.white);

@@ -1,7 +1,7 @@
 package sleepAppGUI.pages;
 
 import sleepAppGUI.interaction.*;
-import sleepAppGUI.visuals.ColourUtil;
+import sleepAppGUI.visuals.ColourPalette;
 
 import java.awt.*;
 
@@ -19,7 +19,7 @@ public class SuggestionPage extends UIViewPage {
     @Override
     protected void setUp(Page page) {
         MyImage.putImage(page, new int[] {300, 30}, 200, "logo");
-        new MyRectangle(page, new int[] {40, 120}, new int[] {720, 350}, 30, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {40, 120}, new int[] {720, 350}, 30, ColourPalette.foregroundColour);
 
         MyText.putText(page, new int[] {50, 160}, 30, "Suggestions", Color.white, "Helvetica", Font.BOLD);
         MyText.putText(page, new int[] {50, 200}, 20, "WATER: You can try eating fruit/vegetables that have high levels of moisture.");

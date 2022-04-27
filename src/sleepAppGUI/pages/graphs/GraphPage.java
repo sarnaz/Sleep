@@ -3,7 +3,7 @@ package sleepAppGUI.pages.graphs;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.GraphVisual;
 import sleepAppGUI.pages.HomePage;
-import sleepAppGUI.visuals.ColourUtil;
+import sleepAppGUI.visuals.ColourPalette;
 
 import java.awt.*;
 import java.util.Calendar;
@@ -17,7 +17,7 @@ abstract public class GraphPage extends UIViewPage {
 
         MyImage.putImage(page, new int[] {300, 20}, 200, "logo");
         new MyRectangle(page, new int[] {80, 100}, new int[] {640, 390}, 50, Color.white);
-        new MyRectangle(page, new int[] {80, 100}, new int[] {640, 90}, 50, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {80, 100}, new int[] {640, 90}, 50, ColourPalette.foregroundColour);
 
         new MyButton(page, "back", new int[]{240, 525}, new int[]{330, 555}, "home_button") {
             public void isClicked() {

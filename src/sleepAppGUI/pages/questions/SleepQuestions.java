@@ -7,7 +7,7 @@ import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.questions.alcohol.AlcoholQuestions;
 import sleepAppGUI.pages.questions.caffeine.CaffeineQuestions;
 import sleepAppGUI.pages.questions.exercise.ExerciseQuestions;
-import sleepAppGUI.visuals.ColourUtil;
+import sleepAppGUI.visuals.ColourPalette;
 
 public class SleepQuestions extends QuestionsPage {
     @Override
@@ -20,7 +20,7 @@ public class SleepQuestions extends QuestionsPage {
         super.setUp(page);
 
         MyImage.putImage(page, new int[] {200, 30}, 400, "logo");
-        new MyRectangle(page, new int[] {120, 180}, new int[] {560, 237}, 30, ColourUtil.foregroundColour);
+        new MyRectangle(page, new int[] {120, 180}, new int[] {560, 237}, 30, ColourPalette.foregroundColour);
 
         new MyText(page, new int[] {170, 220}, new int[] {195, 240}, "How many hours of sleep did you get last night? ");
         new MyText(page, new int[] {290, 250}, new int[] {305, 270}, "(to the nearest hour)");
