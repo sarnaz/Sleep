@@ -2,6 +2,9 @@ package sleepAppGUI.pages;
 
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
+import sleepAppGUI.visuals.ColourUtil;
+
+import java.awt.*;
 
 public class StreakPage extends UIViewPage {
     @Override
@@ -11,18 +14,23 @@ public class StreakPage extends UIViewPage {
 
     @Override
     protected void setUp(Page page) {
-        new MyImage(page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
-        new MyImage(page, new int[] {275, 170}, new int[] {525, 470}, "sleepStreaks", true);
+        new MyImage(page, new int[] {275, 30}, new int[] {530, 108}, "logo", true);
+        new MyRectangle(page, new int[] {200, 170}, new int[] {400, 270}, 30, Color.white);
+        new MyRectangle(page, new int[] {200, 170}, new int[] {400, 80}, 30, ColourUtil.foregroundColour);
+
         String username = Database.getUsername();
-        new MyText(page, new int[] {400, 230}, new int[] {435, 250}, username);
+        MyText.putTextCentred(page, new int[] {400, 200}, new int[] {200, 18}, "Profile", Color.white, "Helvetica", Font.BOLD);
+        MyText.putTextCentred(page, new int[] {400, 230}, new int[] {200, 30}, username, Color.white, "Helvetica", Font.BOLD);
 
         String currentStreak = String.valueOf(Database.getStreak());
-        new MyText(page, new int[] {390, 380}, new int[] {435, 450}, currentStreak);
-        if(Database.getStreak() == 1){
-            new MyText(page, new int[] {400, 500}, new int[]{435, 520}, "day");
-        }
-        else{
-            new MyText(page, new int[] {380, 410}, new int[]{415, 430}, "days");
+
+        MyText.putText(page, new int[] {224, 283}, new int[] {300, 18}, "Your Current Streak:", Color.black);
+        MyText.putTextCentred(page, new int[] {400, 375}, new int[] {100, 100}, currentStreak, ColourUtil.accentColour, "Helvetica", Font.BOLD);
+
+        if(Database.getStreak() <= 1){
+            MyText.putTextCentred(page, new int[] {400, 410}, new int[] {35, 30}, "Day", ColourUtil.accentColour, "Helvetica", Font.BOLD);
+        } else {
+            MyText.putTextCentred(page, new int[] {400, 410}, new int[] {35, 30}, "Days", ColourUtil.accentColour, "Helvetica", Font.BOLD);
         }
 
         MyButton backButton = new MyButton(page, "back", new int[] {275, 480}, new int[] {365, 510}, "back_button") {
