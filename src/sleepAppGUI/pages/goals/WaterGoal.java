@@ -20,10 +20,19 @@ public class WaterGoal extends GoalSet{
 
         MyButton saveButton = new MyButton(page, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
             public void isClicked() {
-                Database.setGoals("cupsOfWater", Integer.parseInt(input.getText()));
-                Object Goal_array[][] = Database.getGoalData();
+                boolean valid = true;
+                try {
+                    Database.setGoals("cupsOfWater", Integer.parseInt(input.getText()));
+                    System.out.println("Water Goal Saved");
+                }
+                catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    valid = false;
+                }
+                if (valid == true) {
+                    Object Goal_array[][] = Database.getGoalData();
+                }
                 WaterGoal.this.push(new GoalPage());
-                System.out.println("Saved");
             }
         };
 
