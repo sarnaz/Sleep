@@ -15,8 +15,7 @@ public class ScreenGoal extends GoalSet{
 
     @Override
     protected void setUp(Page page) {
-        new MyImage(page, new int[]{0, 10}, new int[]{800, 519}, "screen_goal", true);
-        MyTextField input = new MyTextField(main, page, new int[]{375, 170}, new int[]{425, 210});
+        MyTextField input = new MyTextField(main, page, new int[]{375, 205}, new int[]{425, 245});
 
         MyButton saveButton = new MyButton(page, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
             public void isClicked() {
@@ -29,7 +28,7 @@ public class ScreenGoal extends GoalSet{
                     e.printStackTrace();
                     valid = false;
                 }
-                if (valid == true) {
+                if (valid) {
                     Object Goal_array[][] = Database.getGoalData();
                 }
                 ScreenGoal.this.push(new GoalPage());
@@ -37,5 +36,20 @@ public class ScreenGoal extends GoalSet{
         };
 
         super.setUp(page);
+    }
+
+    @Override
+    protected String pageTitle() {
+        return "Screen Time";
+    }
+
+    @Override
+    protected String unit() {
+        return "hours";
+    }
+
+    @Override
+    protected String imageName() {
+        return "screen_goal";
     }
 }
