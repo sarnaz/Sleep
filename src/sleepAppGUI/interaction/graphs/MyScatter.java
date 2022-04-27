@@ -63,7 +63,7 @@ public class MyScatter extends MyGraph
         {
             int[] pointCoordinate = new int[2];
             pointCoordinate[0] = (int)( ((point[0] - start[0]) / (end[0] - start[0])) * (graphCorner2[0] - graphCorner1[0]) ) + graphCorner1[0];
-            pointCoordinate[1] = (int)( ((point[1] - start[1]) / (end[1] - start[1])) * (graphCorner2[1] - graphCorner1[1]) ) + graphCorner1[1];
+            pointCoordinate[1] = graphCorner2[1] - (int)( ((point[1] - start[1]) / (end[1] - start[1])) * (graphCorner2[1] - graphCorner1[1]) );
 
             System.out.println("point coordinate: "+pointCoordinate[0]+", "+pointCoordinate[1]);
 
@@ -92,5 +92,11 @@ public class MyScatter extends MyGraph
         }
     }
 
+    public void setGraphScale(double maxXValue, double maxYValue)
+    {
+        setGraphScale(maxXValue, 0);
 
+        setGraphScale(maxYValue, 1);
+
+    }
 }

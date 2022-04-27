@@ -18,10 +18,9 @@ public class ProfilePage extends UIViewPage {
     @Override
     protected void setUp(Page page) {
         new MyImage(page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
-
         new MyImage(page, new int[] {275, 170}, new int[] {525, 470}, "profile_box", true);
-        // add a function to database to return username only
-        new MyText(page, new int[] {305, 230}, new int[] {340, 250}, "Username");
+        String username = Database.getUsername();
+        new MyText(page, new int[] {305, 230}, new int[] {340, 250}, username);
 
         String height = Integer.toString(Database.getUserHeight());
         String weight = Integer.toString(Database.getUserWeight());

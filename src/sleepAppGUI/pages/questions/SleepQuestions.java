@@ -52,6 +52,7 @@ public class SleepQuestions extends QuestionsPage {
                     valid = false;
                 }
                 if (valid == true){
+                    Database.setQuestionsAnswered();
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(new Date());
                     int year = calendar.get(Calendar.YEAR);

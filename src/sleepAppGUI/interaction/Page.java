@@ -1,6 +1,5 @@
 package sleepAppGUI.interaction;
 
-import sleepAppGUI.pages.MoreInfoPage;
 import sleepAppGUI.pages.SignInPage;
 import sleepAppGUI.pages.SignUpPage;
 import sleepAppGUI.visuals.*;

@@ -15,7 +15,7 @@ public class MyBar extends MyGraph
         super(page, coordinates1, coordinates2, new Color(0xFFFFFF), new Color(0), new Color(0x0000FF));
     }
 
-    public void setGraphScale(int maxYValue)
+    public void setGraphScale(double maxYValue)
     {
         setGraphScale(maxYValue, 1);
 
