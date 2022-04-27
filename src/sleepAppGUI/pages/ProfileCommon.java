@@ -11,7 +11,7 @@ abstract public class ProfileCommon extends UIViewPage {
 
     @Override
     protected void setUp(Page page) {
-        MyImage.putImage(page, new int[] {275, 30}, 255, "logo");
+        MyImage.putImage(page, new int[] {250, 30}, 305, "logo");
         new MyRectangle(page, new int[] {200, 170}, new int[] {400, 290}, 30, Color.white);
         new MyRectangle(page, new int[] {200, 170}, new int[] {400, 80}, 30, ColourUtil.foregroundColour);
 
