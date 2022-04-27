@@ -26,7 +26,9 @@ public class GoalPage extends UIViewPage {
         MyText sleepgoal = new MyText(page, new int[] {280, 200}, new int[] {320, 230}, DailyQData_array[1][3] + " / " + Goal_array[1][1]);
         MyText stressgoal = new MyText(page, new int[] {540, 290}, new int[] {740, 320}, DailyQData_array[1][6] + " / " + Goal_array[1][5]);
         MyText exercisegoal = new MyText(page, new int[] {110, 380}, new int[] {520, 410}, DailyQData_array[1][8] + " / " + Goal_array[1][2]);
-        MyText caffeinegoal = new MyText(page, new int[] {540, 410}, new int[] {740, 440}, DailyQData_array[1][1] + " / " + Goal_array[1][6]);
+        MyText coffeegoal = new MyText(page, new int[] {525, 410}, new int[] {640, 435}, DailyQData_array[1][1] + " / " + Goal_array[1][7]);
+        MyText teagoal = new MyText(page, new int[] {433, 410}, new int[] {540, 435}, DailyQData_array[1][1] + " / " + Goal_array[1][6]);
+        MyText energydrinksgoal = new MyText(page, new int[] {613, 410}, new int[] {740, 435}, DailyQData_array[1][1] + " / " + Goal_array[1][8]);
         MyText screentimegoal = new MyText(page, new int[] {540, 180}, new int[] {740, 210}, DailyQData_array[1][7] + " / " + Goal_array[1][4]);
         MyText alcoholgoal = new MyText(page, new int[] {280, 380}, new int[] {320, 410}, DailyQData_array[1][0] + " / " + Goal_array[1][3]);
 

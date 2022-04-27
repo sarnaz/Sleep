@@ -20,8 +20,19 @@ public class ScreenGoal extends GoalSet{
 
         MyButton saveButton = new MyButton(page, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
             public void isClicked() {
+                boolean valid = true;
+                try {
+                    Database.setGoals("screenTime", Integer.parseInt(input.getText()));
+                    System.out.println("Screen Time Goal Saved");
+                }
+                catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    valid = false;
+                }
+                if (valid == true) {
+                    Object Goal_array[][] = Database.getGoalData();
+                }
                 ScreenGoal.this.push(new GoalPage());
-                System.out.println("Saved");
             }
         };
 
