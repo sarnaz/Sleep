@@ -44,6 +44,10 @@ public class MyText extends VObject
         return putText(page, coordinates1, size, text, Color.black, defaultFont, defaultStyle);
     }
 
+    public static MyText putText(Page page, int[] coordinates1, int[] size, String text, Color textColour) {
+        return putText(page, coordinates1, size, text, textColour, defaultFont, defaultStyle);
+    }
+
     @Override
     public void paint(Graphics g)
     {
