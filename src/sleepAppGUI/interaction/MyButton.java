@@ -26,6 +26,10 @@ public class MyButton extends VObject
                  (coordinates[1] >= corner2[1] && coordinates[1] <= corner1[1]) )   );
     }
 
+    public void toggleVisible() {
+        this.setVisible(!this.isVisible());
+    }
+
     public void isClicked()
     {
         System.out.println(buttonName+" was clicked");
