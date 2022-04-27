@@ -48,7 +48,7 @@ public class HomePage extends UIViewPage {
         else {
             MyButton streaksPage = new MyButton(page, "streakButton", new int[]{170, 260}, new int[]{404, 361}, "streak"){
                 public void isClicked () {
-                    HomePage.this.push(new Streaks());
+                    HomePage.this.push(new StreakPage());
                     System.out.println("Streaks");
                 }
             };

@@ -3,7 +3,7 @@ package sleepAppGUI.pages;
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 
-public class Streaks extends UIViewPage {
+public class StreakPage extends UIViewPage {
     @Override
     protected int pageNumber() {
         return 20;
@@ -28,7 +28,7 @@ public class Streaks extends UIViewPage {
         MyButton backButton = new MyButton(page, "back", new int[] {275, 480}, new int[] {365, 510}, "back_button") {
             public void isClicked()
             {
-                Streaks.this.push(new HomePage());
+                StreakPage.this.push(new HomePage());
                 System.out.println("Main Menu Page");
             }
         };
