@@ -68,20 +68,27 @@ public class CaffeineGoal extends GoalSet{
                 CaffeineGoal.this.push(new GoalPage());
             }
         };
+
+        new MyButton(page, "back", new int[]{240, 525}, new int[]{330, 555}, "back_button") {
+            public void isClicked() {
+                CaffeineGoal.this.push(new GoalPage());
+                System.out.println("Goal Page");
+            }
+        };
     }
 
     @Override
     protected String pageTitle() {
-        return "Exercise";
+        return "Caffeine";
     }
 
     @Override
     protected String unit() {
-        return "hours";
+        return null;
     }
 
     @Override
     protected String imageName() {
-        return "exercise_goal";
+        return "caffeine_goal";
     }
 }
