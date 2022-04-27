@@ -24,7 +24,7 @@ public class AlcoholYes extends AlcoholQuestions {
 
         MyImage yesClicked = new MyImage(page, new int []{325, 230}, new int[] {375, 265}, "yesButton", true);
         page.pushToFront(yesClicked);
-        MyText numUnits = new MyText(page, new int[] {245, 290}, new int[] {270, 310}, "How many units have you had?");
+        MyText.putTextCentred(page, new int[] {400, 290}, 20, "How many units have you had?");
         MyTextField howMany = new MyTextField(main, page, new int[] {380, 305}, new int[] {420, 330});
         MyButton nextButton = new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
         {
@@ -39,7 +39,7 @@ public class AlcoholYes extends AlcoholQuestions {
                     System.out.println("Invalid");
                     valid = false;
                 }
-                if(valid == true) {
+                if (valid) {
                     // write to DB here!
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(new Date());
