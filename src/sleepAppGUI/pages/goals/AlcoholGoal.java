@@ -15,8 +15,7 @@ public class AlcoholGoal extends GoalSet{
 
     @Override
     protected void setUp(Page page) {
-        new MyImage(page, new int[]{0, 10}, new int[]{800, 519}, "alcohol_goal", true);
-        MyTextField input = new MyTextField(main, page, new int[]{375, 170}, new int[]{425, 210});
+        MyTextField input = new MyTextField(main, page, new int[]{375, 205}, new int[]{425, 245});
 
         MyButton saveButton = new MyButton(page, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
             public void isClicked() {
@@ -37,5 +36,20 @@ public class AlcoholGoal extends GoalSet{
         };
 
         super.setUp(page);
+    }
+
+    @Override
+    protected String pageTitle() {
+        return "Alcohol Consumption";
+    }
+
+    @Override
+    protected String unit() {
+        return "units";
+    }
+
+    @Override
+    protected String imageName() {
+        return "alcohol_goal";
     }
 }
