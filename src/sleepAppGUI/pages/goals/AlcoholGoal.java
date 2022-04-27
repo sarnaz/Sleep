@@ -28,7 +28,7 @@ public class AlcoholGoal extends GoalSet{
                     e.printStackTrace();
                     valid = false;
                 }
-                if (valid == true) {
+                if (valid) {
                     Object Goal_array[][] = Database.getGoalData();
                 }
                 AlcoholGoal.this.push(new GoalPage());
