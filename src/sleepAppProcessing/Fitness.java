@@ -4,6 +4,7 @@ package sleepAppProcessing;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import sleepAppDatabase.Database;
 
 import java.awt.*;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.io.OutputStream;
 import java.net.*;
 import java.sql.*;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -24,14 +26,13 @@ public class Fitness {
     private static String code = null;
 
     private static volatile boolean codeSet = false;
-    private static String returnURL = "http://localhost:8000/test";
-    private static String returnPoint = "/test";
 
 
-    public Fitness(int id) {
+    public Fitness(int id, int day, int month, int year) {
         try {
 
             HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+            String returnPoint = "/test";
             HttpContext context = server.createContext(returnPoint);
             context.setHandler(Fitness::handleRequest);
             server.start();
@@ -43,8 +44,9 @@ public class Fitness {
             ResultSet rs = stmt.executeQuery(sql);
 
 
+            String returnURL = "http://localhost:8000/test";
             String stringUri ="https://www.strava.com/oauth/authorize?client_id=80404&"
-                    + "redirect_uri="+returnURL+"&response_type=code&scope=activity:read_all";
+                    + "redirect_uri="+ returnURL +"&response_type=code&scope=activity:read_all";
 
             URI uri = new URI(stringUri);
             if(rs.next()){
@@ -68,7 +70,7 @@ public class Fitness {
         }
 
         getToken(id, code);
-        //getActivityData(id);
+        addActivityData(id, day, month, year);
 
     }
     //non-static to ensure id is initialised
@@ -221,4 +223,128 @@ public class Fitness {
             System.out.println(e.getLocalizedMessage());
         }
     }
+
+    /*
+       retrieves activity length for all activites on a given day
+    */
+    public void addActivityData(int day, int month, int year, int id) {
+
+        int totalActivityTime = 0;
+        long time = Date.valueOf(year+"-"+month+"-"+day).getTime();
+
+        try {
+
+            //getSegments(request);
+            //retrieves data about segments for later. Used here as it prevents repeats
+            URL url = new URL("https://www.strava.com/api/v3/athlete/activities?after="+time+"&page=1&per_page=30&access_token="+accessToken);
+
+            URLConnection con = url.openConnection();
+            HttpURLConnection httpCon = (HttpURLConnection)con;
+            httpCon.setRequestMethod("GET");
+            httpCon.setRequestProperty("Content-Type", "application/json; utf-8");
+            httpCon.setRequestProperty("Accept", "application/json");
+            httpCon.setDoOutput(true);
+
+            Scanner scanner = new Scanner(httpCon.getInputStream());
+            String output = "";
+
+            while(scanner.hasNext()) {
+                output = output + scanner.nextLine();
+            }
+
+
+            if(!output.equals("")) {
+                String[] dividedOutput = output.split(",\"");
+                //allows me to find the correct pieces of data
+
+                int plusOrMinus;
+                boolean timeFound, stop1, stop2;
+
+                int lowerBound;
+                //increases lower bound on loops to avoid it finding the same data set over and over, causing an infinite loop
+
+                plusOrMinus = 0;
+
+                for(int i = 5; i-plusOrMinus<dividedOutput.length; i+=40) {
+                    //40 is the approximate difference between each value in the array
+                    timeFound = false;
+                    plusOrMinus = 0;
+
+                    lowerBound = i;
+                    stop1 = false;
+                    stop2 = false;
+                    // resets the damn variables
+
+                    while(!timeFound) {
+                        if(i+plusOrMinus<dividedOutput.length) {
+                            if(dividedOutput[i+plusOrMinus].contains("moving_time") && dividedOutput[i+plusOrMinus-1].contains("distance") &&
+                                    dividedOutput[i+plusOrMinus-2].contains("name")) {
+
+                                dividedOutput[i+plusOrMinus]=dividedOutput[i+plusOrMinus]
+                                        .replace("\"", "")
+                                        .replace("moving_time", "")
+                                        .replace(":", "");
+
+                                System.out.println(dividedOutput[i+plusOrMinus]);
+
+
+                                totalActivityTime+=Math.round(Double.parseDouble(dividedOutput[i+plusOrMinus])/60);
+
+                                timeFound=true;
+
+                                //should speed up finding next value, as approx 60 gap is between found positions
+                            }
+                        }
+                        else {
+                            stop1=true;
+                            //stops the program if out of bounds
+                        }
+                        if(i-plusOrMinus-2>lowerBound) {
+                            if(dividedOutput[i-plusOrMinus].contains("moving_time") && dividedOutput[i-plusOrMinus-1].contains("distance") &&
+                                    dividedOutput[i-plusOrMinus-2].contains("name"))  {
+
+                                dividedOutput[i-plusOrMinus]=dividedOutput[i-plusOrMinus]
+                                        .replace("\"", "")
+                                        .replace("moving_time", "")
+                                        .replace(":", "");
+
+
+                                //updateSegmentTimes(request, dividedOutput[i-plusOrMinus]);
+
+
+                                totalActivityTime+=Math.round(Double.parseDouble(dividedOutput[i-plusOrMinus])/60);
+
+                                timeFound=true;
+                            }
+                        }
+                        else {
+                            stop2=true;
+                        }
+                        if(stop1 && stop2) {
+                            timeFound = true;
+                            //stops the search if the search is outside both bounds of the array.
+                        }
+
+                        stop1=false;
+                        stop2=false;
+                        plusOrMinus++;
+
+                    }
+                    //repeats until the activity Id is found, going further away from the guess each time
+                    //similar to jump search, with a small tweak
+                }
+                //continues approximating Id positions until no more are left
+            }
+
+
+            Database.addFitnessEntry(totalActivityTime, 0, day, month, year);
+
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        //ensures that this loop isn't called repeatedly while users use the program
+    }
+    //gets all activity IDs available
 }
