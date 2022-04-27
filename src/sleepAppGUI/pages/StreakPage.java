@@ -19,7 +19,7 @@ public class StreakPage extends UIViewPage {
         new MyRectangle(page, new int[] {200, 170}, new int[] {400, 80}, 30, ColourUtil.foregroundColour);
 
         String username = Database.getUsername();
-        MyText.putTextCentred(page, new int[] {400, 200}, new int[] {200, 18}, "Profile", Color.white, "Helvetica", Font.BOLD);
+        MyText.putTextCentred(page, new int[] {400, 200}, new int[] {200, 18}, "Streaks", Color.white, "Helvetica", Font.BOLD);
         MyText.putTextCentred(page, new int[] {400, 230}, new int[] {200, 30}, username, Color.white, "Helvetica", Font.BOLD);
 
         String currentStreak = String.valueOf(Database.getStreak());
