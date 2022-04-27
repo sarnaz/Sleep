@@ -20,8 +20,8 @@ public class EditProfilePage extends ProfileCommon {
         MyTextField heightInput = new MyTextField(main, page, new int[] {230, 310}, new int[] {350, 380}, "Helvetica", 50, JTextField.CENTER);
         MyTextField weightInput = new MyTextField(main, page, new int[] {440, 310}, new int[] {560, 380}, "Helvetica", 50, JTextField.CENTER);
 
-        MyText.putTextCentred(page, new int[] {290, 400}, new int[] {100, 20}, "cm", ColourUtil.accentColour);
-        MyText.putTextCentred(page, new int[] {500, 400}, new int[] {100, 20}, "kg", ColourUtil.accentColour);
+        MyText.putTextCentred(page, new int[] {290, 400}, 20, "cm", ColourUtil.accentColour);
+        MyText.putTextCentred(page, new int[] {500, 400}, 20, "kg", ColourUtil.accentColour);
         new MyButton(page, "cancel", new int[]{285, 420}, new int[]{390, 450}, "cancel_button") {
             public void isClicked()
             {

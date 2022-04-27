@@ -16,10 +16,10 @@ abstract public class ProfileCommon extends UIViewPage {
         new MyRectangle(page, new int[] {200, 170}, new int[] {400, 80}, 30, ColourUtil.foregroundColour);
 
         String username = Database.getUsername();
-        MyText.putTextCentred(page, new int[] {400, 200}, new int[] {200, 18}, "Profile", Color.white, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {400, 230}, new int[] {200, 30}, username, Color.white, "Helvetica", Font.BOLD);
+        MyText.putTextCentred(page, new int[] {400, 200}, 18, "Profile", Color.white, "Helvetica", Font.BOLD);
+        MyText.putTextCentred(page, new int[] {400, 230}, 30, username, Color.white, "Helvetica", Font.BOLD);
 
-        MyText.putTextCentred(page, new int[] {290, 295}, new int[] {100, 27}, "Height", Color.black, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {500, 295}, new int[] {100, 27}, "Weight", Color.black, "Helvetica", Font.BOLD);
+        MyText.putTextCentred(page, new int[] {290, 295}, 27, "Height", Color.black, "Helvetica", Font.BOLD);
+        MyText.putTextCentred(page, new int[] {500, 295}, 27, "Weight", Color.black, "Helvetica", Font.BOLD);
     }
 }
