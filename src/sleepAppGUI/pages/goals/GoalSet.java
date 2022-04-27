@@ -19,7 +19,7 @@ abstract public class GoalSet extends UIViewPage {
         MyText.putText(page, new int[] {110, 158}, 40, pageTitle(), Color.white, "Helvetica", Font.BOLD);
         MyText.putText(page, new int[] {290, 235}, 30, "Goal:", Color.black, "Helvetica", Font.BOLD);
         MyText.putText(page, new int[] {431, 235}, 30, unit(), Color.black, "Helvetica", Font.BOLD);
-        MyButton backButton = new MyButton(page, "back", new int[]{240, 525}, new int[]{330, 555}, "back_button") {
+        new MyButton(page, "back", new int[]{240, 525}, new int[]{330, 555}, "back_button") {
             public void isClicked() {
                 GoalSet.this.push(new GoalPage());
                 System.out.println("Goal Page");
