@@ -29,17 +29,12 @@ public class Database {
     public static boolean setGoals(String targetColumn, int value) {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
+
             if (conn != null) {
 
-
-
-                String addStatement = "UPDATE GOALS SET ?=? WHERE id=?";
-                PreparedStatement preparedAddStatement = conn.prepareStatement(addStatement);
-                preparedAddStatement.setString(1, targetColumn);
-                preparedAddStatement.setInt(2, value);
-                preparedAddStatement.setInt(3, id);
-
-                preparedAddStatement.execute();
+                String addStatement = "UPDATE GOALS SET " + targetColumn + "=" + value + " WHERE id="+id;
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(addStatement);
 
                 conn.close();
                 return true;
@@ -50,6 +45,10 @@ public class Database {
         }
 
         return false;
+    }
+
+    public static int getId(){
+        return id;
     }
 
     public static String getUsername() {

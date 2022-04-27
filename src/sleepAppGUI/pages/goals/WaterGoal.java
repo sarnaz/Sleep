@@ -20,6 +20,8 @@ public class WaterGoal extends GoalSet{
 
         MyButton saveButton = new MyButton(page, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
             public void isClicked() {
+                Database.setGoals("cupsOfWater", Integer.parseInt(input.getText()));
+                Object Goal_array[][] = Database.getGoalData();
                 WaterGoal.this.push(new GoalPage());
                 System.out.println("Saved");
             }
