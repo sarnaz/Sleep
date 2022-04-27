@@ -7,6 +7,7 @@ import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.questions.alcohol.AlcoholQuestions;
 import sleepAppGUI.pages.questions.caffeine.CaffeineQuestions;
 import sleepAppGUI.pages.questions.exercise.ExerciseQuestions;
+import sleepAppGUI.visuals.ColourUtil;
 
 public class SleepQuestions extends QuestionsPage {
     @Override
@@ -17,8 +18,10 @@ public class SleepQuestions extends QuestionsPage {
     @Override
     protected void setUp(Page page) {
         super.setUp(page);
-        new MyImage(page, new int[] {120, 170}, new int[] {680, 430}, "box_behind", true);
-        new MyImage(page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
+
+        MyImage.putImage(page, new int[] {200, 30}, 400, "logo");
+        new MyRectangle(page, new int[] {120, 180}, new int[] {560, 237}, 30, ColourUtil.foregroundColour);
+
         new MyText(page, new int[] {170, 220}, new int[] {195, 240}, "How many hours of sleep did you get last night? ");
         new MyText(page, new int[] {290, 250}, new int[] {305, 270}, "(to the nearest hour)");
         MyTextField numberHours = new MyTextField(main, page, new int[] {380, 255}, new int[] {420, 280});
@@ -51,7 +54,7 @@ public class SleepQuestions extends QuestionsPage {
                     System.out.println("Not valid");
                     valid = false;
                 }
-                if (valid == true){
+                if (valid){
                     Database.setQuestionsAnswered();
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(new Date());
@@ -63,19 +66,19 @@ public class SleepQuestions extends QuestionsPage {
                     // display the next page
                     Object[][] factors_chosen = Database.getFactorArray();
                     Database.getFactors();
-                    if(Boolean.valueOf((Boolean) factors_chosen[1][0])){
+                    if ((Boolean) factors_chosen[1][0]){
                         SleepQuestions.this.push(new CaffeineQuestions());
                     }
-                    else if(Boolean.valueOf((Boolean)factors_chosen[1][1])){
+                    else if ((Boolean)factors_chosen[1][1]){
                         SleepQuestions.this.push(new AlcoholQuestions());
                     }
-                    else if(Boolean.valueOf((Boolean)factors_chosen[1][2])){
+                    else if ((Boolean)factors_chosen[1][2]){
                         SleepQuestions.this.push(new ExerciseQuestions());
                     }
-                    else if(Boolean.valueOf((Boolean)factors_chosen[1][3])){
+                    else if ((Boolean)factors_chosen[1][3]){
                         SleepQuestions.this.push(new StressQuestions());
                     }
-                    else if(Boolean.valueOf((Boolean)factors_chosen[1][4])){
+                    else if ((Boolean)factors_chosen[1][4]){
                         SleepQuestions.this.push(new WaterQuestions());
                     }
                     else{
