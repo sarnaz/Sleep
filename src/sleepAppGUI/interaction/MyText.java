@@ -73,13 +73,17 @@ public class MyText extends VObject
         return putText(page, coordinates1, fontSize, text, Color.white);
     }
 
-    public static MyText putTextCentred(Page page, int[] coordinateCentre, int[] size, String text, Color textColour, String fontName, int style) {
-        final int[] coordinates2 = new int[] {coordinateCentre[0] + size[0], coordinateCentre[1] + size[1]};
+    public static MyText putTextCentred(Page page, int[] coordinateCentre, int fontSize, String text, Color textColour, String fontName, int style) {
+        final int[] coordinates2 = new int[] {0, coordinateCentre[1] + fontSize};
 
         return new MyText(page, coordinateCentre, coordinates2, text, textColour, fontName, style, true);
     }
-    public static MyText putTextCentred(Page page, int[] coordinateCentre, int[] size, String text, Color textColour) {
-        return putTextCentred(page, coordinateCentre, size, text, textColour, defaultFont, defaultStyle);
+    public static MyText putTextCentred(Page page, int[] coordinateCentre, int fontSize, String text, Color textColour) {
+        return putTextCentred(page, coordinateCentre, fontSize, text, textColour, defaultFont, defaultStyle);
+    }
+
+    public static MyText putTextCentred(Page page, int[] coordinateCentre, int fontSize, String text) {
+        return putTextCentred(page, coordinateCentre, fontSize, text, Color.white, defaultFont, defaultStyle);
     }
 
     @Override
