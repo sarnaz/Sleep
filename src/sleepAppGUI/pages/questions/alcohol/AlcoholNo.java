@@ -36,16 +36,16 @@ public class AlcoholNo extends AlcoholQuestions {
                 int date = calendar.get(Calendar.DAY_OF_MONTH);
                 Database.addAlcoholEntry(0, date, month, year);
                 Object[][] factors_chosen = Database.getFactorArray();
-                if ((Boolean) factors_chosen[1][2]){
+                if (!(Boolean) factors_chosen[1][2]){
                     AlcoholNo.this.push(new ExerciseQuestions());
                 }
-                else if ((Boolean) factors_chosen[1][3]){
+                else if (!(Boolean) factors_chosen[1][3]){
                     AlcoholNo.this.push(new StressQuestions());
                 }
-                else if ((Boolean) factors_chosen[1][4]){
+                else if (!(Boolean) factors_chosen[1][4]){
                     AlcoholNo.this.push(new WaterQuestions());
                 }
-                else if ((Boolean) factors_chosen[1][5]){
+                else if (!(Boolean) factors_chosen[1][5]){
                     AlcoholNo.this.push(new ScreenTimeQuestions());
                 }
                 else{

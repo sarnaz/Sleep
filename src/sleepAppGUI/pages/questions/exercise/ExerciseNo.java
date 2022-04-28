@@ -37,13 +37,13 @@ public class ExerciseNo extends ExerciseQuestions {
                 int date = calendar.get(Calendar.DAY_OF_MONTH);
                 Database.addFitnessEntry(0, 0, date, month, year);
                 Object[][] factors_chosen = Database.getFactorArray();
-                if ((Boolean) factors_chosen[1][3]){
+                if (!(Boolean) factors_chosen[1][3]){
                     ExerciseNo.this.push(new StressQuestions());
                 }
-                else if ((Boolean) factors_chosen[1][4]){
+                else if (!(Boolean) factors_chosen[1][4]){
                     ExerciseNo.this.push(new WaterQuestions());
                 }
-                else if ((Boolean) factors_chosen[1][5]){
+                else if (!(Boolean) factors_chosen[1][5]){
                     ExerciseNo.this.push(new ScreenTimeQuestions());
                 }
                 else{
