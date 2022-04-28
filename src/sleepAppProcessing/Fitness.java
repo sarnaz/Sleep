@@ -246,15 +246,15 @@ public class Fitness {
             httpCon.setDoOutput(true);
 
             Scanner scanner = new Scanner(httpCon.getInputStream());
-            String output = "";
+            StringBuilder output = new StringBuilder();
 
             while(scanner.hasNext()) {
-                output = output + scanner.nextLine();
+                output.append(scanner.nextLine());
             }
 
 
-            if(!output.equals("")) {
-                String[] dividedOutput = output.split(",\"");
+            if(!output.toString().equals("")) {
+                String[] dividedOutput = output.toString().split(",\"");
                 //allows me to find the correct pieces of data
 
                 int plusOrMinus;
