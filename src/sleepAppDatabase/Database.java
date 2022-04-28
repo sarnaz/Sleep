@@ -29,7 +29,6 @@ public class Database {
     public static boolean setGoals(String targetColumn, int value) {
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
-
             if (conn != null) {
 
                 String addStatement = "UPDATE GOALS SET " + targetColumn + "=" + value + " WHERE id="+id;
@@ -252,7 +251,6 @@ public class Database {
 
             String sql = "SELECT units, caffeine, cupsOfWater FROM FLUID WHERE addDate="+ addDate.getTime() + " and id="+id;
             ResultSet rs = stmt.executeQuery(sql);
-            System.out.println(sql);
             if(rs.next()){
                 values[1][0] = rs.getInt((String)values[0][0]);
                 values[1][1] = rs.getInt((String)values[0][1]);
@@ -269,19 +267,16 @@ public class Database {
             sql = "SELECT stressLevel FROM STRESS where addDate="+addDate.getTime() +" and id="+id;
             rs = stmt.executeQuery(sql);
             if(rs.next()){
-                System.out.println("B");
                 values[1][6] = rs.getInt((String)values[0][6]);
             }
             sql = "SELECT screenTime FROM SCREENTIME where addDate="+addDate.getTime() +" and id="+id;
             rs = stmt.executeQuery(sql);
             if(rs.next()){
-                System.out.println("C");
                 values[1][7] = rs.getInt((String)values[0][7]);
             }
             sql = "SELECT exerciseTime FROM FITNESS where addDate="+addDate.getTime() +" and id="+id;
             rs = stmt.executeQuery(sql);
             if(rs.next()){
-                System.out.println("D");
                 values[1][8] = rs.getInt((String)values[0][8]);
             }
 
@@ -304,7 +299,6 @@ public class Database {
                 int day = Calendar.getInstance().get(Calendar.DATE);
                 int month = Calendar.getInstance().get(Calendar.MONTH);
                 int year = Calendar.getInstance().get(Calendar.YEAR);
-                System.out.println(Date.valueOf(year+"-"+month+"-"+day).getTime());
 
                 String sql = "UPDATE USER SET lastQuestionTime="+Date.valueOf(year+"-"+month+"-"+day).getTime()+" WHERE id="+id;
                 stmt.executeUpdate(sql);
@@ -352,8 +346,17 @@ public class Database {
                 String sql = "INSERT INTO SLEEP (id, sleepTime, timeToSleep, sleepQuality, addDate) VALUES("+id+","
                         +sleepTime+","+timeToSleep + ", " + sleepQuality+ ", "+addDate.getTime()+")";
                 Statement stmt = conn.createStatement();
-                stmt.executeUpdate(sql);
 
+                sql = "SELECT points FROM USER WHERE id="+id;
+                ResultSet rs = stmt.executeQuery(sql);
+                int points = 0;
+                if(rs.next()){
+                    points = rs.getInt("points");
+                    sql = "UPDATE USER SET points="+(points+sleepTime)+" WHERE id="+id;
+                    stmt.executeUpdate(sql);
+                }
+
+                stmt.executeUpdate(sql);
                 checkStreak(sleepTime);
                 //calls the checkStreak function to validate those details
 
@@ -709,7 +712,8 @@ public class Database {
                 "  weight INT(3) not NULL DEFAULT 72,\n" +
                 "  height INT(3) not null DEFAULT 174,\n" +
                 "  dateOfBirth DATE not null DEFAULT \"2002-1-1\",\n" +
-                "  lastQuestionTime INT(13) not null DEFAULT 1647561600000\n" +
+                "  lastQuestionTime INT(13) not null DEFAULT 1647561600000,\n" +
+                "  points INT(15) not null DEFAULT 0\n" +
                 ");",
 
                 "CREATE TABLE FLUID (\n" +
@@ -806,6 +810,10 @@ public class Database {
         }
 
         return goals;
+    }
+
+    public static int getPoints(){
+        return getUserIntVariable("points");
     }
 
     //checks if users already exist. If none exist, returns false, otherwise returns true.
