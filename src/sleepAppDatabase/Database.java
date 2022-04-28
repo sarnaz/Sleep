@@ -345,6 +345,7 @@ public class Database {
                 String sql = "INSERT INTO SLEEP (id, sleepTime, timeToSleep, sleepQuality, addDate) VALUES("+id+","
                         +sleepTime+","+timeToSleep + ", " + sleepQuality+ ", "+addDate.getTime()+")";
                 Statement stmt = conn.createStatement();
+                stmt.executeUpdate(sql);
 
                 sql = "SELECT points FROM USER WHERE id="+id;
                 ResultSet rs = stmt.executeQuery(sql);
@@ -355,7 +356,6 @@ public class Database {
                     stmt.executeUpdate(sql);
                 }
 
-                stmt.executeUpdate(sql);
                 checkStreak(sleepTime);
                 //calls the checkStreak function to validate those details
 
