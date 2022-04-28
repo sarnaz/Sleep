@@ -5,6 +5,7 @@ import sleepAppGUI.interaction.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MoreInfoPage extends UIViewPage {
 
@@ -113,6 +114,10 @@ public class MoreInfoPage extends UIViewPage {
 
         new MyButton(page, "submit", new int[]{650, 510}, new int[]{750, 560}, "submitButton"){
             public void isClicked() {
+                if (Objects.equals(heightInput.getText(), "") || Objects.equals(weightInput.getText(), "")) {
+                    return;
+                }
+
                 Database.setUserHeight(Integer.parseInt(heightInput.getText()));
                 Database.setUserWeight(Integer.parseInt(weightInput.getText()));
                 Object[][] new_factors = Database.getFactorArray();
