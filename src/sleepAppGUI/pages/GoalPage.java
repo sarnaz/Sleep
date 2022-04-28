@@ -58,7 +58,7 @@ public class GoalPage extends UIViewPage {
         // Sleep
         MyImage.putImage(page, new int[]{295, 172}, 50, "bed_icon");
         MyText.putTextCentred(page, new int[]{323, 150}, 18, "Sleep", Color.black, "Helvetica", Font.BOLD);
-        if (DailyQData_array[1][2] != null) {
+        if (DailyQData_array[1][3] != null) {
             MyText.putTextCentred(page, new int[]{323, 200}, 30, DailyQData_array[1][3] + " / " + Goal_array[1][1], calculateColour("maximise", Goal_array[1][1], DailyQData_array[1][3]));
         } else {
             MyText.putTextCentred(page, new int[]{323, 200}, 30, "Disabled", Color.black);
