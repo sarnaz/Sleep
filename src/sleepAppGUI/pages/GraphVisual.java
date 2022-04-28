@@ -34,8 +34,9 @@ public class GraphVisual extends UIViewPage {
             }
         };
         MyBar water_bar = new MyBar(page, new int[] {15,20}, new int[] {255,200});
+        water_bar.setGraphScale(20);
         Calendar calendar = Calendar.getInstance();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 4; i >= 0; i--) {
             int year=calendar.get(Calendar.YEAR);
             int month=calendar.get(Calendar.MONTH)+1;
             int day= calendar.get(Calendar.DATE)-1;
@@ -43,7 +44,7 @@ public class GraphVisual extends UIViewPage {
             if (data[1][2]!=null){
                 int j = (int) data[1][2];
                 double d = 1.0*j;
-                water_bar.addPoint(dayofweek[day%7],d);
+                water_bar.addPoint(dayofweek[7 - (day % 7)],d);
             }
             calendar.add(Calendar.DATE,-1);
         }
@@ -60,8 +61,9 @@ public class GraphVisual extends UIViewPage {
         };
 
         MyBar exercise_bar = new MyBar(page, new int[] {275,20}, new int[] {515,200});
+        exercise_bar.setGraphScale(300);
         calendar = Calendar.getInstance();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 4; i >= 0; i--) {
             int year=calendar.get(Calendar.YEAR);
             int month=calendar.get(Calendar.MONTH)+1;
             int day= calendar.get(Calendar.DATE)-1;
@@ -69,7 +71,7 @@ public class GraphVisual extends UIViewPage {
             if (data[1][8]!=null){
                 int j = (int) data[1][8];
                 double d = 1.0*j;
-                exercise_bar.addPoint(dayofweek[day%7],d);
+                exercise_bar.addPoint(dayofweek[7 - (day % 7)],d);
             }
             calendar.add(Calendar.DATE,-1);
         }
@@ -85,8 +87,9 @@ public class GraphVisual extends UIViewPage {
             }
         };
         MyBar screen_bar = new MyBar(page, new int[] {535, 20}, new int[] {775, 200});
+        screen_bar.setGraphScale(300);
         calendar = Calendar.getInstance();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 4; i >= 0; i--) {
             int year=calendar.get(Calendar.YEAR);
             int month=calendar.get(Calendar.MONTH)+1;
             int day= calendar.get(Calendar.DATE)-1;
@@ -94,7 +97,7 @@ public class GraphVisual extends UIViewPage {
             if (data[1][7]!=null){
                 int j = (int) data[1][7];
                 double d = 1.0*j;
-                screen_bar.addPoint(dayofweek[day%7],d);
+                screen_bar.addPoint(dayofweek[7 - (day % 7)],d);
             }
             calendar.add(Calendar.DATE,-1);
         }
@@ -111,8 +114,9 @@ public class GraphVisual extends UIViewPage {
             }
         };
         MyBar alcohol_bar = new MyBar(page, new int[] {15, 260}, new int[] {255, 445});
+        alcohol_bar.setGraphScale(10);
         calendar = Calendar.getInstance();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 4; i >= 0; i--) {
             int year=calendar.get(Calendar.YEAR);
             int month=calendar.get(Calendar.MONTH)+1;
             int day= calendar.get(Calendar.DATE)-1;
@@ -120,7 +124,7 @@ public class GraphVisual extends UIViewPage {
             if (data[1][0]!=null){
                 int j = (int) data[1][0];
                 double d = 1.0*j;
-                alcohol_bar.addPoint(dayofweek[day%7],d);
+                alcohol_bar.addPoint(dayofweek[7 - (day % 7)],d);
             }
             calendar.add(Calendar.DATE,-1);
         }
@@ -138,8 +142,9 @@ public class GraphVisual extends UIViewPage {
         };
 
         MyBar caffeine_bar = new MyBar(page, new int[] {275,260}, new int[] {515,445});
+        caffeine_bar.setGraphScale(500);
         calendar = Calendar.getInstance();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 4; i >= 0; i--) {
             int year=calendar.get(Calendar.YEAR);
             int month=calendar.get(Calendar.MONTH)+1;
             int day= calendar.get(Calendar.DATE)-1;
@@ -147,7 +152,7 @@ public class GraphVisual extends UIViewPage {
             if (data[1][1]!=null){
                 int j = (int) data[1][1];
                 double d = 1.0*j;
-                caffeine_bar.addPoint(dayofweek[day%7],d);
+                caffeine_bar.addPoint(dayofweek[7 - (day % 7)],d);
             }
 
             calendar.add(Calendar.DATE,-1);
@@ -166,16 +171,17 @@ public class GraphVisual extends UIViewPage {
             }
         };
         MyBar stress_bar = new MyBar(page, new int[] {535,260}, new int[] {775,445});
+        stress_bar.setGraphScale(500);
         calendar = Calendar.getInstance();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 4; i >= 0; i--) {
             int year=calendar.get(Calendar.YEAR);
             int month=calendar.get(Calendar.MONTH)+1;
             int day= calendar.get(Calendar.DATE)-1;
             Object[][] data = Database.getDataForDate(year,month,day);
-            if (data[1][1]!=null){
-                int j = (int) data[1][1];
+            if (data[1][7]!=null){
+                int j = (int) data[1][7];
                 double d = 1.0*j;
-                stress_bar.addPoint(dayofweek[day%7],d);
+                stress_bar.addPoint(dayofweek[7 - (day % 7)],d);
             }
             calendar.add(Calendar.DATE,-1);
         }
