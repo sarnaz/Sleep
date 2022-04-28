@@ -65,19 +65,19 @@ public class SleepQuestions extends QuestionsPage {
                     // display the next page
                     Object[][] factors_chosen = Database.getFactorArray();
                     Database.getFactors();
-                    if (!(Boolean) factors_chosen[1][0]){
+                    if ((Boolean) factors_chosen[1][0]){
                         SleepQuestions.this.push(new CaffeineQuestions());
                     }
-                    else if (!(Boolean)factors_chosen[1][1]){
+                    else if ((Boolean)factors_chosen[1][1]){
                         SleepQuestions.this.push(new AlcoholQuestions());
                     }
-                    else if (!(Boolean)factors_chosen[1][2]){
+                    else if ((Boolean)factors_chosen[1][2]){
                         SleepQuestions.this.push(new ExerciseQuestions());
                     }
-                    else if (!(Boolean)factors_chosen[1][3]){
+                    else if ((Boolean)factors_chosen[1][3]){
                         SleepQuestions.this.push(new StressQuestions());
                     }
-                    else if (!(Boolean)factors_chosen[1][4]){
+                    else if ((Boolean)factors_chosen[1][4]){
                         SleepQuestions.this.push(new WaterQuestions());
                     }
                     else{

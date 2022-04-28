@@ -50,7 +50,7 @@ public class WaterQuestions extends QuestionsPage {
                     int date = calendar.get(Calendar.DAY_OF_MONTH);
                     Database.addWaterEntry(totCups, date, month, year);
                     Object[][] factors_chosen = Database.getFactorArray();
-                    if (!(Boolean) factors_chosen[1][5]){
+                    if ((Boolean) factors_chosen[1][5]){
                         WaterQuestions.this.push(new ScreenTimeQuestions());
                     }
                     else {
