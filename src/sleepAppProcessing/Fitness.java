@@ -227,7 +227,7 @@ public class Fitness {
     /*
        retrieves activity length for all activites on a given day
     */
-    public void addActivityData(int day, int month, int year, int id) {
+    public void addActivityData(int id, int day, int month, int year) {
 
         int totalActivityTime = 0;
         long time = Date.valueOf(year+"-"+month+"-"+day).getTime();
