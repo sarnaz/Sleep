@@ -19,13 +19,6 @@ abstract public class GraphPage extends UIViewPage {
         new MyRectangle(page, new int[] {80, 100}, new int[] {640, 390}, 50, Color.white);
         new MyRectangle(page, new int[] {80, 100}, new int[] {640, 90}, 50, ColourPalette.foregroundColour);
 
-        new MyButton(page, "back", new int[]{240, 525}, new int[]{330, 555}, "home_button") {
-            public void isClicked() {
-                GraphPage.this.push(new HomePage());
-                System.out.println("Home Page");
-            }
-        };
-
         new MyButton(page, "back", new int[]{240, 525}, new int[]{330, 555}, "back_button") {
             public void isClicked() {
                 GraphPage.this.push(new GraphVisual());
