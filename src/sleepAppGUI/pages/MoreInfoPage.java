@@ -3,6 +3,7 @@ package sleepAppGUI.pages;
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class MoreInfoPage extends UIViewPage {
@@ -21,10 +22,12 @@ public class MoreInfoPage extends UIViewPage {
     @Override
     protected void setUp(Page page) {
         // ADD THINGS TO SECOND PAGE
-        new MyImage(page, new int[] {150, 15}, new int[] {650, 560}, "box_behind", true);
+        //new MyImage(page, new int[] {150, 15}, new int[] {650, 560}, "box_behind", true);
+        MyImage.putImage(page, new int[] {25, 170}, 750, "logo");
+        new MyRectangle(page, new int[] {150, 15}, new int[] {500, 545}, 20, new Color(0xD0271649, true));
 
         // height
-        new MyText(page, new int[] {275, 50}, new int[] {290, 70}, "Height:");
+        new MyText(page, new int[] {275, 50}, new int[] {290, 70}, "Height:", Color.white);
         MyTextField heightInput = new MyTextField(main, page, new int[] {282, 60}, new int[] {318, 85});
         new MyText(page, new int[] {320, 77}, new int[]{335, 92}, "cm");
 
@@ -64,6 +67,7 @@ public class MoreInfoPage extends UIViewPage {
          new MyButton(page, "water", new int[]{200, 190}, new int[]{400, 300}, "water") {
             public void isClicked() {
                 waterClicked.setVisible(!waterClicked.isVisible());
+                this.toggleVisible();
             }
         };
 
@@ -71,6 +75,7 @@ public class MoreInfoPage extends UIViewPage {
         new MyButton(page, "exercise", new int[]{410, 190}, new int[]{610, 300}, "exercise") {
             public void isClicked() {
                 exerciseClicked.setVisible(!exerciseClicked.isVisible());
+                this.toggleVisible();
             }
         };
 
@@ -78,6 +83,7 @@ public class MoreInfoPage extends UIViewPage {
         new MyButton(page, "screenTime", new int[]{200, 305}, new int[]{400, 415}, "screentime") {
             public void isClicked() {
                 screenTimeClicked.setVisible(!screenTimeClicked.isVisible());
+                this.toggleVisible();
             }
         };
 
@@ -85,6 +91,7 @@ public class MoreInfoPage extends UIViewPage {
         new MyButton(page, "alcohol", new int[]{410, 305}, new int[]{610, 415}, "alcohol") {
             public void isClicked() {
                 alcoholClicked.setVisible(!alcoholClicked.isVisible());
+                this.toggleVisible();
             }
         };
 
@@ -92,6 +99,7 @@ public class MoreInfoPage extends UIViewPage {
         new MyButton(page, "stress", new int[]{200, 420}, new int[]{400, 530}, "stress") {
             public void isClicked() {
                 stressClicked.setVisible(!stressClicked.isVisible());
+                this.toggleVisible();
             }
         };
 
@@ -99,31 +107,32 @@ public class MoreInfoPage extends UIViewPage {
         new MyButton(page, "caffeine", new int[]{410, 420}, new int[]{610, 530}, "caffeine") {
             public void isClicked() {
                 caffeineClicked.setVisible(!caffeineClicked.isVisible());
+                this.toggleVisible();
             }
         };
 
-        new MyButton(page, "submit", new int[]{650, 510}, new int[]{750, 550}, "submitButton"){
+        new MyButton(page, "submit", new int[]{650, 510}, new int[]{750, 560}, "submitButton"){
             public void isClicked() {
                 Database.setUserHeight(Integer.parseInt(heightInput.getText()));
                 Database.setUserWeight(Integer.parseInt(weightInput.getText()));
                 Object[][] new_factors = Database.getFactorArray();
-                ArrayList<String> factors_chosen = new ArrayList<String>();
-                if(caffeineClicked.isVisible()==true) {
+                ArrayList<String> factors_chosen = new ArrayList<>();
+                if(caffeineClicked.isVisible()) {
                     factors_chosen.add("caffeine");
                 }
-                if(alcoholClicked.isVisible()==true) {
+                if(alcoholClicked.isVisible()) {
                     factors_chosen.add("alcohol");
                 }
-                if(exerciseClicked.isVisible()==true) {
+                if(exerciseClicked.isVisible()) {
                     factors_chosen.add("fitness");
                 }
-                if(stressClicked.isVisible()==true) {
+                if(stressClicked.isVisible()) {
                     factors_chosen.add("stress");
                 }
-                if(waterClicked.isVisible()==true) {
+                if(waterClicked.isVisible()) {
                     factors_chosen.add("water");
                 }
-                if(screenTimeClicked.isVisible()==true) {
+                if(screenTimeClicked.isVisible()) {
                     factors_chosen.add("screenTime");
                 }
                 if(factors_chosen.size() < 3){

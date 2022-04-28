@@ -1,7 +1,6 @@
 package sleepAppGUI.interaction;
 
-import sleepAppGUI.pages.SignInPage;
-import sleepAppGUI.pages.SignUpPage;
+import sleepAppGUI.pages.*;
 import sleepAppGUI.visuals.*;
 
 import java.awt.*;
@@ -30,13 +29,12 @@ public class Page
 
     private final int pageNumber;
     private final Color backgroundColour;
-    private ArrayList<VObject> visualObjects = new ArrayList<>();
-    private ArrayList<MyButton> buttons = new ArrayList<>();
-    private ArrayList<MySlider> sliders = new ArrayList<>();
-    private ArrayList<MyTextField> textFields = new ArrayList<>();
+    private final ArrayList<VObject> visualObjects = new ArrayList<>();
+    private final ArrayList<MyButton> buttons = new ArrayList<>();
+    private final ArrayList<MySlider> sliders = new ArrayList<>();
+    private final ArrayList<MyTextField> textFields = new ArrayList<>();
 
-    public void pushToFront(VObject o)
-    {
+    public void pushToFront(VObject o) {
         visualObjects.remove(o);
         visualObjects.add(o);
     }
@@ -128,12 +126,12 @@ public class Page
     }
 
     public static void setUpPages(Main main) {
-        UIStoryboard storyboard = new UIStoryboard(main);
+        UIStoryboard storyboard = new UIStoryboard(main, ColourPalette.backgroundColour);
 
         if (!Database.databaseExists()) {
         	Database.initialiseDatabase();
         }
-        
+
         if (Database.checkForUsers()) {
             storyboard.present(new SignInPage());
         } else {

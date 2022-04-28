@@ -7,16 +7,24 @@ import java.io.IOException;
 
 public class MyButton extends VObject
 {
-    private String buttonName; //redundant????
-    private String buttonImage;
+    private final String buttonName; //redundant????
+    private final String buttonImage;
 
-    public MyButton(Page page, String bbuttonName, int[] coordinate1, int[] coordinate2, String imageName)
+    public MyButton(Page page, String buttonName, int[] coordinate1, int[] coordinate2, String imageName)
     {
         super(page, coordinate1, coordinate2, true);
         page.addButton(this);
-        buttonName = bbuttonName;
+        this.buttonName = buttonName;
         buttonImage = imageName;
     }
+
+    public MyButton(Page page, String buttonName, Rectangle rectangle, String imageName) {
+        super(page, new int[] {rectangle.x, rectangle.y}, new int[] {rectangle.x + rectangle.width, rectangle.y + rectangle.height}, true);
+        page.addButton(this);
+        this.buttonName = buttonName;
+        buttonImage = imageName;
+    }
+
 
     public boolean onButton(int[] coordinates)
     {
@@ -24,6 +32,10 @@ public class MyButton extends VObject
                  (coordinates[0] >= corner2[0] && coordinates[0] <= corner1[0]) ) &&
                 ((coordinates[1] >= corner1[1] && coordinates[1] <= corner2[1]) ||
                  (coordinates[1] >= corner2[1] && coordinates[1] <= corner1[1]) )   );
+    }
+
+    public void toggleVisible() {
+        this.setVisible(!this.isVisible());
     }
 
     public void isClicked()

@@ -13,13 +13,13 @@ public class AlcoholQuestions extends QuestionsPage {
     protected void setUp(Page page) {
         super.setUp(page);
 
-        new MyImage(page, new int[] {185, 15}, new int[] {330, 160}, "alcoholLogo", true);
+        MyImage.putImage(page, new int[] {245, 15}, 100, "alcoholLogo");
 
         //MyImage yesClicked = new MyImage(page, new int []{325, 230}, new int[] {375, 265}, "yesButton", false);
         //MyImage noClicked = new MyImage(page, new int[] {425, 230}, new int[] {475, 265}, "noButton", false);
 
         // did you drink alcohol?
-        new MyText(page, new int[] {245, 220}, new int[] {270, 240}, "Have you consumed alcohol?");
+        MyText.putTextCentred(page, new int[] {400, 210}, 20, "Have you consumed alcohol?");
         new MyButton(page, "yes", new int[] {325, 230}, new int[] {375, 265}, "yesUnclicked") {
             public void isClicked() {
                 AlcoholQuestions.this.push(new AlcoholYes());

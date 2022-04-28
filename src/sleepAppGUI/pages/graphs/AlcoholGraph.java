@@ -1,7 +1,14 @@
 package sleepAppGUI.pages.graphs;
 
-import sleepAppGUI.interaction.MyImage;
+import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.Page;
+import sleepAppGUI.interaction.graphs.MyBar;
+import sleepAppGUI.interaction.*;
+import sleepAppGUI.interaction.graphs.MyScatter;
+
+import java.awt.*;
+import java.util.*;
+
 
 public class AlcoholGraph extends GraphPage {
 
@@ -12,9 +19,29 @@ public class AlcoholGraph extends GraphPage {
 
     @Override
     protected void setUp(Page page) {
-        new MyImage(page, new int[] {20, 100}, new int[] {760, 500}, "box_behind", true);
-        new MyImage(page, new int[] {300, 10}, new int[] {500, 100}, "alcohol", true);
-
         super.setUp(page);
+
+        MyText.putText(page, new int[] {110, 158}, 40, "Alcohol", Color.white, "Helvetica", Font.BOLD);
+
+        MyBar alcohol_bar = new MyBar(page, new int[] {80,200}, new int[] {380,450});
+        MyScatter alcohol_scatter = new MyScatter(page, new int[] {400,200}, new int[] {700,450});
+        calendar = Calendar.getInstance();
+        for (int i = 0; i < 5; i++) {
+            int year=calendar.get(Calendar.YEAR);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
+            Object[][] data = Database.getDataForDate(year,month,day);
+            if (data[1][0]!=null){
+                int j = (int) data[1][0];
+                double d = 1.0*j;
+                alcohol_bar.addPoint(dayOfWeek[day%7],d);
+                if (data[1][3]!=null){
+                    int k = (int) data[1][3];
+                    double e = 1.0*k;
+                    alcohol_scatter.addPoint(d,e);
+                }
+            }
+            calendar.add(Calendar.DATE,-1);
+        }
     }
 }

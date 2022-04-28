@@ -1,10 +1,13 @@
 package sleepAppGUI.pages;
 
-import sleepAppGUI.interaction.MyButton;
-import sleepAppGUI.interaction.MyImage;
-import sleepAppGUI.interaction.Page;
-import sleepAppGUI.interaction.UIViewPage;
+import sleepAppDatabase.Database;
+import sleepAppGUI.interaction.*;
+import sleepAppGUI.interaction.graphs.MyBar;
 import sleepAppGUI.pages.graphs.*;
+import sleepAppGUI.visuals.ColourPalette;
+
+import java.awt.*;
+import java.util.Calendar;
 
 public class GraphVisual extends UIViewPage {
     @Override
@@ -19,21 +22,36 @@ public class GraphVisual extends UIViewPage {
 
     @Override
     protected void setUp(Page page) {
-        MyImage water_frame = new MyImage(page, new int[] {10, 10}, new int[] {260, 265}, "box_behind", true);
-        MyImage water = new MyImage(page, new int[] {60, 220}, new int[] {100, 260}, "waternotext", true);
-        MyButton waterbutton = new MyButton(page, "water", new int[] {110, 220}, new int[] {220, 255}, "moreinfo")
-        {
-            public void isClicked()
-            {
+        String[] dayofweek = {"Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"};
+
+        new MyRectangle(page, new int[] {10, 10}, new int[] {250, 235}, 20, ColourPalette.foregroundColour);
+        MyImage.putImage(page, new int[] {24, 205}, 30, "waternotext");
+        MyText.putText(page, new int[] {65, 230}, new int[] {200, 18}, "Water", Color.white, "Helvetica", Font.BOLD);
+        new MyButton(page, "water", new Rectangle(142, 208, 110, 31), "moreinfo") {
+            public void isClicked() {
                 GraphVisual.this.push(new WaterGraph());
                 System.out.println("water graph");
             }
         };
+        MyBar water_bar = new MyBar(page, new int[] {15,20}, new int[] {255,200});
+        Calendar calendar = Calendar.getInstance();
+        for (int i = 0; i < 3; i++) {
+            int year=calendar.get(Calendar.YEAR);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
+            Object[][] data = Database.getDataForDate(year,month,day);
+            if (data[1][2]!=null){
+                int j = (int) data[1][2];
+                double d = 1.0*j;
+                water_bar.addPoint(dayofweek[day%7],d);
+            }
+            calendar.add(Calendar.DATE,-1);
+        }
 
-        MyImage exercise_frame = new MyImage(page, new int[] {270, 10}, new int[] {520, 265}, "box_behind", true);
-        MyImage exercise = new MyImage(page, new int[] {320, 220}, new int[] {360, 260}, "exercisenotext", true);
-        MyButton exercisebutton = new MyButton(page, "exercise", new int[] {370, 220}, new int[] {480, 255}, "moreinfo")
-        {
+        new MyRectangle(page, new int[] {270, 10}, new int[] {250, 235}, 20, ColourPalette.foregroundColour);
+        MyImage.putImage(page, new int[] {284, 205}, 30, "exercisenotext");
+        MyText.putText(page, new int[] {322, 230}, new int[] {200, 18}, "Exercise", Color.white, "Helvetica", Font.BOLD);
+        new MyButton(page, "exercise", new Rectangle(402, 208, 110, 31), "moreinfo") {
             public void isClicked()
             {
                 GraphVisual.this.push(new ExerciseGraph());
@@ -41,20 +59,50 @@ public class GraphVisual extends UIViewPage {
             }
         };
 
-        MyImage screentime_frame = new MyImage(page, new int[] {530, 10}, new int[] {780, 265}, "box_behind", true);
-        MyImage screentime = new MyImage(page, new int[] {580, 220}, new int[] {620, 260}, "screentimenotext", true);
-        MyButton screenbutton = new MyButton(page, "screen", new int[] {630, 220}, new int[] {740, 255}, "moreinfo")
-        {
+        MyBar exercise_bar = new MyBar(page, new int[] {275,20}, new int[] {515,200});
+        calendar = Calendar.getInstance();
+        for (int i = 0; i < 3; i++) {
+            int year=calendar.get(Calendar.YEAR);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
+            Object[][] data = Database.getDataForDate(year,month,day);
+            if (data[1][8]!=null){
+                int j = (int) data[1][8];
+                double d = 1.0*j;
+                exercise_bar.addPoint(dayofweek[day%7],d);
+            }
+            calendar.add(Calendar.DATE,-1);
+        }
+
+        new MyRectangle(page, new int[] {530, 10}, new int[] {250, 235}, 20, ColourPalette.foregroundColour);
+        MyImage.putImage(page, new int[] {544, 205}, 23, "screentimenotext");
+        MyText.putText(page, new int[] {585, 230}, new int[] {200, 18}, "Screen", Color.white, "Helvetica", Font.BOLD);
+        new MyButton(page, "screen", new Rectangle(662, 208, 110, 31), "moreinfo") {
             public void isClicked()
             {
                 GraphVisual.this.push(new ScreenTimeGraph());
                 System.out.println("screen graph");
             }
         };
+        MyBar screen_bar = new MyBar(page, new int[] {535, 20}, new int[] {775, 200});
+        calendar = Calendar.getInstance();
+        for (int i = 0; i < 3; i++) {
+            int year=calendar.get(Calendar.YEAR);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
+            Object[][] data = Database.getDataForDate(year,month,day);
+            if (data[1][7]!=null){
+                int j = (int) data[1][7];
+                double d = 1.0*j;
+                screen_bar.addPoint(dayofweek[day%7],d);
+            }
+            calendar.add(Calendar.DATE,-1);
+        }
 
-        MyImage alcohol_frame = new MyImage(page, new int[] {10, 270}, new int[] {260, 530}, "box_behind", true);
-        MyImage alcohol = new MyImage(page, new int[] {60, 485}, new int[] {100, 525}, "alcoholnotext", true);
-        MyButton alcoholbutton = new MyButton(page, "alcohol", new int[] {110, 485}, new int[] {220, 520}, "moreinfo")
+        new MyRectangle(page, new int[] {10, 250}, new int[] {250, 235}, 20, ColourPalette.foregroundColour);
+        MyImage.putImage(page, new int[] {24, 450}, 14, "alcoholnotext");
+        MyText.putText(page, new int[] {65, 472}, new int[] {200, 18}, "Alcohol", Color.white, "Helvetica", Font.BOLD);
+        new MyButton(page, "alcohol", new Rectangle(142, 450, 110, 31), "moreinfo")
         {
             public void isClicked()
             {
@@ -62,10 +110,25 @@ public class GraphVisual extends UIViewPage {
                 System.out.println("alcohol graph");
             }
         };
+        MyBar alcohol_bar = new MyBar(page, new int[] {15, 260}, new int[] {255, 445});
+        calendar = Calendar.getInstance();
+        for (int i = 0; i < 3; i++) {
+            int year=calendar.get(Calendar.YEAR);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
+            Object[][] data = Database.getDataForDate(year,month,day);
+            if (data[1][0]!=null){
+                int j = (int) data[1][0];
+                double d = 1.0*j;
+                alcohol_bar.addPoint(dayofweek[day%7],d);
+            }
+            calendar.add(Calendar.DATE,-1);
+        }
 
-        MyImage caffeine_frame = new MyImage(page, new int[] {270, 270}, new int[] {520, 530}, "box_behind", true);
-        MyImage caffeine = new MyImage(page, new int[] {320, 485}, new int[] {360, 525}, "caffeinenotext", true);
-        MyButton caffeinebutton = new MyButton(page, "caffeine", new int[] {370, 485}, new int[] {480, 520}, "moreinfo")
+        new MyRectangle(page, new int[] {270, 250}, new int[] {250, 235}, 20, ColourPalette.foregroundColour);
+        MyImage.putImage(page, new int[] {284, 445}, 30, "caffeinenotext");
+        MyText.putText(page, new int[] {322, 472}, new int[] {200, 18}, "Caffeine", Color.white, "Helvetica", Font.BOLD);
+        new MyButton(page, "caffeine", new Rectangle(402, 450, 110, 31), "moreinfo")
         {
             public void isClicked()
             {
@@ -74,32 +137,58 @@ public class GraphVisual extends UIViewPage {
             }
         };
 
-        MyImage stress_frame = new MyImage(page, new int[] {530, 270}, new int[] {780, 530}, "box_behind", true);
-        MyImage stress = new MyImage(page, new int[] {580, 485}, new int[] {620, 525}, "stressnotext", true);
-        MyButton stessbutton = new MyButton(page, "stress", new int[] {630, 485}, new int[] {740, 520}, "moreinfo")
-        {
+        MyBar caffeine_bar = new MyBar(page, new int[] {275,260}, new int[] {515,445});
+        calendar = Calendar.getInstance();
+        for (int i = 0; i < 3; i++) {
+            int year=calendar.get(Calendar.YEAR);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
+            Object[][] data = Database.getDataForDate(year,month,day);
+            if (data[1][1]!=null){
+                int j = (int) data[1][1];
+                double d = 1.0*j;
+                caffeine_bar.addPoint(dayofweek[day%7],d);
+            }
+
+            calendar.add(Calendar.DATE,-1);
+        }
+
+
+        new MyRectangle(page, new int[] {530, 250}, new int[] {250, 235}, 20, ColourPalette.foregroundColour);
+        MyImage.putImage(page, new int[] {544, 450}, 30, "stressnotext");
+        MyText.putText(page, new int[] {585, 472}, new int[] {200, 18}, "Stress", Color.white, "Helvetica", Font.BOLD);
+
+        new MyButton(page, "stress", new Rectangle(662, 450, 110, 31), "moreinfo") {
             public void isClicked()
             {
                 GraphVisual.this.push(new StressGraph());
                 System.out.println("stress graph");
             }
         };
+        MyBar stress_bar = new MyBar(page, new int[] {535,260}, new int[] {775,445});
+        calendar = Calendar.getInstance();
+        for (int i = 0; i < 3; i++) {
+            int year=calendar.get(Calendar.YEAR);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
+            Object[][] data = Database.getDataForDate(year,month,day);
+            if (data[1][1]!=null){
+                int j = (int) data[1][1];
+                double d = 1.0*j;
+                stress_bar.addPoint(dayofweek[day%7],d);
+            }
+            calendar.add(Calendar.DATE,-1);
+        }
 
-        MyButton homebutton = new MyButton(page, "home", new int[] {245, 240}, new int[] {290, 280}, "home")
-        {
-            public void isClicked()
-            {
+        new MyButton(page, "back", new int[] {100, 510}, new int[] {190, 540}, "back_button") {
+            public void isClicked() {
                 GraphVisual.this.push(new HomePage());
-                System.out.println("home");
+                System.out.println("Home Page");
             }
         };
-
-        MyButton settingsbutton = new MyButton(page, "setting", new int[] {505, 240}, new int[] {550, 285}, "setting")
-        {
-            public void isClicked()
-            {
+        new MyButton(page, "suggestions", new int[] {520, 510}, new int[] {662, 540}, "settings_button") {
+            public void isClicked() {
                 GraphVisual.this.push(new MoreInfoPage());
-                System.out.println("moreinfo");
             }
         };
     }

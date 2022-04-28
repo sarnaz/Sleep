@@ -3,6 +3,7 @@ package sleepAppDatabase;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.sql.*;
+import java.util.Calendar;
 import java.util.Random;
 import java.io.*;
 
@@ -30,15 +31,9 @@ public class Database {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
 
-
-
-                String addStatement = "UPDATE GOALS SET ?=? WHERE id=?";
-                PreparedStatement preparedAddStatement = conn.prepareStatement(addStatement);
-                preparedAddStatement.setString(1, targetColumn);
-                preparedAddStatement.setInt(2, value);
-                preparedAddStatement.setInt(3, id);
-
-                preparedAddStatement.execute();
+                String addStatement = "UPDATE GOALS SET " + targetColumn + "=" + value + " WHERE id="+id;
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(addStatement);
 
                 conn.close();
                 return true;
@@ -47,7 +42,12 @@ public class Database {
             System.out.println("exception was caught initialising database");
             System.out.println(e.getLocalizedMessage());
         }
+
         return false;
+    }
+
+    public static int getId(){
+        return id;
     }
 
     public static String getUsername() {
@@ -59,7 +59,9 @@ public class Database {
 
                 ResultSet rs = stmt.executeQuery(sql);
                 if(rs.next()){
-                    return rs.getString("name");
+                    String returnValue = rs.getString("name");
+                    conn.close();
+                    return returnValue;
                 }
             }
         }
@@ -74,18 +76,24 @@ public class Database {
     //does not increment the time. That is done once the questions have been answered
     //returns false if the daily questions have already been asked that day
     public static boolean askDailyQuestionsCheck(){
+
         try {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
                 Statement stmt = conn.createStatement();
-                String sql = "SELECT lastQuestionTime FROM USER";
+                String sql = "SELECT lastQuestionTime FROM USER WHERE id="+id;
                 ResultSet rs = stmt.executeQuery(sql);
+                int day = Calendar.getInstance().get(Calendar.DATE);
+                int month = Calendar.getInstance().get(Calendar.MONTH);
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+
                 if(rs.next()) {
-                    if((System.currentTimeMillis()/1000) - rs.getInt("lastQuestionTime") > secondsInDay){
-                    	conn.close();
+                    if(rs.getLong("lastQuestionTime")<Date.valueOf(year+"-"+month+"-"+day).getTime()){
+                        conn.close();
                         return true;
                     }
                 } else {
+                    conn.close();
                     System.out.println("no previous time found");
                 }
             }
@@ -96,6 +104,29 @@ public class Database {
             System.out.println(e.getLocalizedMessage());
         }
         return false;
+    }
+
+    public static int getStreak(){
+        try {
+            Connection conn = DriverManager.getConnection(databaseURL);
+
+            if (conn != null) {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT streakLength FROM GOALS WHERE id="+id;
+                ResultSet rs = stmt.executeQuery(sql);
+                if(rs.next()) {
+                    int sleepStreak = rs.getInt("streakLength");
+                    conn.close();
+                    return sleepStreak;
+                }
+            }
+            assert conn != null;
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("exception caught fetching streak");
+            System.out.println(e.getLocalizedMessage());
+        }
+        return 0;
     }
 
     //gets a list of the factors in use, with boolean variables attached to each indicating whether they are being used
@@ -219,7 +250,6 @@ public class Database {
 
             String sql = "SELECT units, caffeine, cupsOfWater FROM FLUID WHERE addDate="+ addDate.getTime() + " and id="+id;
             ResultSet rs = stmt.executeQuery(sql);
-            System.out.println(sql);
             if(rs.next()){
                 values[1][0] = rs.getInt((String)values[0][0]);
                 values[1][1] = rs.getInt((String)values[0][1]);
@@ -236,19 +266,16 @@ public class Database {
             sql = "SELECT stressLevel FROM STRESS where addDate="+addDate.getTime() +" and id="+id;
             rs = stmt.executeQuery(sql);
             if(rs.next()){
-                System.out.println("B");
                 values[1][6] = rs.getInt((String)values[0][6]);
             }
             sql = "SELECT screenTime FROM SCREENTIME where addDate="+addDate.getTime() +" and id="+id;
             rs = stmt.executeQuery(sql);
             if(rs.next()){
-                System.out.println("C");
                 values[1][7] = rs.getInt((String)values[0][7]);
             }
             sql = "SELECT exerciseTime FROM FITNESS where addDate="+addDate.getTime() +" and id="+id;
             rs = stmt.executeQuery(sql);
             if(rs.next()){
-                System.out.println("D");
                 values[1][8] = rs.getInt((String)values[0][8]);
             }
 
@@ -267,23 +294,13 @@ public class Database {
             Connection conn = DriverManager.getConnection(databaseURL);
             if (conn != null) {
                 Statement stmt = conn.createStatement();
-                String sql = "SELECT * FROM USER";
-                ResultSet rs = stmt.executeQuery(sql);
 
-                if (rs.getInt("lastQuestionDay") - (System.currentTimeMillis() / 1000) > secondsInDay) {
+                int day = Calendar.getInstance().get(Calendar.DATE);
+                int month = Calendar.getInstance().get(Calendar.MONTH);
+                int year = Calendar.getInstance().get(Calendar.YEAR);
 
-                    int newTime = rs.getInt("lastQuestionDay");
-
-                    while (newTime < (System.currentTimeMillis() / 1000)) {
-                        newTime += secondsInDay;
-                        //adds millis in the day until newTime is accurate to the current day
-                    }
-
-                    String updateDate = "UPDATE USER SET lastQuestionTime=" + newTime + " WHERE id="+id;
-                    stmt.executeUpdate(updateDate);
-                    //should update the date in the database so
-
-                }
+                String sql = "UPDATE USER SET lastQuestionTime="+Date.valueOf(year+"-"+month+"-"+day).getTime()+" WHERE id="+id;
+                stmt.executeUpdate(sql);
 
                 conn.close();
             }
@@ -328,8 +345,17 @@ public class Database {
                 String sql = "INSERT INTO SLEEP (id, sleepTime, timeToSleep, sleepQuality, addDate) VALUES("+id+","
                         +sleepTime+","+timeToSleep + ", " + sleepQuality+ ", "+addDate.getTime()+")";
                 Statement stmt = conn.createStatement();
-                stmt.executeUpdate(sql);
 
+                sql = "SELECT points FROM USER WHERE id="+id;
+                ResultSet rs = stmt.executeQuery(sql);
+                int points = 0;
+                if(rs.next()){
+                    points = rs.getInt("points");
+                    sql = "UPDATE USER SET points="+(points+sleepTime)+" WHERE id="+id;
+                    stmt.executeUpdate(sql);
+                }
+
+                stmt.executeUpdate(sql);
                 checkStreak(sleepTime);
                 //calls the checkStreak function to validate those details
 
@@ -373,7 +399,7 @@ public class Database {
                 sql = "SELECT streakLength FROM GOALS WHERE id="+id;
                 rs = stmt.executeQuery(sql);
                 if(rs.next()){
-                    currentStreak = rs.getInt("sleepStreak");
+                    currentStreak = rs.getInt("streakLength");
                 }
                 else{
                     throw new Exception("no sleep streak found");
@@ -574,7 +600,7 @@ public class Database {
                 return value;
             }
         } catch (SQLException e) {
-            System.out.println("exception caught when getting height");
+            System.out.println("exception caught when getting "+column);
             System.out.println(e.getLocalizedMessage());
         }
 
@@ -685,7 +711,8 @@ public class Database {
                 "  weight INT(3) not NULL DEFAULT 72,\n" +
                 "  height INT(3) not null DEFAULT 174,\n" +
                 "  dateOfBirth DATE not null DEFAULT \"2002-1-1\",\n" +
-                "  lastQuestionTime INT(13) not null DEFAULT 1648080000\n" +
+                "  lastQuestionTime INT(13) not null DEFAULT 1647561600000,\n" +
+                "  points INT(15) not null DEFAULT 0\n" +
                 ");",
 
                 "CREATE TABLE FLUID (\n" +
@@ -782,6 +809,10 @@ public class Database {
         }
 
         return goals;
+    }
+
+    public static int getPoints(){
+        return getUserIntVariable("points");
     }
 
     //checks if users already exist. If none exist, returns false, otherwise returns true.

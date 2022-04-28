@@ -3,6 +3,9 @@ package sleepAppGUI.pages;
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.questions.SleepQuestions;
+import sleepAppGUI.visuals.ColourPalette;
+
+import java.awt.*;
 
 public class HomePage extends UIViewPage {
 
@@ -18,22 +21,35 @@ public class HomePage extends UIViewPage {
 
     @Override
     protected void setUp(Page page) {
-        new MyImage(page, new int[] {150, 130}, new int[] {650, 530}, "home_page_layout", true);
-        new MyImage(page, new int[] {260, 30}, new int[] {560, 108}, "logo", true);
+        new MyRectangle(page, new int[] {151, 130}, new int[] {500, 400}, 40, Color.white);
+        new MyRectangle(page, new int[] {151, 130}, new int[] {500, 115}, 40, ColourPalette.foregroundColour);
+        new MyImage(page, new int[] {275, 30}, new int[] {530, 108}, "logo", true);
+        MyText.putText(page, new int[] {198, 210}, new int[] {200, 20}, "Let's check your activities", Color.white);
+
+        //new MyImage(page, new int[] {150, 130}, new int[] {650, 530}, "home_page_layout", true);
 
         // show male icon for men and female icon for women
-        new MyImage(page, new int[] {550, 157}, new int[] {610, 217}, "male_icon", true);
-        new MyImage(page, new int[] {550, 157}, new int[] {610, 217}, "female_icon", false);
+        new MyImage(page, new int[] {540, 137}, new int[] {640, 237}, "male_icon", true);
+        new MyImage(page, new int[] {540, 137}, new int[] {640, 237}, "female_icon", true);
 
         // display username
-        new MyText(page, new int[] {270, 178}, new int[] {320, 198}, "Username");
+        String username = Database.getUsername();
+        MyText.putText(page, new int[] {198, 180}, new int[] {300, 30}, "Hello, " + username, Color.white, "Helvetica", Font.BOLD);
 
         // buttons
-        if(Database.askDailyQuestionsCheck() == true) {
+        if (Database.askDailyQuestionsCheck()) {
             MyButton dailyQuestions = new MyButton(page, "dailyQuestions", new int[]{170, 260}, new int[]{404, 361}, "questions") {
                 public void isClicked() {
                     HomePage.this.push(new SleepQuestions());
                     System.out.println("Sleep questions");
+                }
+            };
+        }
+        else {
+            MyButton streaksPage = new MyButton(page, "streakButton", new int[]{170, 260}, new int[]{404, 361}, "streak"){
+                public void isClicked () {
+                    HomePage.this.push(new StreakPage());
+                    System.out.println("Streaks");
                 }
             };
         }

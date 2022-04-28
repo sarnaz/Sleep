@@ -158,4 +158,35 @@ public abstract class MyGraph extends VObject
     }
 
     public abstract boolean addPoint(Object xValue, Object yValue);
+
+    public static float pmcc(ArrayList<Double> listX, ArrayList<Double> listY)
+    {
+        return (float)( sAB(listX, listY) / Math.sqrt(sAB(listX, listX) * sAB(listY, listY)) );
+    }
+
+    public static double getGradient(ArrayList<Double> listX, ArrayList<Double> listY)
+    {
+        return sAB(listX, listY) / sAB(listX, listX);
+    }
+
+    public static double getIntercept(ArrayList<Double> listX, ArrayList<Double> listY)
+    {
+        return (sumOf(listY) / listY.size()) - (getGradient(listX, listY) * sumOf(listX) / listX.size());
+    }
+
+    private static double sAB(ArrayList<Double> listA, ArrayList<Double> listB)
+    {
+        if(listA.size() != listB.size()) { return 0; }
+        double sumAB = 0;
+        for(int i = 0; i < listA.size(); i++)
+        { sumAB += listA.get(i) * listB.get(i); }
+
+        return sumAB - (sumOf(listA) * sumOf(listB) / listA.size());
+    }
+    private static double sumOf(ArrayList<Double> list)
+    {
+        double sum = 0;
+        for(double d : list)  { sum += d; }
+        return sum;
+    }
 }

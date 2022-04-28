@@ -22,8 +22,8 @@ public class ScreenTimeQuestions extends QuestionsPage{
 
         new MyImage(page, new int[] {230, 15}, new int[] {330, 160}, "phoneLogo", true);
         // amount of screen time
-        new MyText(page, new int[] {190, 260}, new int[] {215, 280}, "How much time have you spent on a screen?");
-        new MyText(page, new int[] {290, 290}, new int[] {305, 310}, "(to the nearest hour)");
+        MyText.putTextCentred(page, new int[] {400, 260}, 20, "How much time have you spent on a screen?");
+        MyText.putTextCentred(page, new int[] {400, 290}, 20, "(to the nearest hour)");
         MyTextField screenHours = new MyTextField(main, page, new int[] {380, 300}, new int[] {420, 325});
 
         new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
@@ -39,7 +39,7 @@ public class ScreenTimeQuestions extends QuestionsPage{
                     System.out.println("Invalid");
                     valid = false;
                 }
-                if(valid == true){
+                if (valid){
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(new Date());
                     int year = calendar.get(Calendar.YEAR);
