@@ -5,6 +5,8 @@ import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.goals.*;
 import sleepAppGUI.visuals.ColourPalette;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
 import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,6 +16,20 @@ public class GoalPage extends UIViewPage {
     protected int pageNumber() {
         return 23;
     }
+    
+    private Color calculateColour(String type, Object target, Object actual) {
+    	int targetValue;
+    	int actualValue;
+    	try {
+    		targetValue = (int)target;
+    		actualValue = (int)actual;
+    	} catch (Exception e) {
+    		return Color.black;
+    	}
+    	if (targetValue == actualValue) return Color.green;
+    	return ( (targetValue < actualValue) == type.equals("maximise")) ? Color.GREEN : Color.RED;
+    }
+    
     @Override
     protected void setUp(Page page) {
         Calendar calendar = Calendar.getInstance();
@@ -34,38 +50,38 @@ public class GoalPage extends UIViewPage {
         // Water
         MyImage.putImage(page, new int[] {122, 160}, 50, "glass_icon");
         MyText.putTextCentred(page, new int[] {145, 150}, 18, "Water", Color.black, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {145, 200}, 30, DailyQData_array[1][2] + " / " + Goal_array[1][0], Color.black);
+        MyText.putTextCentred(page, new int[] {145, 200}, 30, DailyQData_array[1][2] + " / " + Goal_array[1][0], calculateColour("maximise", Goal_array[1][0], DailyQData_array[1][2]));
         // Sleep
         MyImage.putImage(page, new int[] {295, 172}, 50, "bed_icon");
         MyText.putTextCentred(page, new int[] {323, 150}, 18, "Sleep", Color.black, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {323, 200}, 30, DailyQData_array[1][3] + " / " + Goal_array[1][1], Color.black);
+        MyText.putTextCentred(page, new int[] {323, 200}, 30, DailyQData_array[1][3] + " / " + Goal_array[1][1], calculateColour("maximise", Goal_array[1][1], DailyQData_array[1][3]));
         // Stress
         MyImage.putImage(page, new int[] {559, 277}, 40, "stress_icon");
         MyText.putTextCentred(page, new int[] {579, 267}, 18, "Stress", Color.black, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {579, 310}, 30, DailyQData_array[1][6] + " / " + Goal_array[1][5], Color.black);
+        MyText.putTextCentred(page, new int[] {579, 310}, 30, DailyQData_array[1][6] + " / " + Goal_array[1][5], calculateColour("minimise", Goal_array[1][5], DailyQData_array[1][6]));
         // Exercise
         MyImage.putImage(page, new int[] {117, 350}, 60, "exercise_icon");
         MyText.putTextCentred(page, new int[] {145, 330}, 18, "Exercise", Color.black, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {145, 390}, 30, DailyQData_array[1][8] + " / " + Goal_array[1][2], Color.black);
+        MyText.putTextCentred(page, new int[] {145, 390}, 30, DailyQData_array[1][8] + " / " + Goal_array[1][2], calculateColour("maximise", Goal_array[1][2], DailyQData_array[1][8]));
         // Tea
         MyImage.putImage(page, new int[] {460, 390}, 210, "caffeine_icon");
         MyText.putTextCentred(page, new int[] {570, 384}, 14, "Tea", Color.black, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {570, 420}, 18, DailyQData_array[1][1] + " / " + Goal_array[1][7], Color.black);
+        MyText.putTextCentred(page, new int[] {570, 420}, 18, DailyQData_array[1][1] + " / " + Goal_array[1][7], calculateColour("minimise", Goal_array[1][7], DailyQData_array[1][1]));
         // Coffee
         MyText.putTextCentred(page, new int[] {477, 384}, 14, "Coffee", Color.black, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {477, 420},18, DailyQData_array[1][1] + " / " + Goal_array[1][6], Color.black);
+        MyText.putTextCentred(page, new int[] {477, 420},18, DailyQData_array[1][1] + " / " + Goal_array[1][6], calculateColour("minimise", Goal_array[1][6], DailyQData_array[1][1]));
         // Energy Drink
         MyText.putTextCentred(page, new int[] {658, 384}, 14, "Energy Drink", Color.black, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {658, 420}, 18, DailyQData_array[1][1] + " / " + Goal_array[1][8], Color.black);
+        MyText.putTextCentred(page, new int[] {658, 420}, 18, DailyQData_array[1][1] + " / " + Goal_array[1][8], calculateColour("minimise", Goal_array[1][8], DailyQData_array[1][1]));
         // Screen Time
         MyImage.putImage(page, new int[] {555, 157}, 60, "computer_icon");
         MyText.putTextCentred(page, new int[] {585, 147}, 18, "Screen Time", Color.black, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {585, 190}, 30, DailyQData_array[1][7] + " / " + Goal_array[1][4], Color.black);
+        MyText.putTextCentred(page, new int[] {585, 190}, 30, DailyQData_array[1][7] + " / " + Goal_array[1][4], calculateColour("minimise", Goal_array[1][4], DailyQData_array[1][7]));
         // Alcohol
         MyImage.putImage(page, new int[] {303, 340}, 50, "alcohol_icon");
         MyText.putTextCentred(page, new int[] {325, 330}, 18, "Alcohol", Color.black, "Helvetica", Font.BOLD);
 
-        MyText.putTextCentred(page, new int[] {325, 380}, 30, DailyQData_array[1][0] + " / " + Goal_array[1][3], Color.black);
+        MyText.putTextCentred(page, new int[] {325, 380}, 30, DailyQData_array[1][0] + " / " + Goal_array[1][3], calculateColour("minimise", Goal_array[1][3], DailyQData_array[1][0]));
 
         // buttons to edit goals
         new MyButton(page, "editWater", new int[]{70, 248}, new int[]{222, 271}, "edit_goal_1"){

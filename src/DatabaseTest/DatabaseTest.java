@@ -14,8 +14,6 @@ class DatabaseTest {
 	void test() {
 		
 		// https://www.w3schools.com/java/java_files_delete.asp
-		// I could look up how to do this myself
-
 		// delete the database file to get into an expected state - no database
 		
 		File f = new File("PI.db");
