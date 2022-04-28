@@ -80,6 +80,11 @@ public class GoalPage extends UIViewPage {
         // Tea
         MyImage.putImage(page, new int[] {460, 390}, 210, "caffeine_icon");
         MyText.putTextCentred(page, new int[] {570, 384}, 14, "Tea", Color.black, "Helvetica", Font.BOLD);
+
+        if (DailyQData_array[1][1] == null) {
+            DailyQData_array[1][1] = "000";
+        }
+
         MyText.putTextCentred(page, new int[] {570, 420}, 18, DailyQData_array[1][1].toString().toCharArray()[1] + " / " + Goal_array[1][7], calculateColour("minimise", Goal_array[1][7], DailyQData_array[1][1].toString().toCharArray()[1]));
         // Coffee
         MyText.putTextCentred(page, new int[] {477, 384}, 14, "Coffee", Color.black, "Helvetica", Font.BOLD);
