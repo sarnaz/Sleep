@@ -47,5 +47,9 @@ public class AlcoholGraph extends GraphPage {
             calendar.add(Calendar.DATE,-1);
         }
         alcohol_scatter.setGraphScale(10, 10);
+
+        MyText.putTextCentred(page, new int[] {121, 220}, 8, "Units", Color.black);
+        MyText.putTextCentred(page, new int[] {444, 217}, 8, "Units", Color.black);
+        MyText.putTextCentred(page, new int[] {557, 461}, 8, "Hours (Sleep)", Color.black);
     }
 }
