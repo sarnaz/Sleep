@@ -8,7 +8,6 @@ abstract public class UIViewPage {
     protected Main main;
     private UINavigator navigator;
 
-    public UIViewPage() {}
 
     public void setNavigator(UINavigator navigator) {
         if (this.navigator == null) {
@@ -39,7 +38,7 @@ abstract public class UIViewPage {
     }
 
     protected Color backgroundColor() {
-        return new Color(0xC7EFF9);
+        return null;
     }
 
 }

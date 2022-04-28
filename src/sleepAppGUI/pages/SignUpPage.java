@@ -20,24 +20,23 @@ public class SignUpPage extends UIViewPage {
     @Override
     protected void setUp(Page page) {
         // ADD THINGS TO FIRST PAGE
-        // Adds logo
-        MyImage logo = new MyImage(page, new int[] {185, 15}, new int[] {615, 160}, "logo", true);
-        // Adds the box to go behind input fields
-        MyImage input_frame = new MyImage(page, new int[] {275, 170}, new int[] {525, 400}, "box_behind", true);
-        // Adds the username input box on first page
-        MyText usernameText = new MyText(page, new int[] {350, 200}, new int[] {365, 220}, "Username:");
-        MyTextField usernameInput = new MyTextField(main, page, new int[] {300, 210}, new int[] {500, 235});
+        // Adds background
+        new MyImage(page, new int[] {0, 1}, new int[] {800, 600}, "first-page", ".jpg", true);
+
+        new MyText(page, new int[] {400, 190}, new int[] {440, 215}, "Username:", Color.white, "Helvetica", Font.BOLD);
+        MyTextField usernameInput = new MyTextField(main, page, new int[] {400, 205}, new int[] {750, 235});
+
         // Adds the password boxes
-        MyText password = new MyText(page, new int[] {350, 265}, new int[] {365, 285}, "Password:");
-        MyPasswordField passwordInput1 = new MyPasswordField(main, page, new int[] {300, 275}, new int[] {500, 300});
-        MyText passwordReenter = new MyText(page, new int[] {305, 330}, new int[] {320, 350}, "Re-enter Password:");
-        MyPasswordField passwordInput2 = new MyPasswordField(main, page, new int[] {300, 340}, new int[] {500, 365});
+        new MyText(page, new int[] {400, 280}, new int[] {440, 305}, "Password:", Color.white, "Helvetica", Font.BOLD);
+        MyPasswordField passwordInput1 = new MyPasswordField(main, page, new int[] {400, 295}, new int[] {750, 325});
 
-        MyImage openEye = new MyImage(page, new int[]{450, 250}, new int[]{470, 270}, "openEye", false);
-        MyImage closedEye = new MyImage(page, new int[]{450, 250}, new int[]{470, 270}, "closedEye", true);
+        new MyText(page, new int[] {400, 370}, new int[] {440, 395}, "Re-enter Password:", Color.white, "Helvetica", Font.BOLD);
+        MyPasswordField passwordInput2 = new MyPasswordField(main, page, new int[] {400, 385}, new int[] {750, 415});
 
+        MyImage openEye = new MyImage(page, new int[]{540, 262}, new int[]{560, 282}, "openEye", false);
+        MyImage closedEye = new MyImage(page, new int[]{540, 262}, new int[]{560, 282}, "closedEye", true);
 
-        MyButton toggleShowPasswordButton = new MyButton(page, "show password", new int[] {450, 250}, new int[] {470, 270}, null)
+        new MyButton(page, "show password", new int[]{540, 262}, new int[]{560, 282}, null)
         {
             public void isClicked()
             {
@@ -50,7 +49,7 @@ public class SignUpPage extends UIViewPage {
         };
 
         // Add next button
-        MyButton nextButton = new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 435}, "next")
+        new MyButton(page, "next", new int[] {680, 420}, new int[] {750, 470}, "next-button")
         {
             public void isClicked()
             {
@@ -71,10 +70,11 @@ public class SignUpPage extends UIViewPage {
                 }
             }
         };
+
     }
 
     @Override
     protected Color backgroundColor() {
-        return new Color(0xC7EFF9);
+        return new Color(0x6D3FB2);
     }
 }

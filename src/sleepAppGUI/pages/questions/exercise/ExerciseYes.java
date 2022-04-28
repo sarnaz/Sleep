@@ -23,8 +23,8 @@ public class ExerciseYes extends ExerciseQuestions {
 
         MyImage yesClicked = new MyImage(page, new int []{325, 230}, new int[] {375, 265}, "yesButton", true);
         page.pushToFront(yesClicked);
-        MyText amountEx = new MyText(page, new int[] {200, 290}, new int[] {225, 310}, "Please enter how much you have done:");
-        MyText nearestHour = new MyText(page, new int[]{290, 320}, new int[]{305, 340}, "(to the nearest hour)");
+        MyText.putTextCentred(page, new int[] {400, 290}, 20, "Please enter how much you have done:");
+        MyText.putTextCentred(page, new int[]{400, 320}, 20, "(to the nearest hour)");
         MyTextField exerciseHours = new MyTextField(main, page, new int[]{380, 330}, new int[]{420, 355});
 
         // get data from Strava
@@ -60,7 +60,7 @@ public class ExerciseYes extends ExerciseQuestions {
                     System.out.println("Invalid");
                     valid = false;
                 }
-                if(valid == true) {
+                if (valid) {
                     // write to DB here!
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(new Date());
