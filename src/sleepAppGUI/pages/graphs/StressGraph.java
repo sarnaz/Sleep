@@ -22,6 +22,8 @@ public class StressGraph extends GraphPage{
 
     @Override
     protected void setUp(Page page) {
+        super.setUp(page);
+
         MyText.putText(page, new int[] {110, 158}, 40, "Stress", Color.white, "Helvetica", Font.BOLD);
 
         MyBar stress_bar = new MyBar(page, new int[] {80,200}, new int[] {380,450});
@@ -44,6 +46,5 @@ public class StressGraph extends GraphPage{
             }
             calendar.add(Calendar.DATE,-1);
         }
-        super.setUp(page);
     }
 }

@@ -20,7 +20,7 @@ public class StreakPage extends UIViewPage {
 
         String username = Database.getUsername();
         MyText.putTextCentred(page, new int[] {400, 200}, 18, "Streaks", Color.white, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {400, 230}, 40, username, Color.white, "Helvetica", Font.BOLD);
+        MyText.putTextCentred(page, new int[] {400, 230}, 30, username, Color.white, "Helvetica", Font.BOLD);
 
         String currentStreak = String.valueOf(Database.getStreak());
 

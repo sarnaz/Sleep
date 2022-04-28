@@ -21,6 +21,8 @@ public class WaterGraph extends GraphPage {
 
     @Override
     protected void setUp(Page page) {
+        super.setUp(page);
+
         MyText.putText(page, new int[] {110, 158}, 40, "Water", Color.white, "Helvetica", Font.BOLD);
 
         MyBar water_bar = new MyBar(page, new int[] {80,200}, new int[] {380,450});
@@ -43,6 +45,5 @@ public class WaterGraph extends GraphPage {
             }
             calendar.add(Calendar.DATE,-1);
         }
-        super.setUp(page);
     }
 }

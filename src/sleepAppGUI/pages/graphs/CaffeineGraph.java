@@ -21,6 +21,7 @@ public class CaffeineGraph extends GraphPage{
 
     @Override
     protected void setUp(Page page) {
+        super.setUp(page);
 
         MyText.putText(page, new int[] {110, 158}, 40, "Caffeine", Color.white, "Helvetica", Font.BOLD);
 
@@ -46,7 +47,5 @@ public class CaffeineGraph extends GraphPage{
 
             calendar.add(Calendar.DATE,-1);
         }
-
-        super.setUp(page);
     }
 }
