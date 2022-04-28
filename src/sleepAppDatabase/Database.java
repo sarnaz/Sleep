@@ -601,7 +601,6 @@ public class Database {
                 return value;
             }
         } catch (SQLException e) {
-            System.out.println("exception caught when getting height");
             System.out.println(e.getLocalizedMessage());
         }
 
