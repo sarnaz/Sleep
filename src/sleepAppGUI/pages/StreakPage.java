@@ -27,7 +27,7 @@ public class StreakPage extends UIViewPage {
         MyText.putText(page, new int[] {224, 283}, new int[] {300, 18}, "Your Current Streak:", Color.black);
         MyText.putTextCentred(page, new int[] {400, 375}, 100, currentStreak, ColourPalette.accentColour, "Helvetica", Font.BOLD);
 
-        if(Database.getStreak() <= 1){
+        if(Database.getStreak() == 1){
             MyText.putTextCentred(page, new int[] {400, 410}, 30, "Day", ColourPalette.accentColour, "Helvetica", Font.BOLD);
         } else {
             MyText.putTextCentred(page, new int[] {400, 410}, 30, "Days", ColourPalette.accentColour, "Helvetica", Font.BOLD);
