@@ -231,6 +231,7 @@ public class Fitness {
 
         int totalActivityTime = 0;
         long time = Date.valueOf(year+"-"+month+"-"+(day-1)).getTime()/1000;
+        time = 1651104000L;
 
         try {
 
