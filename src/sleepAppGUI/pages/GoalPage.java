@@ -5,8 +5,6 @@ import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.goals.*;
 import sleepAppGUI.visuals.ColourPalette;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-
 import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
