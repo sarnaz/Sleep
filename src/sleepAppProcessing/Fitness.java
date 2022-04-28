@@ -230,8 +230,7 @@ public class Fitness {
     public void addActivityData(int id, int day, int month, int year) {
 
         int totalActivityTime = 0;
-        long time = Date.valueOf(year+"-"+month+"-"+(day-1)).getTime()/1000;
-        time = 1651104000L;
+        long time = Date.valueOf(year+"-"+month+"-"+(day-1)).getTime()/100;
 
         try {
 
