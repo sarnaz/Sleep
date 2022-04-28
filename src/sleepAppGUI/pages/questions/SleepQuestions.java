@@ -54,6 +54,8 @@ public class SleepQuestions extends QuestionsPage {
                     valid = false;
                 }
                 if (valid){
+                    // add to points here
+
                     Database.setQuestionsAnswered();
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(new Date());
