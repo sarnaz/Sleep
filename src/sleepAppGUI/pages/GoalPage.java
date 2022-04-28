@@ -80,13 +80,13 @@ public class GoalPage extends UIViewPage {
         // Tea
         MyImage.putImage(page, new int[] {460, 390}, 210, "caffeine_icon");
         MyText.putTextCentred(page, new int[] {570, 384}, 14, "Tea", Color.black, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {570, 420}, 18, DailyQData_array[1][1] + " / " + Goal_array[1][7], calculateColour("minimise", Goal_array[1][7], DailyQData_array[1][1]));
+        MyText.putTextCentred(page, new int[] {570, 420}, 18, DailyQData_array[1][1].toString().toCharArray()[1] + " / " + Goal_array[1][7], calculateColour("minimise", Goal_array[1][7], DailyQData_array[1][1].toString().toCharArray()[1]));
         // Coffee
         MyText.putTextCentred(page, new int[] {477, 384}, 14, "Coffee", Color.black, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {477, 420},18, DailyQData_array[1][1] + " / " + Goal_array[1][6], calculateColour("minimise", Goal_array[1][6], DailyQData_array[1][1]));
+        MyText.putTextCentred(page, new int[] {477, 420},18, DailyQData_array[1][1].toString().toCharArray()[0] + " / " + Goal_array[1][6], calculateColour("minimise", Goal_array[1][6], DailyQData_array[1][1].toString().toCharArray()[0]));
         // Energy Drink
         MyText.putTextCentred(page, new int[] {658, 384}, 14, "Energy Drink", Color.black, "Helvetica", Font.BOLD);
-        MyText.putTextCentred(page, new int[] {658, 420}, 18, DailyQData_array[1][1] + " / " + Goal_array[1][8], calculateColour("minimise", Goal_array[1][8], DailyQData_array[1][1]));
+        MyText.putTextCentred(page, new int[] {658, 420}, 18, DailyQData_array[1][1].toString().toCharArray()[2] + " / " + Goal_array[1][8], calculateColour("minimise", Goal_array[1][8], DailyQData_array[1][1].toString().toCharArray()[2]));
         // Screen Time
         MyImage.putImage(page, new int[] {555, 157}, 60, "computer_icon");
         MyText.putTextCentred(page, new int[] {585, 147}, 18, "Screen Time", Color.black, "Helvetica", Font.BOLD);
