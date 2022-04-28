@@ -31,7 +31,6 @@ public class HomePage extends UIViewPage {
         // show male icon for men and female icon for women
         new MyImage(page, new int[] {540, 137}, new int[] {640, 237}, "male_icon", true);
         new MyImage(page, new int[] {540, 137}, new int[] {640, 237}, "female_icon", true);
-
         // display username
         String username = Database.getUsername();
         MyText.putText(page, new int[] {198, 180}, new int[] {300, 30}, "Hello, " + username, Color.white, "Helvetica", Font.BOLD);
