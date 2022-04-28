@@ -17,13 +17,12 @@ public class StressQuestions extends QuestionsPage {
     protected void setUp(Page page) {
         super.setUp(page);
 
-        MyImage stressLogo = new MyImage(page, new int[] {185, 15}, new int[] {330, 160}, "stressLogo", true);
+        new MyImage(page, new int[] {185, 15}, new int[] {330, 160}, "stressLogo", true);
         // daily stress
-        MyText dailyStress = new MyText(page, new int[] {195, 260}, new int[] {220, 280}, "Rate your average stress level today (1-5):");
+        MyText.putTextCentred(page, new int[] {400, 260}, 20, "Rate your average stress level today (1-5):");
         MyTextField averageStress = new MyTextField(main, page, new int[] {380, 280}, new int[] {420, 305});
         // Add next button
-        MyButton nextButton = new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
-        {
+        new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next") {
             public void isClicked()
             {
                 boolean valid = true;
@@ -35,7 +34,7 @@ public class StressQuestions extends QuestionsPage {
                     System.out.println("Invalid");
                     valid = false;
                 }
-                if(valid == true) {
+                if (valid) {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(new Date());
                     int year = calendar.get(Calendar.YEAR);
