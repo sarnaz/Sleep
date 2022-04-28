@@ -116,7 +116,6 @@ public class Database {
                 ResultSet rs = stmt.executeQuery(sql);
                 if(rs.next()) {
                     int sleepStreak = rs.getInt("streakLength");
-                    System.out.println(sleepStreak);
                     conn.close();
                     return sleepStreak;
                 }
@@ -400,7 +399,7 @@ public class Database {
                 sql = "SELECT streakLength FROM GOALS WHERE id="+id;
                 rs = stmt.executeQuery(sql);
                 if(rs.next()){
-                    currentStreak = rs.getInt("sleepStreak");
+                    currentStreak = rs.getInt("streakLength");
                 }
                 else{
                     throw new Exception("no sleep streak found");
@@ -601,7 +600,7 @@ public class Database {
                 return value;
             }
         } catch (SQLException e) {
-            System.out.println("exception caught when getting height");
+            System.out.println("exception caught when getting "+column);
             System.out.println(e.getLocalizedMessage());
         }
 
