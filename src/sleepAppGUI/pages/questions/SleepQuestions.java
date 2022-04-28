@@ -32,7 +32,6 @@ public class SleepQuestions extends QuestionsPage {
         MyTextField howLong = new MyTextField(main, page, new int[] {380, 385}, new int[] {420, 410});
         MyButton nextButton = new MyButton(page, "next", new int[] {360, 420}, new int[] {440, 465}, "next")
         {
-
             public void isClicked()
             {
                 boolean valid = true;
@@ -85,8 +84,6 @@ public class SleepQuestions extends QuestionsPage {
                         SleepQuestions.this.push(new ScreenTimeQuestions());
                     }
                 }
-
-
             }
         };
     }

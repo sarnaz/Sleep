@@ -113,10 +113,10 @@ public class Database {
 
             if (conn != null) {
                 Statement stmt = conn.createStatement();
-                String sql = "SELECT sleepStreak FROM SLEEP WHERE id="+id;
+                String sql = "SELECT streakLength FROM GOALS WHERE id="+id;
                 ResultSet rs = stmt.executeQuery(sql);
                 if(rs.next()) {
-                    int sleepStreak = rs.getInt("sleepStreak");
+                    int sleepStreak = rs.getInt("streakLength");
                     System.out.println(sleepStreak);
                     conn.close();
                     return sleepStreak;
