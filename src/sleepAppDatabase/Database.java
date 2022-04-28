@@ -404,7 +404,7 @@ public class Database {
                 else{
                     throw new Exception("no sleep streak found");
                 }
-                sql = "UPDATE GOALS SET streakLength="+currentStreak+1+" WHERE id="+id;
+                sql = "UPDATE GOALS SET streakLength="+((int) currentStreak+1)+" WHERE id="+id;
                 stmt.executeUpdate(sql);
                 //updates the sleep streak by adding 1
             }
