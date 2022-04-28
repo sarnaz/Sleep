@@ -35,7 +35,8 @@ public class StreakPage extends UIViewPage {
 
         MyText.putText(page, new int[] {224, 390}, new int[] {300, 18}, "Your Current Level:", Color.black);
         int level = 0;
-        int points = 0;
+        int points = Database.getPoints();
+        System.out.println(points);
         boolean higher = true;
         int calculate_level = 1;
         int level_points;
