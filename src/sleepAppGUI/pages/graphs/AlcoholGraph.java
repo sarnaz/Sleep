@@ -25,15 +25,20 @@ public class AlcoholGraph extends GraphPage {
 
         MyBar alcohol_bar = new MyBar(page, new int[] {80,200}, new int[] {380,450});
         MyScatter alcohol_scatter = new MyScatter(page, new int[] {400,200}, new int[] {700,450});
+        calendar = Calendar.getInstance();
         for (int i = 0; i < 5; i++) {
             int year=calendar.get(Calendar.YEAR);
-            int month=calendar.get(Calendar.MONTH);
-            int day= calendar.get(Calendar.DATE);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
             Object[][] data = Database.getDataForDate(year,month,day);
-            if (data[1][1]!=null){
-                alcohol_bar.addPoint(dayOfWeek[day%7],data[1][0]);
+            if (data[1][0]!=null){
+                int j = (int) data[1][0];
+                double d = 1.0*j;
+                alcohol_bar.addPoint(dayOfWeek[day%7],d);
                 if (data[1][3]!=null){
-                    alcohol_scatter.addPoint(data[1][0],data[1][3]);
+                    int k = (int) data[1][3];
+                    double e = 1.0*k;
+                    alcohol_scatter.addPoint(d,e);
                 }
             }
             calendar.add(Calendar.DATE,-1);
