@@ -45,7 +45,7 @@ public class WaterGoal extends GoalSet{
 
     @Override
     protected String unit() {
-        return "hours";
+        return "cups";
     }
 
     @Override
