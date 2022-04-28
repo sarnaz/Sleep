@@ -26,15 +26,20 @@ public class ScreenTimeGraph extends GraphPage {
 
         MyBar screen_bar = new MyBar(page, new int[] {80,200}, new int[] {380,450});
         MyScatter screen_scatter = new MyScatter(page, new int[] {400,200}, new int[] {700,450});
+        calendar = Calendar.getInstance();
         for (int i = 0; i < 5; i++) {
             int year=calendar.get(Calendar.YEAR);
-            int month=calendar.get(Calendar.MONTH);
-            int day= calendar.get(Calendar.DATE);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
             Object[][] data = Database.getDataForDate(year,month,day);
             if (data[1][7]!=null){
-                screen_bar.addPoint(dayOfWeek[day%7],data[1][7]);
+                int j = (int) data[1][7];
+                double d = 1.0*j;
+                screen_bar.addPoint(dayOfWeek[day%7],d);
                 if (data[1][3]!=null){
-                    screen_scatter.addPoint(data[1][7],data[1][3]);
+                    int k = (int) data[1][3];
+                    double e = 1.0*k;
+                    screen_scatter.addPoint(d,e);
                 }
             }
             calendar.add(Calendar.DATE,-1);

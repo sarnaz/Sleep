@@ -37,11 +37,13 @@ public class GraphVisual extends UIViewPage {
         Calendar calendar = Calendar.getInstance();
         for (int i = 0; i < 3; i++) {
             int year=calendar.get(Calendar.YEAR);
-            int month=calendar.get(Calendar.MONTH);
-            int day= calendar.get(Calendar.DATE);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
             Object[][] data = Database.getDataForDate(year,month,day);
             if (data[1][2]!=null){
-                water_bar.addPoint(dayofweek[day%7],data[1][2]);
+                int j = (int) data[1][2];
+                double d = 1.0*j;
+                water_bar.addPoint(dayofweek[day%7],d);
             }
             calendar.add(Calendar.DATE,-1);
         }
@@ -61,11 +63,13 @@ public class GraphVisual extends UIViewPage {
         calendar = Calendar.getInstance();
         for (int i = 0; i < 3; i++) {
             int year=calendar.get(Calendar.YEAR);
-            int month=calendar.get(Calendar.MONTH);
-            int day= calendar.get(Calendar.DATE);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
             Object[][] data = Database.getDataForDate(year,month,day);
             if (data[1][8]!=null){
-                exercise_bar.addPoint(dayofweek[day%7],data[1][8]);
+                int j = (int) data[1][8];
+                double d = 1.0*j;
+                exercise_bar.addPoint(dayofweek[day%7],d);
             }
             calendar.add(Calendar.DATE,-1);
         }
@@ -84,11 +88,13 @@ public class GraphVisual extends UIViewPage {
         calendar = Calendar.getInstance();
         for (int i = 0; i < 3; i++) {
             int year=calendar.get(Calendar.YEAR);
-            int month=calendar.get(Calendar.MONTH);
-            int day= calendar.get(Calendar.DATE);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
             Object[][] data = Database.getDataForDate(year,month,day);
             if (data[1][7]!=null){
-                screen_bar.addPoint(dayofweek[day%7],data[1][7]);
+                int j = (int) data[1][7];
+                double d = 1.0*j;
+                screen_bar.addPoint(dayofweek[day%7],d);
             }
             calendar.add(Calendar.DATE,-1);
         }
@@ -108,11 +114,13 @@ public class GraphVisual extends UIViewPage {
         calendar = Calendar.getInstance();
         for (int i = 0; i < 3; i++) {
             int year=calendar.get(Calendar.YEAR);
-            int month=calendar.get(Calendar.MONTH);
-            int day= calendar.get(Calendar.DATE);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
             Object[][] data = Database.getDataForDate(year,month,day);
             if (data[1][0]!=null){
-                alcohol_bar.addPoint(dayofweek[day%7],data[1][0]);
+                int j = (int) data[1][0];
+                double d = 1.0*j;
+                alcohol_bar.addPoint(dayofweek[day%7],d);
             }
             calendar.add(Calendar.DATE,-1);
         }
@@ -133,11 +141,13 @@ public class GraphVisual extends UIViewPage {
         calendar = Calendar.getInstance();
         for (int i = 0; i < 3; i++) {
             int year=calendar.get(Calendar.YEAR);
-            int month=calendar.get(Calendar.MONTH);
-            int day= calendar.get(Calendar.DATE);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
             Object[][] data = Database.getDataForDate(year,month,day);
             if (data[1][1]!=null){
-                caffeine_bar.addPoint(dayofweek[day%7],data[1][1]);
+                int j = (int) data[1][1];
+                double d = 1.0*j;
+                caffeine_bar.addPoint(dayofweek[day%7],d);
             }
 
             calendar.add(Calendar.DATE,-1);
@@ -159,11 +169,13 @@ public class GraphVisual extends UIViewPage {
         calendar = Calendar.getInstance();
         for (int i = 0; i < 3; i++) {
             int year=calendar.get(Calendar.YEAR);
-            int month=calendar.get(Calendar.MONTH);
-            int day= calendar.get(Calendar.DATE);
+            int month=calendar.get(Calendar.MONTH)+1;
+            int day= calendar.get(Calendar.DATE)-1;
             Object[][] data = Database.getDataForDate(year,month,day);
             if (data[1][1]!=null){
-                stress_bar.addPoint(dayofweek[day%7],data[1][1]);
+                int j = (int) data[1][1];
+                double d = 1.0*j;
+                stress_bar.addPoint(dayofweek[day%7],d);
             }
             calendar.add(Calendar.DATE,-1);
         }
