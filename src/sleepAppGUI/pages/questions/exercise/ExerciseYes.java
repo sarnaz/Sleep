@@ -6,6 +6,7 @@ import sleepAppGUI.pages.HomePage;
 import sleepAppGUI.pages.questions.ScreenTimeQuestions;
 import sleepAppGUI.pages.questions.StressQuestions;
 import sleepAppGUI.pages.questions.WaterQuestions;
+import sleepAppProcessing.Fitness;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -33,7 +34,12 @@ public class ExerciseYes extends ExerciseQuestions {
             @Override
             public void isClicked() {
                 // call Strava database function
-
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date());
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH) + 1;
+                int date = calendar.get(Calendar.DAY_OF_MONTH);
+                Object Fitness = new Fitness(Database.getCurrentUserId(), date, month, year);
                 Object[][] factors_chosen = Database.getFactorArray();
                 if ((Boolean) factors_chosen[1][3]) {
                     ExerciseYes.this.push(new StressQuestions());
