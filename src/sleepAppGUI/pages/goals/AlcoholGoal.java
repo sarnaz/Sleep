@@ -2,7 +2,6 @@ package sleepAppGUI.pages.goals;
 
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.MyButton;
-import sleepAppGUI.interaction.MyImage;
 import sleepAppGUI.interaction.MyTextField;
 import sleepAppGUI.interaction.Page;
 import sleepAppGUI.pages.GoalPage;
@@ -29,7 +28,7 @@ public class AlcoholGoal extends GoalSet{
                     valid = false;
                 }
                 if (valid) {
-                    Object Goal_array[][] = Database.getGoalData();
+                    Database.getGoalData();
                 }
                 AlcoholGoal.this.push(new GoalPage());
             }

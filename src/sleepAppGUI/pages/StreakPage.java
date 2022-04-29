@@ -41,7 +41,7 @@ public class StreakPage extends UIViewPage {
         int calculate_level = 1;
         int level_points;
         String points_til_next = "0";
-        while(higher == true){
+        while (higher) {
             level_points = (5*calculate_level*calculate_level) + (5*calculate_level);
             //higher = false;
             if(level_points <= points){
@@ -52,12 +52,12 @@ public class StreakPage extends UIViewPage {
                 points_til_next = String.valueOf(level_points - points);
                 higher = false;
             }
-        };
+        }
         String current_level = String.valueOf(level);
         MyText.putText(page, new int[] {400, 390}, new int[] {300, 18}, current_level, Color.black);
         MyText.putText(page, new int[] {224, 420}, new int[] {300, 18}, "Points Til Next Level:", Color.black);
         MyText.putText(page, new int[] {400, 420}, new int[] {300, 18}, points_til_next, Color.black);
-        MyButton backButton = new MyButton(page, "back", new int[] {275, 480}, new int[] {365, 510}, "back_button") {
+        new MyButton(page, "back", new int[] {275, 480}, new int[] {365, 510}, "back_button") {
             public void isClicked()
             {
                 StreakPage.this.push(new HomePage());

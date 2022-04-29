@@ -30,8 +30,7 @@ public class SleepQuestions extends QuestionsPage {
         MyTextField rateQuality = new MyTextField(main, page, new int[] {380, 325}, new int[] {420, 350});
         new MyText(page, new int[] {160, 370}, new int[] {185, 390}, "How long did it take you to get to sleep (in minutes)?");
         MyTextField howLong = new MyTextField(main, page, new int[] {380, 385}, new int[] {420, 410});
-        MyButton nextButton = new MyButton(page, "next", new int[] {360, 420}, new int[] {440, 465}, "next")
-        {
+        new MyButton(page, "next", new int[] {360, 420}, new int[] {440, 465}, "next") {
             public void isClicked()
             {
                 boolean valid = true;

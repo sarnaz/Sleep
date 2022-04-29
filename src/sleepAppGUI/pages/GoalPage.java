@@ -32,8 +32,8 @@ public class GoalPage extends UIViewPage {
     protected void setUp(Page page) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        Object Goal_array[][] = Database.getGoalData();
-        Object DailyQData_array[][] = Database.getDataForDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        Object[][] Goal_array = Database.getGoalData();
+        Object[][] DailyQData_array = Database.getDataForDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
         new MyRectangle(page, new int[]{40, 21}, new int[]{720, 455}, 40, ColourPalette.lightForegroundColour);
         new MyRectangle(page, new int[]{40, 21}, new int[]{720, 80}, 40, ColourPalette.foregroundColour);
         MyText.putText(page, new int[]{56, 75}, 40, "Goals", Color.white, "Helvetica", Font.BOLD);

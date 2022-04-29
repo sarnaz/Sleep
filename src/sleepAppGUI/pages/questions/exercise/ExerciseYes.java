@@ -29,7 +29,7 @@ public class ExerciseYes extends ExerciseQuestions {
         MyTextField exerciseHours = new MyTextField(main, page, new int[]{380, 330}, new int[]{420, 355});
 
         // get data from Strava
-        MyButton stravaButton = new MyButton(page, "strava", new int[] {620, 470}, new int[]{755, 530}, "strava")
+        new MyButton(page, "strava", new int[] {620, 470}, new int[]{755, 530}, "strava")
         {
             @Override
             public void isClicked() {
@@ -39,7 +39,7 @@ public class ExerciseYes extends ExerciseQuestions {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH) + 1;
                 int date = calendar.get(Calendar.DAY_OF_MONTH);
-                Fitness Fitness = new Fitness(Database.getCurrentUserId(), date, month, year);
+                new Fitness(Database.getCurrentUserId(), date, month, year);
                 Object[][] factors_chosen = Database.getFactorArray();
                 if ((Boolean) factors_chosen[1][3]) {
                     ExerciseYes.this.push(new StressQuestions());
@@ -53,8 +53,7 @@ public class ExerciseYes extends ExerciseQuestions {
             }
         };
         // next button
-        MyButton nextButton = new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
-        {
+        new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next") {
             public void isClicked()
             {
                 boolean valid = true;

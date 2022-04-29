@@ -4,8 +4,6 @@ import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.GoalPage;
 
-import java.awt.*;
-
 public class ExerciseGoal extends GoalSet{
     @Override
     protected int pageNumber() {
@@ -30,7 +28,7 @@ public class ExerciseGoal extends GoalSet{
                     valid = false;
                 }
                 if (valid) {
-                    Object Goal_array[][] = Database.getGoalData();
+                    Database.getGoalData();
                 }
                 ExerciseGoal.this.push(new GoalPage());
             }

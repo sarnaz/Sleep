@@ -30,7 +30,7 @@ public class CaffeineGoal extends GoalSet{
         MyTextField teaInput = new MyTextField(main, page, new int[] {395, 205}, new int[]{445, 245});
         MyTextField energyDrinkInput = new MyTextField(main, page, new int[] {630, 205}, new int[]{695, 245});
 
-        MyButton saveButton = new MyButton(page, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
+        new MyButton(page, "save", new int[]{470, 525}, new int[]{540, 555}, "save_button") {
             public void isClicked() {
                 boolean blank = true;
 
@@ -63,7 +63,7 @@ public class CaffeineGoal extends GoalSet{
                 }
 
                 if (!blank) {
-                    Object Goal_array[][] = Database.getGoalData();
+                    Database.getGoalData();
                 }
                 CaffeineGoal.this.push(new GoalPage());
             }

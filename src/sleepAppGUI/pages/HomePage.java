@@ -37,7 +37,7 @@ public class HomePage extends UIViewPage {
 
         // buttons
         if (Database.askDailyQuestionsCheck()) {
-            MyButton dailyQuestions = new MyButton(page, "dailyQuestions", new int[]{170, 260}, new int[]{404, 361}, "questions") {
+            new MyButton(page, "dailyQuestions", new int[]{170, 260}, new int[]{404, 361}, "questions") {
                 public void isClicked() {
                     HomePage.this.push(new SleepQuestions());
                     System.out.println("Sleep questions");
@@ -45,7 +45,7 @@ public class HomePage extends UIViewPage {
             };
         }
         else {
-            MyButton streaksPage = new MyButton(page, "streakButton", new int[]{170, 260}, new int[]{404, 361}, "streak"){
+            new MyButton(page, "streakButton", new int[]{170, 260}, new int[]{404, 361}, "streak"){
                 public void isClicked () {
                     HomePage.this.push(new StreakPage());
                     System.out.println("Streaks");

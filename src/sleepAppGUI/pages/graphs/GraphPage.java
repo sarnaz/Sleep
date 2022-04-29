@@ -2,7 +2,6 @@ package sleepAppGUI.pages.graphs;
 
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.GraphVisual;
-import sleepAppGUI.pages.HomePage;
 import sleepAppGUI.visuals.ColourPalette;
 
 import java.awt.*;

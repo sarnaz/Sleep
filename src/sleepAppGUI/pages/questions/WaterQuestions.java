@@ -3,7 +3,6 @@ package sleepAppGUI.pages.questions;
 import sleepAppDatabase.Database;
 import sleepAppGUI.interaction.*;
 import sleepAppGUI.pages.HomePage;
-import sleepAppGUI.pages.questions.alcohol.AlcoholQuestions;
 
 import java.util.Calendar;
 import java.util.Date;

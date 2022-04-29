@@ -1,14 +1,10 @@
 package sleepAppGUI.pages.graphs;
 
 import sleepAppDatabase.Database;
-import sleepAppGUI.interaction.MyButton;
-import sleepAppGUI.interaction.MyImage;
 import sleepAppGUI.interaction.MyText;
 import sleepAppGUI.interaction.Page;
 import sleepAppGUI.interaction.graphs.MyBar;
 import sleepAppGUI.interaction.graphs.MyScatter;
-import sleepAppGUI.pages.GraphVisual;
-import sleepAppGUI.pages.HomePage;
 
 import java.awt.*;
 import java.util.Calendar;

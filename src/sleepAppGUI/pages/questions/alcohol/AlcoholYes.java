@@ -26,8 +26,7 @@ public class AlcoholYes extends AlcoholQuestions {
         page.pushToFront(yesClicked);
         MyText.putTextCentred(page, new int[] {400, 290}, 20, "How many units have you had?");
         MyTextField howMany = new MyTextField(main, page, new int[] {380, 305}, new int[] {420, 330});
-        MyButton nextButton = new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next")
-        {
+        new MyButton(page, "next", new int[] {360, 400}, new int[] {440, 445}, "next") {
             public void isClicked()
             {
                 boolean valid = true;

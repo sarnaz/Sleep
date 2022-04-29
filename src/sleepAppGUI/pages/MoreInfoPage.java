@@ -39,7 +39,7 @@ public class MoreInfoPage extends UIViewPage {
 
         // age
         new MyText(page, new int[] {475, 50}, new int[] {490, 70}, "Age:");
-        MyTextField ageInput = new MyTextField(main, page, new int[] {482, 60}, new int[]{518, 85});
+        new MyTextField(main, page, new int[] {482, 60}, new int[]{518, 85});
 
         // gender
         new MyText(page, new int[] {280, 130}, new int[] {295, 150}, "Gender: ");

@@ -35,14 +35,14 @@ public class ProfilePage extends ProfileCommon {
                 System.out.println("Edit Profile Page");
             }
         };
-        MyButton backButton = new MyButton(page, "back", new int[] {275, 480}, new int[] {365, 510}, "back_button") {
+        new MyButton(page, "back", new int[] {275, 480}, new int[] {365, 510}, "back_button") {
             public void isClicked()
             {
                 ProfilePage.this.push(new HomePage());
                 System.out.println("Main Menu Page");
             }
         };
-        MyButton logoutButton = new MyButton(page, "logout", new int[] {405, 480}, new int[] {525, 510}, "logout_button") {
+        new MyButton(page, "logout", new int[] {405, 480}, new int[] {525, 510}, "logout_button") {
             public void isClicked()
             {
                 ProfilePage.this.push(new SignInPage());
